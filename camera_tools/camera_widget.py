@@ -20,7 +20,7 @@ class CameraWidget(QWidget):
     def declare_components(self):
 
         # Image --------------------------------------------------
-        
+
         self.image_label = QLabel(self) 
 
         # Basic camera controls ----------------------------------
@@ -59,7 +59,7 @@ class CameraWidget(QWidget):
     
     def layout_components(self):
 
-        layout_start_stop = QHBoxLayout(self)
+        layout_start_stop = QHBoxLayout()
         layout_start_stop.addWidget(self.start_button)
         layout_start_stop.addWidget(self.stop_button)
 
