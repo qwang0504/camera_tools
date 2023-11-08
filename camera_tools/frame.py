@@ -31,6 +31,7 @@ class Frame(ABC):
     def dtype(self) -> np.dtype:
         return self.image.dtype
 
+
 class BaseFrame(Frame):
     def __init__(self, index: int, timestamp: float, image: NDArray):
 
@@ -49,3 +50,4 @@ class BaseFrame(Frame):
     @property
     def image(self) -> NDArray:
         return self._image 
+    

@@ -12,12 +12,13 @@ class ZeroCam(Camera):
     def __init__(self, shape: ArrayLike, dtype: np.dtype, **kwargs):
         super().__init__(**kwargs)
         self.img_count: int = 0
-        self.timestamp: float = time.monotonic()
+        self.time_start: float = time.monotonic()
         self.shape = shape 
         self.dtype = dtype
 
     def start_acquisition(self) -> None:
-        pass
+        self.index = 0
+        self.time_start = time.monotonic()
 
     def stop_acquisition(self) -> None:
         pass
@@ -25,9 +26,9 @@ class ZeroCam(Camera):
     def get_frame(self) -> Frame:
 
         self.img_count += 1
-        self.timestamp = time.monotonic()
+        timestamp = time.monotonic() - self.time_start
         img = np.zeros(self.shape, dtype=self.dtype)
-        frame = BaseFrame(self.img_count, self.timestamp, img)
+        frame = BaseFrame(self.img_count, timestamp, img)
         return frame
     
     def set_exposure(self, exp_time: float) -> None:
@@ -50,16 +51,16 @@ class RandomCam(Camera):
     def __init__(self, shape: ArrayLike, dtype: np.dtype, **kwargs):
 
         super().__init__(**kwargs)
-        
+
         self.img_count: int = 0
-        self.timestamp: float = time.monotonic()
+        self.time_start: float = time.monotonic()
         self.shape = shape 
         self.dtype = dtype
 
     def get_frame(self) -> Frame:
 
         self.img_count += 1
-        self.timestamp = time.monotonic()
+        timestamp = time.monotonic() - self.time_start
 
         if np.issubdtype(self.dtype, np.integer):
             type_inf = np.iinfo(self.dtype)
@@ -73,11 +74,12 @@ class RandomCam(Camera):
         else:
             raise TypeError
         
-        frame = BaseFrame(self.img_count, self.timestamp, img)
+        frame = BaseFrame(self.img_count, timestamp, img)
         return frame
 
     def start_acquisition(self) -> None:
-        pass
+        self.index = 0
+        self.time_start = time.monotonic()
 
     def stop_acquisition(self) -> None:
         pass
