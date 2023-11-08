@@ -4,7 +4,6 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QFrame
 from qt_widgets import LabeledDoubleSpinBox, LabeledSliderSpinBox, NDarray_to_QPixmap
 from camera_tools.camera import Camera
-from camera_tools.frame import Frame, BaseFrame
 
 class CameraWidget(QWidget):
 
