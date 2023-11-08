@@ -29,13 +29,18 @@ class OpenCV_Webcam(Camera):
         return BaseFrame(self.index, timestamp, frame)
     
     def set_exposure(self, exp_time: float) -> None:
-        pass
+        if self.camera is not None:
+            self.camera.set(cv2.CAP_PROP_EXPOSURE, exp_time)
 
     def set_framerate(self, fps: float) -> None:
-        pass
+        if self.camera is not None:
+            pass
 
     def set_gain(self, gain: float) -> None:
-        pass
+        if self.camera is not None:
+            self.camera.set(cv2.CAP_PROP_GAIN, gain)
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
-        pass
+        if self.camera is not None:
+            self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+            self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
