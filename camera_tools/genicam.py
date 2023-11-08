@@ -3,7 +3,6 @@ from camera_tools.frame import Frame
 from harvesters.core import Harvester
 from numpy.typing import NDArray
 
-
 class FrameHarvesters(Frame):
     def __init__(self, buffer):
         self._buffer = buffer
@@ -50,27 +49,20 @@ class GenicamHarvesters(Camera):
         self._imAcq.num_buffers = self._num_buffers
         self.node_map = self._imAcq.remote_device.node_map
 
-        node_map.Width.value = self._width
-        node_map.Height.value = self._height
-        node_map.OffsetX.value = self._left
-        node_map.OffsetY.value = self._top
-        node_map.PixelFormat.value = self._pixel_format
-        node_map.TriggerMode.value = self._triggers
-        node_map.Gain.value = self._gain
-        node_map.ExposureTime.value = self._exposure_time
-    
     def set_exposure(self, exp_time: float) -> None:
-        pass
+        self.node_map.ExposureTime.value = self._exposure_time
 
     def set_framerate(self, fps: float) -> None:
-        node_map = self._imAcq.remote_device.node_map
-        node_map.AcquisitionFrameRate.value = self._fps
+        self.node_map.AcquisitionFrameRate.value = self._fps
 
     def set_gain(self, gain: float) -> None:
-        pass
+        self.node_map.Gain.value = self._gain
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
-        pass
+        self.node_map.Width.value = width
+        self.node_map.Height.value = height
+        self.node_map.OffsetX.value = left
+        self.node_map.OffsetY.value = bottom
 
     def start_acquisition(self):
         self._imAcq.start()
