@@ -12,7 +12,7 @@ class ZeroCam(Camera):
     def __init__(self, shape: ArrayLike, dtype: np.dtype, **kwargs):
 
         super().__init__(**kwargs)
-        
+
         self.img_count: int = 0
         self.time_start: float = time.monotonic()
         self.shape = shape 
@@ -36,10 +36,10 @@ class ZeroCam(Camera):
     def set_exposure(self, exp_time: float) -> None:
         pass
 
-    def set_framerate(self, exp_time: float) -> None:
+    def set_framerate(self, fps: float) -> None:
         pass
 
-    def set_gain(self, exp_time: float) -> None:
+    def set_gain(self, gain: float) -> None:
         pass
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
@@ -89,11 +89,12 @@ class RandomCam(Camera):
     def set_exposure(self, exp_time: float) -> None:
         pass
 
-    def set_framerate(self, exp_time: float) -> None:
+    def set_framerate(self, fps: float) -> None:
         pass
 
-    def set_gain(self, exp_time: float) -> None:
+    def set_gain(self, gain: float) -> None:
         pass
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         pass
+    
