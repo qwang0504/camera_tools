@@ -1,4 +1,4 @@
-from ximea import xiapi
+from camera_tools.ximea import xiapi
 from multiprocessing import Process, Queue
 import os 
 import time

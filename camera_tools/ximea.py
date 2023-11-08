@@ -1,7 +1,7 @@
 from core.abstractclasses import CameraData, Camera
 from core.dataclasses import CameraParameters
 from typing import Tuple
-from ximea import xiapi
+from camera_tools.ximea import xiapi
 from numpy.typing import NDArray
 
 class XimeaImage(CameraData):
