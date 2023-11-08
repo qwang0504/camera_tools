@@ -82,7 +82,7 @@ class CameraWidget(QWidget):
         layout_frame.addWidget(self.height_spinbox)
         layout_frame.addWidget(self.width_spinbox)
 
-        layout_controls = QVBoxLayout(self)
+        layout_controls = QVBoxLayout()
         layout_controls.addWidget(self.exposure_spinbox)
         layout_controls.addWidget(self.gain_spinbox)
         layout_controls.addWidget(self.framerate_spinbox)
