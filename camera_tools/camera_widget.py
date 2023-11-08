@@ -89,7 +89,7 @@ class CameraWidget(QWidget):
         layout_controls.addWidget(self.ROI_frame)
         layout_controls.addLayout(layout_start_stop)
 
-        main_layout = QHBoxLayout()
+        main_layout = QHBoxLayout(self)
         main_layout.addWidget(self.image_label)
         main_layout.addLayout(layout_controls)
 
