@@ -35,15 +35,19 @@ class CameraWidget(QWidget):
 
         self.stop_button = QPushButton(self)
         self.stop_button.setText('stop')
+        self.stop_button.clicked.connect(self.stop_acquisition)
 
         self.framerate_spinbox = LabeledDoubleSpinBox(self)
         self.framerate_spinbox.setText('fps')
+        self.framerate_spinbox.valueChanged.connect(self.set_framerate)
 
         self.exposure_spinbox = LabeledDoubleSpinBox(self)
         self.exposure_spinbox.setText('exposure')
+        self.exposure_spinbox.valueChanged.connect(self.set_exposure)
 
         self.gain_spinbox = LabeledDoubleSpinBox(self)
         self.gain_spinbox.setText('gain')
+        self.gain_spinbox.valueChanged.connect(self.set_gain)
 
         # Region of interest ------------------------------------
 
@@ -52,16 +56,20 @@ class CameraWidget(QWidget):
 
         self.left_spinbox = LabeledSliderSpinBox(self.ROI_frame)
         self.left_spinbox.setText('left')
+        self.left_spinbox.valueChanged.connect(self.set_ROI)
 
         self.bottom_spinbox = LabeledSliderSpinBox(self.ROI_frame)
         self.bottom_spinbox.setText('bottom')
+        self.bottom_spinbox.valueChanged.connect(self.set_ROI)
 
         self.height_spinbox = LabeledSliderSpinBox(self.ROI_frame)
         self.height_spinbox.setText('height')
+        self.height_spinbox.valueChanged.connect(self.set_ROI)
 
         self.width_spinbox = LabeledSliderSpinBox(self.ROI_frame)
         self.width_spinbox.setText('width')
-    
+        self.width_spinbox.valueChanged.connect(self.set_ROI)
+
     def layout_components(self):
 
         layout_start_stop = QHBoxLayout()
