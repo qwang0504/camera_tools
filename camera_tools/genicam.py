@@ -71,8 +71,6 @@ class GenicamHarvesters(Camera):
         self._imAcq.stop()
 
     def get_frame(self) -> Frame:
-        # TODO check that it is passed by reference and there is no copy
-        # and that the buffer is not destroyed at the end of the function
         self.img_count += 1
         buf = FrameHarvesters(self._imAcq.fetch())
         return buf
