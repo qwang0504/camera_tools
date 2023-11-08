@@ -1,7 +1,7 @@
 from camera_tools.camera import Camera
 from camera_tools.frame import Frame, BaseFrame
 from typing import Tuple
-from camera_tools.ximea import xiapi
+from ximea import xiapi
 from numpy.typing import NDArray
 
 class XimeaCamera(Camera):

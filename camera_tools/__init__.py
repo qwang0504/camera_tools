@@ -3,7 +3,11 @@ from .frame import *
 from .camera_widget import *
 from .dummycam import *
 from .frame import *
-from .genicam import *
 from .webcam import *
-from .ximea import *
+from .genicam import *
+
+try:
+    from .ximea import *
+except ModuleNotFoundError:
+    print('module ximea not found, ximea camera not available')
 
