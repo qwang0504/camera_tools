@@ -9,9 +9,9 @@ class ZeroCam(Camera):
     Provides an empty image. This is just for testing
     """
 
-    def __init__(self, shape: ArrayLike, dtype: np.dtype, **kwargs):
+    def __init__(self, shape: ArrayLike, dtype: np.dtype, *args, **kwargs):
 
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
 
         self.img_count: int = 0
         self.time_start: float = time.monotonic()
@@ -50,9 +50,9 @@ class RandomCam(Camera):
     Provides a random image. This is just for testing
     """
 
-    def __init__(self, shape: ArrayLike, dtype: np.dtype, **kwargs):
+    def __init__(self, shape: ArrayLike, dtype: np.dtype, *args, **kwargs):
 
-        super().__init__(**kwargs)
+        super().__init__(*args,**kwargs)
 
         self.img_count: int = 0
         self.time_start: float = time.monotonic()
@@ -97,4 +97,3 @@ class RandomCam(Camera):
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         pass
-    

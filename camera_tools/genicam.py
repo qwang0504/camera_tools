@@ -25,14 +25,14 @@ class FrameHarvesters(Frame):
 
 class GenicamHarvesters(Camera):
 
-    def __init__(self, gentl_producer, **kwargs):
+    def __init__(self, gentl_producer, *args, **kwargs):
         """
         Open camera using the GenICam/GenTL API
         Inputs:
             gentl_producer: *.cti file from camera vendor     
         """
 
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
 
         self.img_count: int = 0
         self._h = Harvester()
