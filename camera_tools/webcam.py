@@ -4,6 +4,8 @@ from numpy.typing import NDArray
 from camera_tools.camera import Camera
 from camera_tools.frame import BaseFrame
 
+# NOTE another option on linux is to use v4l2-ctl to change camera settings 
+  
 class OpenCV_Webcam(Camera):
 
     def __init__(self, *args, **kwargs) -> None:
@@ -34,7 +36,7 @@ class OpenCV_Webcam(Camera):
 
     def set_framerate(self, fps: float) -> None:
         if self.camera is not None:
-            pass
+            self.camera.set(cv2.CAP_PROP_FPS, fps)
 
     def set_gain(self, gain: float) -> None:
         if self.camera is not None:
