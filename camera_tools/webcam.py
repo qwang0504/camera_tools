@@ -31,10 +31,10 @@ class OpenCV_Webcam(Camera):
     def set_exposure(self, exp_time: float) -> None:
         pass
 
-    def set_framerate(self, exp_time: float) -> None:
+    def set_framerate(self, fps: float) -> None:
         pass
 
-    def set_gain(self, exp_time: float) -> None:
+    def set_gain(self, gain: float) -> None:
         pass
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
