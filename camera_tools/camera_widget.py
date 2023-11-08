@@ -88,6 +88,8 @@ class CameraWidget(QWidget):
         layout_controls.addWidget(self.framerate_spinbox)
         layout_controls.addWidget(self.ROI_frame)
         layout_controls.addLayout(layout_start_stop)
+        layout_controls.addStretch()
+
 
         main_layout = QHBoxLayout(self)
         main_layout.addWidget(self.image_label)
@@ -110,12 +112,14 @@ class CameraWidget(QWidget):
             self.image_label.setPixmap(NDarray_to_QPixmap(frame.image))
 
     def start_acquisition(self):
-        self.camera.start_acquisition()
-        self.acquisition_started = True
+        if not self.acquisition_started:
+            self.camera.start_acquisition()
+            self.acquisition_started = True
             
     def stop_acquisition(self):
-        self.camera.stop_acquisition()
-        self.acquisition_started = False
+        if self.acquisition_started:
+            self.camera.stop_acquisition()
+            self.acquisition_started = False
 
     def set_exposure(self):
         self.camera.set_exposure(self.exposure_spinbox.value())
