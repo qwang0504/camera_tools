@@ -10,7 +10,9 @@ class ZeroCam(Camera):
     """
 
     def __init__(self, shape: ArrayLike, dtype: np.dtype, **kwargs):
+
         super().__init__(**kwargs)
+        
         self.img_count: int = 0
         self.time_start: float = time.monotonic()
         self.shape = shape 
