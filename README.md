@@ -2,6 +2,10 @@
 
 handle various camera
 
+```
+pip install git+https://github.com/ElTinmar/camera_tools.git@main
+```
+
 # Ximea
 
 Install xiAPI
