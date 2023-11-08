@@ -17,11 +17,11 @@ class Camera(ABC):
         pass
 
     @abstractmethod
-    def set_framerate(self, exp_time: float) -> None:
+    def set_framerate(self, fps: float) -> None:
         pass
 
     @abstractmethod
-    def set_gain(self, exp_time: float) -> None:
+    def set_gain(self, gain: float) -> None:
         pass
 
     @abstractmethod

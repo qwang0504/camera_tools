@@ -32,12 +32,22 @@ class XimeaCamera(Camera):
         self.xi_cam.set_exposure(exp_time)
 
     def set_framerate(self, fps: float) -> None:
+        self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FRAME_RATE_LIMIT')
         self.xi_cam.set_framerate(fps)
 
     def set_gain(self, gain: float) -> None:
         self.xi_cam.set_gain(gain)
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
+        
+        # Ximea camera restricts the ROI to be some integer multiples 
+        x_inc = self.xi_cam.get_offsetX_increment()
+        y_inc = self.xi_cam.get_offsetY_increment()
+        max_width = self.xi_cam.get_offsetX_maximum()+self.xi_cam.get_width_maximum()
+        max_height = self.xi_cam.get_offsetY_maximum()+self.xi_cam.get_height_maximum()
+        
+        # TODO check that ROI is valid 
+
         self.xi_cam.set_width(width)
         self.xi_cam.set_height(height)
         self.xi_cam.set_offsetX(left)
