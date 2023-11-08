@@ -12,6 +12,5 @@ setup(
         "numpy", 
         "opencv-python",
         "harvesters",
-        "xiapi"
     ]
 )
