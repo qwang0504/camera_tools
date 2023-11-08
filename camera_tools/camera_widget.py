@@ -5,6 +5,8 @@ from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButt
 from qt_widgets import LabeledDoubleSpinBox, LabeledSliderSpinBox, NDarray_to_QPixmap
 from camera_tools.camera import Camera
 
+# TODO adjust display FPS
+
 class CameraWidget(QWidget):
 
     def __init__(self, camera: Camera, *args, **kwargs):
@@ -42,6 +44,7 @@ class CameraWidget(QWidget):
 
         self.exposure_spinbox = LabeledDoubleSpinBox(self)
         self.exposure_spinbox.setText('exposure')
+        self.exposure_spinbox.setRange(-11,11)
         self.exposure_spinbox.valueChanged.connect(self.set_exposure)
 
         self.gain_spinbox = LabeledDoubleSpinBox(self)
