@@ -1,7 +1,7 @@
 # TODO record to file ?
 
 from PyQt5.QtCore import QTimer
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QFrame
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QGroupBox
 from qt_widgets import LabeledDoubleSpinBox, LabeledSliderSpinBox, NDarray_to_QPixmap
 from camera_tools.camera import Camera
 
@@ -78,8 +78,7 @@ class CameraWidget(QWidget):
 
         # Region of interest ------------------------------------
 
-        self.ROI_frame = QFrame(self)
-        self.ROI_frame.setFrameShape(QFrame.StyledPanel)
+        self.ROI_groupbox = QGroupBox('ROI:')
 
     def layout_components(self):
 
@@ -87,7 +86,7 @@ class CameraWidget(QWidget):
         layout_start_stop.addWidget(self.start_button)
         layout_start_stop.addWidget(self.stop_button)
 
-        layout_frame = QVBoxLayout(self.ROI_frame)
+        layout_frame = QVBoxLayout(self.ROI_groupbox)
         layout_frame.addWidget(self.offsetX_spinbox)
         layout_frame.addWidget(self.offsetY_spinbox)
         layout_frame.addWidget(self.height_spinbox)
@@ -97,7 +96,7 @@ class CameraWidget(QWidget):
         layout_controls.addWidget(self.exposure_spinbox)
         layout_controls.addWidget(self.gain_spinbox)
         layout_controls.addWidget(self.framerate_spinbox)
-        layout_controls.addWidget(self.ROI_frame)
+        layout_controls.addWidget(self.ROI_groupbox)
         layout_controls.addLayout(layout_start_stop)
         layout_controls.addStretch()
 
