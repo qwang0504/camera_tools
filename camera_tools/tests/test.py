@@ -1,9 +1,13 @@
 import sys
 from PyQt5.QtWidgets import QApplication
-from camera_tools import CameraWidget, OpenCV_Webcam, ZeroCam, RandomCam
+from camera_tools import (
+    CameraWidget, OpenCV_Webcam, ZeroCam, 
+    RandomCam, MovieFileCam
+)
 import numpy as np
 
-cam = OpenCV_Webcam()
+cam = MovieFileCam('/home/martin/Downloads/19-40-44.avi')
+#cam = OpenCV_Webcam()
 #cam = RandomCam(shape=(512,512), dtype=np.uint8)
 
 

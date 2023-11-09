@@ -5,6 +5,8 @@ import numpy as np
 from numpy.typing import NDArray
 import cv2
 from typing import Optional, Tuple
+import os 
+import errno
 
 class MovieFileCam(Camera):
     """
@@ -17,12 +19,13 @@ class MovieFileCam(Camera):
 
         self.img_count: int = 0
         self.time_start: float = time.monotonic()
+        if not os.path.isfile(filename):
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), filename)
         self.filename = filename
         self.reader = cv2.VideoCapture(filename)
 
     def start_acquisition(self) -> None:
-        self.index = 0
-        self.time_start = time.monotonic()
+        pass
 
     def stop_acquisition(self) -> None:
         pass
