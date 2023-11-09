@@ -49,6 +49,7 @@ class GenicamHarvesters(Camera):
         self._imAcq = self._h.create(self._camera_index)
         self._imAcq.num_buffers = self._num_buffers
         self.node_map = self._imAcq.remote_device.node_map
+        self.available_features = dir(self.node_map)
 
     def set_exposure(self, exp_time: float) -> None:
         self.node_map.ExposureTime.value = exp_time
@@ -62,17 +63,47 @@ class GenicamHarvesters(Camera):
     def get_exposure(self, exp_time: float) -> Optional[float]:
         return self.node_map.ExposureTime.value 
 
+    def get_exposure_range(self) -> Optional[Tuple[float,float]]:
+        pass
+
     def get_framerate(self, fps: float) -> Optional[float]:
         return self.node_map.AcquisitionFrameRate.value
 
+    def get_framerate_range(self) -> Optional[Tuple[float,float]]:
+        pass
+
     def get_gain(self, gain: float) -> Optional[float]:
         return self.node_map.Gain.value
+
+    def get_gain_range(self) -> Optional[Tuple[float,float]]:
+        pass
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         self.node_map.Width.value = width
         self.node_map.Height.value = height
         self.node_map.OffsetX.value = left
         self.node_map.OffsetY.value = bottom
+
+    def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
+        pass
+
+    def get_offsetX_range(self) -> Optional[int]:
+        pass
+
+    def get_offsetX_increment(self) -> Optional[int]:
+        pass
+
+    def get_offsetY_range(self) -> Optional[int]:
+        pass
+
+    def get_offsetY_increment(self) -> Optional[int]:width
+        pass
+
+    def get_width_range(self) -> Optional[int]:
+        pass
+
+    def get_height_range(self) -> Optional[int]:
+        pass
 
     def start_acquisition(self):
         self._imAcq.start()

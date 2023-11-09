@@ -31,12 +31,21 @@ class XimeaCamera(Camera):
     def get_exposure(self) -> Optional[float]:
         return self.xi_cam.get_exposure()
 
+    def get_exposure_range(self) -> Optional[Tuple[float,float]]:
+        pass
+
     def get_framerate(self) -> Optional[float]:
         return self.xi_cam.get_framerate()
+
+    def get_framerate_range(self) -> Optional[Tuple[float,float]]:
+        pass
 
     def get_gain(self) -> Optional[float]:
         return self.xi_cam.get_gain()
 
+    def get_gain_range(self) -> Optional[Tuple[float,float]]:
+        pass
+    
     def set_exposure(self, exp_time: float) -> None:
         self.xi_cam.set_exposure(exp_time)
 
@@ -61,6 +70,27 @@ class XimeaCamera(Camera):
         self.xi_cam.set_height(height)
         self.xi_cam.set_offsetX(left)
         self.xi_cam.set_offsetY(bottom)
+
+    def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
+        pass
+
+    def get_offsetX_range(self) -> Optional[int]:
+        pass
+
+    def get_offsetX_increment(self) -> Optional[int]:
+        pass
+
+    def get_offsetY_range(self) -> Optional[int]:
+        pass
+
+    def get_offsetY_increment(self) -> Optional[int]:width
+        pass
+
+    def get_width_range(self) -> Optional[int]:
+        pass
+
+    def get_height_range(self) -> Optional[int]:
+        pass
 
     def get_frame(self) -> Frame:
         self.xi_cam.get_image(self.xi_img)
