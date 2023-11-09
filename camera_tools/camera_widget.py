@@ -6,6 +6,7 @@ from qt_widgets import LabeledDoubleSpinBox, LabeledSliderSpinBox, NDarray_to_QP
 from camera_tools.camera import Camera
 
 # TODO adjust display FPS and add a queue to receive images from the camera
+# TODO show camera FPS, display FPS, and camera statistics in status bar
 
 class CameraWidget(QWidget):
 
