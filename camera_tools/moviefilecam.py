@@ -2,7 +2,8 @@ from camera_tools.camera import Camera
 from camera_tools.frame import BaseFrame, Frame
 import time
 import numpy as np
-from numpy.typing import NDArray, ArrayLike
+from numpy.typing import NDArray
+import cv2
 from typing import Optional, Tuple
 
 class MovieFileCam(Camera):
@@ -17,6 +18,7 @@ class MovieFileCam(Camera):
         self.img_count: int = 0
         self.time_start: float = time.monotonic()
         self.filename = filename
+        self.reader = cv2.VideoCapture(filename)
 
     def start_acquisition(self) -> None:
         self.index = 0
@@ -29,7 +31,7 @@ class MovieFileCam(Camera):
 
         self.img_count += 1
         timestamp = time.monotonic() - self.time_start
-        img = np.zeros(self.shape, dtype=self.dtype)
+        rval, img = self.reader.read()
         frame = BaseFrame(self.img_count, timestamp, img)
         return frame
     
