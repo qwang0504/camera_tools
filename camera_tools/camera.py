@@ -25,6 +25,18 @@ class Camera(ABC):
         pass
 
     @abstractmethod
+    def get_exposure(self) -> Optional[float]:
+        pass
+
+    @abstractmethod
+    def get_framerate(self) -> Optional[float]:
+        pass
+
+    @abstractmethod
+    def get_gain(self) -> Optional[float]:
+        pass
+
+    @abstractmethod
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         pass
 

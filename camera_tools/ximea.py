@@ -28,6 +28,15 @@ class XimeaCamera(Camera):
     def stop_acquisition(self) -> None:
         self.xi_cam.stop_acquisition()
 
+    def get_exposure(self) -> Optional[float]:
+        return self.xi_cam.get_exposure()
+
+    def get_framerate(self) -> Optional[float]:
+        return self.xi_cam.get_framerate()
+
+    def get_gain(self) -> Optional[float]:
+        return self.xi_cam.get_gain()
+
     def set_exposure(self, exp_time: float) -> None:
         self.xi_cam.set_exposure(exp_time)
 

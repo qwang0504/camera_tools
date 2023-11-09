@@ -2,6 +2,7 @@ from camera_tools.camera import Camera
 from camera_tools.frame import Frame
 from harvesters.core import Harvester
 from numpy.typing import NDArray
+from typing import Optional
 
 class FrameHarvesters(Frame):
     def __init__(self, buffer):
@@ -50,13 +51,22 @@ class GenicamHarvesters(Camera):
         self.node_map = self._imAcq.remote_device.node_map
 
     def set_exposure(self, exp_time: float) -> None:
-        self.node_map.ExposureTime.value = self._exposure_time
+        self.node_map.ExposureTime.value = exp_time
 
     def set_framerate(self, fps: float) -> None:
-        self.node_map.AcquisitionFrameRate.value = self._fps
+        self.node_map.AcquisitionFrameRate.value = fps
 
     def set_gain(self, gain: float) -> None:
-        self.node_map.Gain.value = self._gain
+        self.node_map.Gain.value = gain
+
+    def get_exposure(self, exp_time: float) -> Optional[float]:
+        return self.node_map.ExposureTime.value 
+
+    def get_framerate(self, fps: float) -> Optional[float]:
+        return self.node_map.AcquisitionFrameRate.value
+
+    def get_gain(self, gain: float) -> Optional[float]:
+        return self.node_map.Gain.value
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         self.node_map.Width.value = width

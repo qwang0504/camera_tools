@@ -3,6 +3,7 @@ from camera_tools.frame import BaseFrame, Frame
 import time
 import numpy as np
 from numpy.typing import NDArray, ArrayLike
+from typing import Optional
 
 class ZeroCam(Camera):
     """
@@ -40,6 +41,15 @@ class ZeroCam(Camera):
         pass
 
     def set_gain(self, gain: float) -> None:
+        pass
+
+    def get_exposure(self) -> Optional[float]:
+        pass
+
+    def get_framerate(self) -> Optional[float]:
+        pass
+
+    def get_gain(self) -> Optional[float]:
         pass
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
@@ -93,6 +103,15 @@ class RandomCam(Camera):
         pass
 
     def set_gain(self, gain: float) -> None:
+        pass
+
+    def get_exposure(self) -> Optional[float]:
+        pass
+
+    def get_framerate(self) -> Optional[float]:
+        pass
+
+    def get_gain(self) -> Optional[float]:
         pass
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:

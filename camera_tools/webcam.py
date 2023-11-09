@@ -3,6 +3,7 @@ import time
 from numpy.typing import NDArray
 from camera_tools.camera import Camera
 from camera_tools.frame import BaseFrame
+from typing import Optional
 
 # NOTE another option on linux is to use v4l2-ctl to change camera settings 
   
@@ -41,6 +42,18 @@ class OpenCV_Webcam(Camera):
     def set_gain(self, gain: float) -> None:
         if self.camera is not None:
             self.camera.set(cv2.CAP_PROP_GAIN, gain)
+        
+    def get_exposure(self) -> Optional[float]:
+        if self.camera is not None:
+            return self.camera.get(cv2.CAP_PROP_EXPOSURE)
+
+    def get_framerate(self) -> Optional[float]:
+        if self.camera is not None:
+            return self.camera.get(cv2.CAP_PROP_FPS)
+
+    def get_gain(self) -> Optional[float]:
+        if self.camera is not None:
+            return self.camera.get(cv2.CAP_PROP_GAIN)
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         if self.camera is not None:
