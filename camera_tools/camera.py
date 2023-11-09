@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from numpy.typing import NDArray
 from camera_tools.frame import Frame
+from typing import Optional, Tuple
 
 class Camera(ABC):
 
@@ -29,7 +30,15 @@ class Camera(ABC):
         pass
 
     @abstractmethod
+    def get_exposure_range(self) -> Optional[Tuple[float,float]]:
+        pass
+
+    @abstractmethod
     def get_framerate(self) -> Optional[float]:
+        pass
+
+    @abstractmethod
+    def get_framerate_range(self) -> Optional[Tuple[float,float]]:
         pass
 
     @abstractmethod
@@ -37,7 +46,39 @@ class Camera(ABC):
         pass
 
     @abstractmethod
+    def get_gain_range(self) -> Optional[Tuple[float,float]]:
+        pass
+
+    @abstractmethod
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
+        pass
+
+    @abstractmethod
+    def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
+        pass
+
+    @abstractmethod
+    def get_offsetX_range(self) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    def get_offsetX_increment(self) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    def get_offsetY_range(self) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    def get_offsetY_increment(self) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    def get_width_range(self) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    def get_height_range(self) -> Optional[int]:
         pass
 
     @abstractmethod
