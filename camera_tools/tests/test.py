@@ -6,6 +6,7 @@ import numpy as np
 #cam = OpenCV_Webcam()
 cam = RandomCam(shape=(512,512), dtype=np.uint8)
 
+
 # test widget
 app = QApplication(sys.argv)
 window = CameraWidget(cam)

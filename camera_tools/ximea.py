@@ -77,7 +77,7 @@ class XimeaCamera(Camera):
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         
         # Ximea camera restricts the ROI to be some integer multiples 
-        x_inc = 
+        x_inc = self.xi_cam.get_offsetX_increment()
         y_inc = self.xi_cam.get_offsetY_increment()
         max_width = self.xi_cam.get_offsetX_maximum()+self.xi_cam.get_width_maximum()
         max_height = self.xi_cam.get_offsetY_maximum()+self.xi_cam.get_height_maximum()
