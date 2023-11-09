@@ -41,15 +41,38 @@ class CameraWidget(QWidget):
         self.framerate_spinbox = LabeledDoubleSpinBox(self)
         self.framerate_spinbox.setText('fps')
         self.framerate_spinbox.valueChanged.connect(self.set_framerate)
+        framerate_value = self.camera.get_framerate()
+        if framerate_value is not None:
+            self.framerate_spinbox.setValue(framerate_value) 
+            framerate_range = self.camera.get_framerate_range()
+            if framerate_range  is not None:
+                self.framerate_spinbox.setRange(framerate_range )
+        else:
+            self.framerate_spinbox.setDisabled(True)
 
         self.exposure_spinbox = LabeledDoubleSpinBox(self)
         self.exposure_spinbox.setText('exposure')
-        self.exposure_spinbox.setRange(-11,11)
         self.exposure_spinbox.valueChanged.connect(self.set_exposure)
+        exposure_value = self.camera.get_exposure()
+        if exposure_value is not None:
+            self.exposure_spinbox.setValue(exposure_value) 
+            exposure_range = self.camera.get_exposure_range()
+            if exposure_range is not None:
+                self.exposure_spinbox.setRange(exposure_range)
+        else:
+            self.exposure_spinbox.setDisabled(True)
 
         self.gain_spinbox = LabeledDoubleSpinBox(self)
         self.gain_spinbox.setText('gain')
         self.gain_spinbox.valueChanged.connect(self.set_gain)
+        gain_value = self.camera.get_gain()
+        if gain_value is not None:
+            self.gain_spinbox.setValue(gain_value)
+            gain_range = self.camera.get_gain_range()
+            if gain_range is not None:
+                self.gain_spinbox.setRange(gain_range)
+        else:
+            self.gain_spinbox.setDisabled(True)
 
         # Region of interest ------------------------------------
 
@@ -59,18 +82,45 @@ class CameraWidget(QWidget):
         self.left_spinbox = LabeledSliderSpinBox(self.ROI_frame)
         self.left_spinbox.setText('left')
         self.left_spinbox.valueChanged.connect(self.set_ROI)
+        offsetX_value = 
+        offsetX_range = self.camera.get_offsetX_range()
+        offsetX_increment = self.camera.get_offsetX_increment()
+        if (offsetX_range is not None) and (offsetX_increment is not None):
+            self.left_spinbox.setRange(offsetX_range)
+            self.left_spinbox.setSingleStep(offsetX_increment)
+        else:
+            self.left_spinbox.setDisabled(True)
 
         self.bottom_spinbox = LabeledSliderSpinBox(self.ROI_frame)
         self.bottom_spinbox.setText('bottom')
         self.bottom_spinbox.valueChanged.connect(self.set_ROI)
+        offsetY_range = self.camera.get_offsetY_range()
+        offsetY_increment = self.camera.get_offsetY_increment()   
+        if (offsetY_range is not None) and (offsetY_increment is not None):
+            self.bottom_spinbox.setRange(offsetY_range)
+            self.bottom_spinbox.setSingleStep(offsetY_increment)
+        else:
+            self.bottom_spinbox.setDisabled(True)
 
         self.height_spinbox = LabeledSliderSpinBox(self.ROI_frame)
         self.height_spinbox.setText('height')
         self.height_spinbox.valueChanged.connect(self.set_ROI)
+        height_range = self.camera.get_height_range()
+        if (height_range is not None) and (offsetY_increment is not None):
+            self.height_spinbox.setRange(height_range)
+            self.height_spinbox.setSingleStep(offsetY_increment)
+        else:
+            self.height_spinbox.setDisabled(True)
 
         self.width_spinbox = LabeledSliderSpinBox(self.ROI_frame)
         self.width_spinbox.setText('width')
         self.width_spinbox.valueChanged.connect(self.set_ROI)
+        width_range = self.camera.get_width_range()
+        if (width_range is not None) and (offsetX_increment is not None):
+            self.width_spinbox.setRange(width_range)
+            self.width_spinbox.setSingleStep(offsetX_increment)
+        else:
+            self.width_spinbox.setDisabled(True)
 
     def layout_components(self):
 
