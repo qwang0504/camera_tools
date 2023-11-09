@@ -72,10 +72,22 @@ class OpenCV_Webcam(Camera):
     def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
         pass
 
+    def set_offsetX(self, Optional[int]offsetX: int) -> None:
+        pass
+
+    def get_offsetX(self) -> Optional[int]:
+        pass
+
     def get_offsetX_range(self) -> Optional[int]:
         pass
 
     def get_offsetX_increment(self) -> Optional[int]:
+        pass
+
+    def set_offsetY(self, offsetY: int) -> None:
+        pass
+
+    def get_offsetY(self) -> Optional[int]:
         pass
 
     def get_offsetY_range(self) -> Optional[int]:
@@ -84,9 +96,20 @@ class OpenCV_Webcam(Camera):
     def get_offsetY_increment(self) -> Optional[int]:width
         pass
 
+    def set_width(self, width: int) -> None:
+        pass
+
+    def get_width(self) -> Optional[int]:
+        pass
+
     def get_width_range(self) -> Optional[int]:
         pass
 
+    def set_height(self, height) -> None:
+        pass
+    
+    def get_height(self) -> Optional[int]:
+        pass    
+    
     def get_height_range(self) -> Optional[int]:
         pass
-
