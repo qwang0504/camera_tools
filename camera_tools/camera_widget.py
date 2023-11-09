@@ -26,7 +26,9 @@ class CameraWidget(QWidget):
         '''
         Creates spinbox with correct label, value, range and increment
         as specified by the camera object. Connects to relevant
-        callback
+        callback.
+        WARNING This is compact but a bit terse and introduces dependencies
+        in the code. 
         '''
         setattr(self, attr + '_spinbox', LabeledDoubleSpinBox(self))
         spinbox = getattr(self, attr + '_spinbox')
