@@ -114,6 +114,9 @@ class CameraWidget(QWidget):
     # Callbacks --------------------------------------------------------- 
 
     def grab(self):
+        # TODO this is probably not the right way to do it, I should probably
+        # send frames from outside (with a queue or something)
+
         if self.acquisition_started:
             frame = self.camera.get_frame()
             self.image_label.setPixmap(NDarray_to_QPixmap(frame.image))
