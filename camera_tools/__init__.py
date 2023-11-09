@@ -5,6 +5,7 @@ from .randomcam import *
 from .zerocam import *
 from .frame import *
 from .webcam import *
+from .moviefilecam import *
 
 try:
     from .genicam import *
