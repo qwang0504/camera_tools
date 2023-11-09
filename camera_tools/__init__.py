@@ -1,7 +1,8 @@
 from .camera import *
 from .frame import *
 from .camera_widget import *
-from .dummycam import *
+from .randomcam import *
+from .zerocam import *
 from .frame import *
 from .webcam import *
 

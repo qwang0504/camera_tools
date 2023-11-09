@@ -124,14 +124,15 @@ class CameraWidget(QWidget):
         self.height_spinbox.valueChanged.connect(self.set_ROI)
         height_value = self.camera.get_height()
         height_range = self.camera.get_height_range()
+        height_increment = self.camera.get_height_increment()
         if (
             height_value is not None 
             and height_range is not None
-            and offsetY_increment is not None
+            and height_increment is not None
         ):
             self.height_spinbox.setValue(height_value)
             self.height_spinbox.setRange(height_range)
-            self.height_spinbox.setSingleStep(offsetY_increment)
+            self.height_spinbox.setSingleStep(height_increment)
         else:
             self.height_spinbox.setDisabled(True)
 
@@ -140,14 +141,15 @@ class CameraWidget(QWidget):
         self.width_spinbox.valueChanged.connect(self.set_ROI)
         width_value = self.camera.get_width()
         width_range = self.camera.get_width_range()
+        width_increment = self.camera.get_width_increment()
         if (
             width_value is not None
             and width_range is not None 
-            and offsetX_increment is not None
+            and width_increment is not None
         ):
             self.width_spinbox.setValue(width_value)
             self.width_spinbox.setRange(width_range)
-            self.width_spinbox.setSingleStep(offsetX_increment)
+            self.width_spinbox.setSingleStep(width_increment)
         else:
             self.width_spinbox.setDisabled(True)
 
@@ -171,11 +173,9 @@ class CameraWidget(QWidget):
         layout_controls.addLayout(layout_start_stop)
         layout_controls.addStretch()
 
-
         main_layout = QHBoxLayout(self)
         main_layout.addWidget(self.image_label)
         main_layout.addLayout(layout_controls)
-
 
     def set_timers(self):
 
@@ -187,7 +187,6 @@ class CameraWidget(QWidget):
     # Callbacks --------------------------------------------------------- 
 
     def grab(self):
-
         if self.acquisition_started:
             frame = self.camera.get_frame()
             self.image_label.setPixmap(NDarray_to_QPixmap(frame.image))

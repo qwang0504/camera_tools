@@ -58,7 +58,7 @@ class Camera(ABC):
         pass
 
     @abstractmethod
-    def set_offsetX(self, Optional[int]offsetX: int) -> None:
+    def set_offsetX(self, offsetX: int) -> None:
         pass
 
     @abstractmethod
@@ -86,7 +86,7 @@ class Camera(ABC):
         pass
 
     @abstractmethod
-    def get_offsetY_increment(self) -> Optional[int]:width
+    def get_offsetY_increment(self) -> Optional[int]:
         pass
 
     @abstractmethod
@@ -102,6 +102,10 @@ class Camera(ABC):
         pass
 
     @abstractmethod
+    def get_width_increment(self) -> Optional[int]:
+        pass
+
+    @abstractmethod
     def set_height(self, height) -> None:
         pass
 
@@ -111,4 +115,8 @@ class Camera(ABC):
 
     @abstractmethod
     def get_height_range(self) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    def get_height_increment(self) -> Optional[int]:
         pass

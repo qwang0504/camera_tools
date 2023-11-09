@@ -3,7 +3,7 @@ import time
 from numpy.typing import NDArray
 from camera_tools.camera import Camera
 from camera_tools.frame import BaseFrame
-from typing import Optional
+from typing import Optional, Tuple
 
 # NOTE another option on linux is to use v4l2-ctl to change camera settings 
   
@@ -72,7 +72,7 @@ class OpenCV_Webcam(Camera):
     def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
         pass
 
-    def set_offsetX(self, Optional[int]offsetX: int) -> None:
+    def set_offsetX(self, offsetX: int) -> None:
         pass
 
     def get_offsetX(self) -> Optional[int]:
@@ -93,7 +93,7 @@ class OpenCV_Webcam(Camera):
     def get_offsetY_range(self) -> Optional[int]:
         pass
 
-    def get_offsetY_increment(self) -> Optional[int]:width
+    def get_offsetY_increment(self) -> Optional[int]:
         pass
 
     def set_width(self, width: int) -> None:
@@ -105,6 +105,9 @@ class OpenCV_Webcam(Camera):
     def get_width_range(self) -> Optional[int]:
         pass
 
+    def get_width_increment(self) -> Optional[int]:
+        pass 
+
     def set_height(self, height) -> None:
         pass
     
@@ -113,3 +116,6 @@ class OpenCV_Webcam(Camera):
     
     def get_height_range(self) -> Optional[int]:
         pass
+
+    def get_height_increment(self) -> Optional[int]:
+        pass 

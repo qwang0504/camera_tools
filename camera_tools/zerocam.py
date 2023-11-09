@@ -3,7 +3,7 @@ from camera_tools.frame import BaseFrame, Frame
 import time
 import numpy as np
 from numpy.typing import NDArray, ArrayLike
-from typing import Optional
+from typing import Optional, Tuple
 
 class ZeroCam(Camera):
     """
@@ -67,7 +67,7 @@ class ZeroCam(Camera):
     def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
         pass
 
-    def set_offsetX(self, Optional[int]offsetX: int) -> None:
+    def set_offsetX(self, offsetX: int) -> None:
         pass
 
     def get_offsetX(self) -> Optional[int]:
@@ -88,7 +88,7 @@ class ZeroCam(Camera):
     def get_offsetY_range(self) -> Optional[int]:
         pass
 
-    def get_offsetY_increment(self) -> Optional[int]:width
+    def get_offsetY_increment(self) -> Optional[int]:
         pass
 
     def set_width(self, width: int) -> None:
@@ -100,6 +100,9 @@ class ZeroCam(Camera):
     def get_width_range(self) -> Optional[int]:
         pass
 
+    def get_width_increment(self) -> Optional[int]:
+        pass 
+
     def set_height(self, height) -> None:
         pass
     
@@ -109,3 +112,5 @@ class ZeroCam(Camera):
     def get_height_range(self) -> Optional[int]:
         pass
 
+    def get_height_increment(self) -> Optional[int]:
+        pass 
