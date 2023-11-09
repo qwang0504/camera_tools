@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButt
 from qt_widgets import LabeledDoubleSpinBox, LabeledSliderSpinBox, NDarray_to_QPixmap
 from camera_tools.camera import Camera
 
-# TODO adjust display FPS
+# TODO adjust display FPS and add a queue to receive images from the camera
 
 class CameraWidget(QWidget):
 
@@ -114,8 +114,12 @@ class CameraWidget(QWidget):
     # Callbacks --------------------------------------------------------- 
 
     def grab(self):
-        # TODO this is probably not the right way to do it, I should probably
-        # send frames from outside (with a queue or something)
+        # TODO this is probably not the right way to do it. First it is dictating
+        # the FPS with the QT timer, and second it is consuming frames.
+        # I should probably send frames from outside (with a queue or something)
+        # and use the class only to control camera features.
+
+        # NOTE I should be able to flush the queue when I change parameters 
 
         if self.acquisition_started:
             frame = self.camera.get_frame()
