@@ -70,7 +70,7 @@ class Camera(ABC):
         pass
 
     @abstractmethod
-    def get_offsetY_increment(self) -> Optional[int]:
+    def get_offsetY_increment(self) -> Optional[int]:width
         pass
 
     @abstractmethod
