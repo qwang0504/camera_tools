@@ -18,19 +18,19 @@ class Camera(ABC):
         pass
 
     @abstractmethod
-    def set_framerate(self, fps: float) -> None:
-        pass
-
-    @abstractmethod
-    def set_gain(self, gain: float) -> None:
-        pass
-
-    @abstractmethod
     def get_exposure(self) -> Optional[float]:
         pass
 
     @abstractmethod
     def get_exposure_range(self) -> Optional[Tuple[float,float]]:
+        pass
+
+    @abstractmethod
+    def get_exposure_increment(self) -> Optional[float]:
+        pass
+
+    @abstractmethod
+    def set_framerate(self, fps: float) -> None:
         pass
 
     @abstractmethod
@@ -42,11 +42,23 @@ class Camera(ABC):
         pass
 
     @abstractmethod
+    def get_framerate_increment(self) -> Optional[float]:
+        pass
+
+    @abstractmethod
+    def set_gain(self, gain: float) -> None:
+        pass
+
+    @abstractmethod
     def get_gain(self) -> Optional[float]:
         pass
 
     @abstractmethod
     def get_gain_range(self) -> Optional[Tuple[float,float]]:
+        pass
+
+    @abstractmethod
+    def get_gain_increment(self) -> Optional[float]:
         pass
 
     @abstractmethod

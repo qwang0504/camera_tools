@@ -49,16 +49,16 @@ class RandomCam(Camera):
     def set_exposure(self, exp_time: float) -> None:
         pass
 
-    def set_framerate(self, fps: float) -> None:
-        pass
-
-    def set_gain(self, gain: float) -> None:
-        pass
-
     def get_exposure(self) -> Optional[float]:
         pass
 
     def get_exposure_range(self) -> Optional[Tuple[float,float]]:
+        pass
+
+    def get_exposure_increment(self) -> Optional[float]:
+        pass
+
+    def set_framerate(self, fps: float) -> None:
         pass
 
     def get_framerate(self) -> Optional[float]:
@@ -67,10 +67,19 @@ class RandomCam(Camera):
     def get_framerate_range(self) -> Optional[Tuple[float,float]]:
         pass
 
+    def get_framerate_increment(self) -> Optional[float]:
+        pass
+
+    def set_gain(self, gain: float) -> None:
+        pass
+
     def get_gain(self) -> Optional[float]:
         pass
 
     def get_gain_range(self) -> Optional[Tuple[float,float]]:
+        pass
+
+    def get_gain_increment(self) -> Optional[float]:
         pass
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:

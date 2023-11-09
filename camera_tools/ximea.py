@@ -28,6 +28,9 @@ class XimeaCamera(Camera):
     def stop_acquisition(self) -> None:
         self.xi_cam.stop_acquisition()
 
+    def set_exposure(self, exp_time: float) -> None:
+        self.xi_cam.set_exposure(exp_time)
+
     def get_exposure(self) -> Optional[float]:
         return self.xi_cam.get_exposure()
 
@@ -35,6 +38,16 @@ class XimeaCamera(Camera):
         exposure_min = self.xi_cam.get_exposure_minimum()
         exposure_max = self.xi_cam.get_exposure_maximum()
         return (exposure_min, exposure_max)
+
+    def get_exposure_increment(self) -> Optional[float]:
+        return self.xi_cam.get_exposure_increment()
+
+    def set_framerate(self, fps: float) -> None:
+        if fps == 0:
+            self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FREE_RUN')
+        else:
+            self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FRAME_RATE_LIMIT')
+            self.xi_cam.set_framerate(fps)
 
     def get_framerate(self) -> Optional[float]:
         return self.xi_cam.get_framerate()
@@ -44,6 +57,12 @@ class XimeaCamera(Camera):
         framerate_max = self.xi_cam.get_framerate_maximum()
         return (framerate_min, framerate_max)
 
+    def get_framerate_increment(self) -> Optional[float]:
+        return self.xi_cam.get_framerate_increment()
+
+    def set_gain(self, gain: float) -> None:
+        self.xi_cam.set_gain(gain)
+
     def get_gain(self) -> Optional[float]:
         return self.xi_cam.get_gain()
 
@@ -52,18 +71,8 @@ class XimeaCamera(Camera):
         gain_max = self.xi_cam.get_gain_maximum()
         return (gain_min, gain_max)
 
-    def set_exposure(self, exp_time: float) -> None:
-        self.xi_cam.set_exposure(exp_time)
-
-    def set_framerate(self, fps: float) -> None:
-        if fps == 0:
-            self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FREE_RUN')
-        else:
-            self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FRAME_RATE_LIMIT')
-            self.xi_cam.set_framerate(fps)
-
-    def set_gain(self, gain: float) -> None:
-        self.xi_cam.set_gain(gain)
+    def get_gain_increment(self) -> Optional[float]:
+        return self.xi_cam.get_gain_increment()
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         

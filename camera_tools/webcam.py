@@ -34,15 +34,7 @@ class OpenCV_Webcam(Camera):
     def set_exposure(self, exp_time: float) -> None:
         if self.camera is not None:
             self.camera.set(cv2.CAP_PROP_EXPOSURE, exp_time)
-
-    def set_framerate(self, fps: float) -> None:
-        if self.camera is not None:
-            self.camera.set(cv2.CAP_PROP_FPS, fps)
-
-    def set_gain(self, gain: float) -> None:
-        if self.camera is not None:
-            self.camera.set(cv2.CAP_PROP_GAIN, gain)
-        
+ 
     def get_exposure(self) -> Optional[float]:
         if self.camera is not None:
             return self.camera.get(cv2.CAP_PROP_EXPOSURE)
@@ -50,6 +42,13 @@ class OpenCV_Webcam(Camera):
     def get_exposure_range(self) -> Optional[Tuple[float,float]]:
         pass
 
+    def get_exposure_increment(self) -> Optional[float]:
+        pass
+
+    def set_framerate(self, fps: float) -> None:
+        if self.camera is not None:
+            self.camera.set(cv2.CAP_PROP_FPS, fps)
+       
     def get_framerate(self) -> Optional[float]:
         if self.camera is not None:
             return self.camera.get(cv2.CAP_PROP_FPS)
@@ -57,11 +56,21 @@ class OpenCV_Webcam(Camera):
     def get_framerate_range(self) -> Optional[Tuple[float,float]]:
         pass
 
+    def get_framerate_increment(self) -> Optional[float]:
+        pass
+
+    def set_gain(self, gain: float) -> None:
+        if self.camera is not None:
+            self.camera.set(cv2.CAP_PROP_GAIN, gain)
+
     def get_gain(self) -> Optional[float]:
         if self.camera is not None:
             return self.camera.get(cv2.CAP_PROP_GAIN)
 
     def get_gain_range(self) -> Optional[Tuple[float,float]]:
+        pass
+
+    def get_gain_increment(self) -> Optional[float]:
         pass
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:

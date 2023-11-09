@@ -54,17 +54,17 @@ class GenicamHarvesters(Camera):
     def set_exposure(self, exp_time: float) -> None:
         self.node_map.ExposureTime.value = exp_time
 
-    def set_framerate(self, fps: float) -> None:
-        self.node_map.AcquisitionFrameRate.value = fps
-
-    def set_gain(self, gain: float) -> None:
-        self.node_map.Gain.value = gain
-
     def get_exposure(self, exp_time: float) -> Optional[float]:
         return self.node_map.ExposureTime.value 
 
     def get_exposure_range(self) -> Optional[Tuple[float,float]]:
         pass
+
+    def get_exposure_increment(self) -> Optional[float]:
+        pass
+
+    def set_framerate(self, fps: float) -> None:
+        self.node_map.AcquisitionFrameRate.value = fps
 
     def get_framerate(self, fps: float) -> Optional[float]:
         return self.node_map.AcquisitionFrameRate.value
@@ -72,10 +72,19 @@ class GenicamHarvesters(Camera):
     def get_framerate_range(self) -> Optional[Tuple[float,float]]:
         pass
 
+    def get_framerate_increment(self) -> Optional[float]:
+        pass
+
+    def set_gain(self, gain: float) -> None:
+        self.node_map.Gain.value = gain
+
     def get_gain(self, gain: float) -> Optional[float]:
         return self.node_map.Gain.value
 
     def get_gain_range(self) -> Optional[Tuple[float,float]]:
+        pass
+
+    def get_gain_increment(self) -> Optional[float]:
         pass
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
