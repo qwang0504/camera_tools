@@ -9,17 +9,18 @@ from typing import Optional, Tuple
   
 class OpenCV_Webcam(Camera):
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, cam_id: int = 0, *args, **kwargs) -> None:
         
         super().__init__(*args, **kwargs)
 
-        self.camera = cv2.VideoCapture(0) 
+        self.camera_id = cam_id
+        self.camera = cv2.VideoCapture(self.camera_id) 
         self.index = 0
         self.time_start = time.monotonic()
 
     def start_acquisition(self) -> None:
         self.camera.release()
-        self.camera = cv2.VideoCapture(0)
+        self.camera = cv2.VideoCapture(self.camera_id)
         self.index = 0
         self.time_start = time.monotonic()
 
