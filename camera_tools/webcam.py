@@ -42,10 +42,10 @@ class OpenCV_Webcam(Camera):
             return self.camera.get(cv2.CAP_PROP_EXPOSURE)
 
     def get_exposure_range(self) -> Optional[Tuple[float,float]]:
-        return (-255,255)
+        pass
 
     def get_exposure_increment(self) -> Optional[float]:
-        return 1.0
+        pass
 
     def set_framerate(self, fps: float) -> None:
         if self.camera is not None:
