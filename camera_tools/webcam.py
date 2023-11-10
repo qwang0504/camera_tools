@@ -13,11 +13,12 @@ class OpenCV_Webcam(Camera):
         
         super().__init__(*args, **kwargs)
 
-        self.camera = None 
+        self.camera = cv2.VideoCapture(0) 
         self.index = 0
         self.time_start = time.monotonic()
 
     def start_acquisition(self) -> None:
+        self.camera.release()
         self.camera = cv2.VideoCapture(0)
         self.index = 0
         self.time_start = time.monotonic()
@@ -40,10 +41,10 @@ class OpenCV_Webcam(Camera):
             return self.camera.get(cv2.CAP_PROP_EXPOSURE)
 
     def get_exposure_range(self) -> Optional[Tuple[float,float]]:
-        pass
+        return (-255,255)
 
     def get_exposure_increment(self) -> Optional[float]:
-        pass
+        return 1.0
 
     def set_framerate(self, fps: float) -> None:
         if self.camera is not None:
