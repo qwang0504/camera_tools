@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication
 from camera_tools import (
     CameraWidget, OpenCV_Webcam, ZeroCam, 
-    RandomCam, MovieFileCam
+    RandomCam, MovieFileCam, 
 )
 import numpy as np
 

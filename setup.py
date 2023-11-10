@@ -12,5 +12,6 @@ setup(
         "numpy", 
         "opencv-python",
         "harvesters",
+        "v4l2py"
     ]
 )
