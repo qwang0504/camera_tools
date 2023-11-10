@@ -15,13 +15,13 @@ class V4L2_Webcam(Camera):
         super().__init__(*args, **kwargs)
 
         self.camera_id = cam_id
-        self.camera = v4l2py.Device(f'/dev/video{self.camera_id}') 
+        self.camera = v4l2py.Device.from_id(self.camera_id) 
         self.index = 0
         self.time_start = time.monotonic()
 
     def start_acquisition(self) -> None:
         self.camera.close()
-        self.camera = v4l2py.Device(f'/dev/video{self.camera_id}') 
+        self.camera = v4l2py.Device.from_id(self.camera_id)
         self.index = 0
         self.time_start = time.monotonic()
 
@@ -29,7 +29,7 @@ class V4L2_Webcam(Camera):
         self.camera.close() 
     
     def get_frame(self) -> BaseFrame:
-        frame = self.camera.__iter__()
+        frame = next(self.camera)
         self.index += 1
         timestamp = time.monotonic() - self.time_start
         return BaseFrame(self.index, timestamp, frame)
