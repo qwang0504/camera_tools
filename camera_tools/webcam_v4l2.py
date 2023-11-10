@@ -15,13 +15,13 @@ class V4L2_Webcam(Camera):
         super().__init__(*args, **kwargs)
 
         self.camera_id = cam_id
-        self.camera = v4l2py.Device(self.camera_id) 
+        self.camera = v4l2py.Device(f'/dev/video{self.camera_id}') 
         self.index = 0
         self.time_start = time.monotonic()
 
     def start_acquisition(self) -> None:
         self.camera.close()
-        self.camera = v4l2py.Device(self.camera_id) 
+        self.camera = v4l2py.Device(f'/dev/video{self.camera_id}') 
         self.index = 0
         self.time_start = time.monotonic()
 
@@ -72,7 +72,7 @@ class V4L2_Webcam(Camera):
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         pass
-    
+
     def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
         pass
 
