@@ -115,6 +115,9 @@ class CameraWidget(QWidget):
 
     # Callbacks --------------------------------------------------------- 
 
+    def closeEvent(self, event):
+        self.stop_acquisition()
+
     def grab(self):
         # TODO this is probably not the right way to do it. First it is dictating
         # the FPS with the QT timer, and second it is consuming frames.
