@@ -16,7 +16,7 @@ class Frame_RingBuffer(MultiRingBuffer_Locked):
 
         super().__init__(
             num_items,
-            item_shape = [1,1,frame_shape],
+            item_shape = [[1],[1],frame_shape],
             data_type = [np.int64, np.float64, frame_dtype],
             t_refresh = t_refresh,
         )
