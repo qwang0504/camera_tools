@@ -6,10 +6,10 @@ import numpy as np
 
 ## parameters -----------------------------
 # video preview
-DISPLAY_FPS = 30
+DISPLAY_FPS = 10
 DISPLAY_SCALE = 0.5
 # camera parameters
-FPS = 60
+FPS = 10
 EXPOSURE = 5000
 GAIN = 4.0
 WIDTH  = 640

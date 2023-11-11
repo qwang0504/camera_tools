@@ -11,10 +11,10 @@ from camera_tools import Frame_RingBuffer, OpenCV_Webcam
 
 ## parameters -----------------------------
 # video preview
-DISPLAY_FPS = 30
+DISPLAY_FPS = 10
 DISPLAY_SCALE = 0.5
 # camera parameters
-FPS = 200
+FPS = 10
 EXPOSURE = 6000
 GAIN = 4.0
 WIDTH  = 640
