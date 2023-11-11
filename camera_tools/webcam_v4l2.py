@@ -18,6 +18,7 @@ class V4L2_Webcam(Camera):
 
         self.camera_id = cam_id
         self.camera = v4l2py.Device.from_id(self.camera_id) 
+        self.camera.open()
         self.index = 0
         self.time_start = time.monotonic()
 
@@ -36,17 +37,20 @@ class V4L2_Webcam(Camera):
         img = cv2.imdecode(np.frombuffer(frame.data,dtype=np.uint8), cv2.IMREAD_UNCHANGED)
         return BaseFrame(frame.index, frame.timestamp, img)
     
-    def set_exposure(self, exp_time: float) -> None:
-        pass
+    def set_exposure(self, exp_value: float) -> None:
+        self.camera.controls.auto_exposure.value = 1
+        self.camera.controls.exposure_time_absolute.value = exp_value
  
     def get_exposure(self) -> Optional[float]:
-        pass
+        return self.camera.controls.exposure_time_absolute.value
 
     def get_exposure_range(self) -> Optional[Tuple[float,float]]:
-        pass
+        minimum = self.camera.controls.exposure_time_absolute.minimum
+        maximum = self.camera.controls.exposure_time_absolute.maximum
+        return (minimum, maximum)
 
     def get_exposure_increment(self) -> Optional[float]:
-        pass
+        return self.camera.controls.exposure_time_absolute.step
 
     def set_framerate(self, fps: float) -> None:
         pass
