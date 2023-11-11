@@ -9,6 +9,7 @@ cam.stop_acquisition()
 mybuf = Frame_RingBuffer(num_items=100,frame_shape=(480,640,3),frame_dtype=np.uint8)
 mybuf.put(img)
 
+mybuf.view_data()
 print(mybuf)
 
 img2 = mybuf.get()
