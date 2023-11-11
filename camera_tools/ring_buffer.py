@@ -4,7 +4,7 @@ from numpy.typing import NDArray, ArrayLike, DTypeLike
 import numpy as np
 from typing import Optional
 
-class RingBuffer(MultiRingBuffer_Locked):
+class Frame_RingBuffer(MultiRingBuffer_Locked):
 
     def __init__(
             self, 
