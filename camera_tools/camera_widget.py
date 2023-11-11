@@ -46,9 +46,9 @@ class CameraWidget(QWidget):
             and range is not None
             and increment is not None
         ):
-            spinbox.setValue(value)
             spinbox.setRange(range[0],range[1])
             spinbox.setSingleStep(increment)
+            spinbox.setValue(value)
         else:
             spinbox.setDisabled(True)
             
