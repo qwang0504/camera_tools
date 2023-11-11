@@ -28,4 +28,9 @@ class Frame_RingBuffer(MultiRingBuffer_Locked):
 
     def put(self, frame: Frame) -> None:
 
-        super().put([frame.index, frame.timestamp, frame.image])
+        super().put([
+            np.array(frame.index, dtype=np.int64), 
+            np.array(frame.timestamp, dtype=np.float64), 
+            frame.image
+        ])
+        
