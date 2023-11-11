@@ -70,7 +70,7 @@ queue_display = Frame_RingBuffer(
 
 queue_display = Frame_RingBuffer(
     num_items=100,
-    frame_shape=(640,480),
+    frame_shape=(480,640,3),
     frame_dtype=np.uint8
 )
 
