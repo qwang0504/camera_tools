@@ -1,5 +1,7 @@
 import v4l2py 
 import time
+import cv2
+import numpy as np
 from numpy.typing import NDArray
 from camera_tools.camera import Camera
 from camera_tools.frame import BaseFrame
@@ -22,6 +24,7 @@ class V4L2_Webcam(Camera):
     def start_acquisition(self) -> None:
         self.camera.close()
         self.camera = v4l2py.Device.from_id(self.camera_id)
+        self.camera.open()
         self.index = 0
         self.time_start = time.monotonic()
 
@@ -29,10 +32,9 @@ class V4L2_Webcam(Camera):
         self.camera.close() 
     
     def get_frame(self) -> BaseFrame:
-        frame = next(self.camera)
-        self.index += 1
-        timestamp = time.monotonic() - self.time_start
-        return BaseFrame(self.index, timestamp, frame)
+        frame = next(self.camera.__iter__())
+        img = cv2.imdecode(np.frombuffer(frame.data,dtype=np.uint8), cv2.IMREAD_UNCHANGED)
+        return BaseFrame(frame.index, frame.timestamp, img)
     
     def set_exposure(self, exp_time: float) -> None:
         pass
