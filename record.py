@@ -147,12 +147,12 @@ def compress_image_ffmpeg_CPU(queue_store):
 
 queue_display = Frame_RingBuffer(
     num_items=100,
-    frame_shape=(480,640,3),
+    frame_shape=(HEIGHT,WIDTH,3),
     frame_dtype=np.uint8
 )
 queue_store = Frame_RingBuffer(
     num_items=100,
-    frame_shape=(480,640,3),
+    frame_shape=(HEIGHT,WIDTH,3),
     frame_dtype=np.uint8
 )
 

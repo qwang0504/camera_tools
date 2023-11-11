@@ -1,4 +1,4 @@
-from camera_tools import OpenCV_Webcam, Frame_RingBuffer
+from camera_tools import RandomCam, OpenCV_Webcam, Frame_RingBuffer
 from multiprocessing import Process
 import time
 import cv2
@@ -20,7 +20,8 @@ SLEEP_TIME_S = 0.01
 ## ------------------------------------------    
 
 # open camera 
-cam = OpenCV_Webcam()
+#cam = OpenCV_Webcam()
+cam = RandomCam(shape=(HEIGHT,WIDTH),dtype=np.uint8)
 
 '''
 # get ROI parameters 
@@ -66,10 +67,17 @@ queue_display = Frame_RingBuffer(
     frame_dtype=np.uint8
 )
 '''
+'''
+queue_display = Frame_RingBuffer(
+    num_items=100,
+    frame_shape=(HEIGHT,WIDTH,3),
+    frame_dtype=np.uint8
+)
+'''
 
 queue_display = Frame_RingBuffer(
     num_items=100,
-    frame_shape=(480,640,3),
+    frame_shape=(HEIGHT,WIDTH),
     frame_dtype=np.uint8
 )
 
