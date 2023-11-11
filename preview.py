@@ -1,6 +1,5 @@
-from camera_tools import OpenCV_Webcam
+from camera_tools import OpenCV_Webcam, Frame_RingBuffer
 from multiprocessing import Process
-from camera_tools import Frame_RingBuffer
 import time
 import cv2
 import numpy as np
