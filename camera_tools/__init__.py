@@ -7,6 +7,7 @@ from .frame import *
 from .webcam import *
 from .webcam_v4l2 import *
 from .moviefilecam import *
+from .ring_buffer import *
 
 try:
     from .genicam import *
