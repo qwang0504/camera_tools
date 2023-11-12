@@ -12,8 +12,8 @@ DISPLAY_SCALE = 0.5
 FPS = 10
 EXPOSURE = 5000
 GAIN = 4.0
-WIDTH  = 640
-HEIGHT = 480
+WIDTH  = 2048
+HEIGHT = 2048
 # queue size monitor
 MONITOR_RATE_HZ = 10
 SLEEP_TIME_S = 0.01
@@ -67,6 +67,7 @@ queue_display = Frame_RingBuffer(
     frame_dtype=np.uint8
 )
 '''
+
 '''
 queue_display = Frame_RingBuffer(
     num_items=100,
