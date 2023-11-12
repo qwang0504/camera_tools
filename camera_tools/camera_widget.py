@@ -8,6 +8,7 @@ from camera_tools.camera import Camera
 
 # TODO adjust display FPS and add a queue to receive images from the camera
 # TODO show camera FPS, display FPS, and camera statistics in status bar
+# TODO subclass CameraWidget for camera with specifi controls
 
 class CameraWidget(QWidget):
 
