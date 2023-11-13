@@ -104,7 +104,7 @@ class XimeaCamera(Camera):
 
     def set_offsetY(self, offsetY: int) -> None:
         # TODO check that value is valid
-        self.xi_cam.set_offsetX(offsetY)
+        self.xi_cam.set_offsetY(offsetY)
 
     def get_offsetY(self) -> Optional[int]:
         return self.xi_cam.get_offsetY()
