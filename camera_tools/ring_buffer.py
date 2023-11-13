@@ -1,10 +1,10 @@
-from ipc_tools import MultiRingBuffer_Locked
+from ipc_tools import MultiRingBuffer
 from camera_tools.frame import BaseFrame, Frame
 from numpy.typing import NDArray, ArrayLike, DTypeLike
 import numpy as np
 from typing import Optional
 
-class Frame_RingBuffer(MultiRingBuffer_Locked):
+class Frame_RingBuffer(MultiRingBuffer):
 
     def __init__(
             self, 
