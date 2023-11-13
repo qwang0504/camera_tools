@@ -6,19 +6,20 @@ import cv2
 import pandas
 import subprocess
 import numpy as np
-from camera_tools import Frame_RingBuffer, OpenCV_Webcam
+from camera_tools import Frame_RingBuffer, OpenCV_Webcam, XimeaCamera
+from queue import Empty
 
 
 ## parameters -----------------------------
 # video preview
-DISPLAY_FPS = 10
+DISPLAY_FPS = 30
 DISPLAY_SCALE = 0.5
 # camera parameters
-FPS = 10
-EXPOSURE = 6000
+FPS = 100
+EXPOSURE = 1000
 GAIN = 4.0
-WIDTH  = 640
-HEIGHT = 480
+WIDTH  = 1800
+HEIGHT = 1800
 # video recording
 EXP_NUM = 0
 FOLDER = 'data'
@@ -42,9 +43,8 @@ CQ = 10
 ## ------------------------------------------    
 
 # open camera 
-cam = OpenCV_Webcam()
+cam = XimeaCamera()
 
-'''
 # get ROI parameters 
 x_inc = cam.get_offsetX_increment()
 y_inc = cam.get_offsetY_increment()
@@ -61,7 +61,6 @@ cam.set_width(WIDTH)
 cam.set_height(HEIGHT)
 cam.set_offsetX(OFFSET_X)
 cam.set_offsetY(OFFSET_Y)
-'''
 
 # processes
 def monitor_queue_sizes(queue_store, queue_display):
@@ -69,18 +68,19 @@ def monitor_queue_sizes(queue_store, queue_display):
         start = time.time()
         while time.time() - start < 1/MONITOR_RATE_HZ:
             time.sleep(SLEEP_TIME_S)
-        print(f'Storage: {queue_store.size()}, Display: {queue_display.size()}', flush = True)
+        print(f'Storage: {queue_store.qsize()}, Display: {queue_display.qsize()}', flush = True)
 
 def display_image(queue_display):
     cv2.namedWindow('display')
     while True:
-        data = queue_display.get()
-        if data is None:
-            break
-        frame_small = cv2.resize(data.image, None, None, DISPLAY_SCALE, DISPLAY_SCALE)
-        frame_small = cv2.putText(frame_small, f'{data.timestamp}s', (10, 30), cv2.FONT_HERSHEY_COMPLEX, 1, 255)
-        cv2.imshow('display', frame_small)
-        cv2.waitKey(1)
+        try:
+            data = queue_display.get()
+            frame_small = cv2.resize(data.image, None, None, DISPLAY_SCALE, DISPLAY_SCALE)
+            frame_small = cv2.putText(frame_small, f'{data.timestamp}s', (10, 30), cv2.FONT_HERSHEY_COMPLEX, 1, 255)
+            cv2.imshow('display', frame_small)
+            cv2.waitKey(1)
+        except Empty:
+            pass
     cv2.destroyAllWindows()
 
 def compress_image_ffmpeg_GPU(queue_store):
@@ -102,11 +102,13 @@ def compress_image_ffmpeg_GPU(queue_store):
     ffmpeg_process = subprocess.Popen(ffmpeg_cmd, stdin=subprocess.PIPE)
     metadata = []
     while True:
-        data = queue_store.get()
-        if data is None:
-            break
-        metadata.append([data.index, data.timestamp])
-        ffmpeg_process.stdin.write(data.image.tobytes())
+        try:
+            data = queue_store.get()
+            metadata.append([data.index, data.timestamp])
+            pixeldata_RGB = np.dstack((data.image,data.image,data.image))
+            ffmpeg_process.stdin.write(pixeldata_RGB.tobytes())
+        except Empty:
+            pass
 
     metadata_df = pandas.DataFrame(metadata, columns=['img_num', 'timestamp_sec'])
     metadata_df.to_csv(METADATA_NAME)
@@ -147,16 +149,18 @@ def compress_image_ffmpeg_CPU(queue_store):
 
 queue_display = Frame_RingBuffer(
     num_items=100,
-    frame_shape=(HEIGHT,WIDTH,3),
-    frame_dtype=np.uint8
+    frame_shape=(HEIGHT,WIDTH),
+    frame_dtype=np.uint8,
+    copy = False
 )
 queue_store = Frame_RingBuffer(
     num_items=100,
-    frame_shape=(HEIGHT,WIDTH,3),
-    frame_dtype=np.uint8
+    frame_shape=(HEIGHT,WIDTH),
+    frame_dtype=np.uint8,
+    copy = False
 )
 
-store = Process(target=compress_image_ffmpeg_CPU, args=(queue_store,))
+store = Process(target=compress_image_ffmpeg_GPU, args=(queue_store,))
 display = Process(target=display_image, args=(queue_display,))
 monitor = Process(target=monitor_queue_sizes, args=(queue_store, queue_display))
 
