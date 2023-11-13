@@ -135,7 +135,7 @@ class XimeaCamera(Camera):
         self.xi_cam.set_height(height)
     
     def get_height(self) -> Optional[int]:
-        self.xi_cam.get_height()    
+        return self.xi_cam.get_height()    
     
     def get_height_range(self) -> Optional[int]:
         height_min = self.xi_cam.get_height_minimum()
