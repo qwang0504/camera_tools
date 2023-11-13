@@ -10,10 +10,6 @@ class XimeaCamera(Camera):
 
         super().__init__()
         
-        self.xi_cam = None
-        self.xi_img = None
-
-    def configure(self):
         # open camera
         self.xi_cam = xiapi.Camera()
         self.xi_cam.open_device()
@@ -22,7 +18,6 @@ class XimeaCamera(Camera):
         self.xi_img = xiapi.Image()        
         
     def start_acquisition(self) -> None:
-        self.configure()
         self.xi_cam.start_acquisition()
     
     def stop_acquisition(self) -> None:

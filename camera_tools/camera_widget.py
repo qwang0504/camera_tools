@@ -145,20 +145,20 @@ class CameraWidget(QWidget):
         self.camera.set_exposure(self.exposure_spinbox.value())
 
     def set_gain(self):
-        self.camera.set_exposure(self.gain_spinbox.value())
+        self.camera.set_gain(self.gain_spinbox.value())
 
     def set_framerate(self):
-        self.camera.set_exposure(self.framerate_spinbox.value())
+        self.camera.set_framerate(self.framerate_spinbox.value())
 
     def set_offsetX(self):
-        self.camera.set_offsetX(self.offsetX_spinbox.value())
+        self.camera.set_offsetX(int(self.offsetX_spinbox.value()))
 
     def set_offsetY(self):
-        self.camera.set_offsetY(self.offsetY_spinbox.value())
+        self.camera.set_offsetY(int(self.offsetY_spinbox.value()))
 
     def set_width(self):
-        self.camera.set_width(self.width_spinbox.value())
+        self.camera.set_width(int(self.width_spinbox.value()))
 
     def set_height(self):
-        self.camera.set_height(self.height_spinbox.value())
+        self.camera.set_height(int(self.height_spinbox.value()))
        

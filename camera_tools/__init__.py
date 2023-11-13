@@ -15,7 +15,7 @@ except ModuleNotFoundError:
     print('module harvesters not found, genicam cameras not available')
 
 try:
-    from .ximea import *
+    from .ximeacam import *
 except ModuleNotFoundError:
     print('module ximea not found, ximea cameras not available')
 
