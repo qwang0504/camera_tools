@@ -1,10 +1,16 @@
 import numpy as np
 from camera_tools import OpenCV_Webcam, get_camera_distortion, get_camera_px_per_mm
 
-objp = np.zeros((9*6,3), np.float32)
-objp[:,:2] = np.mgrid[0:9,0:6].T.reshape(-1,2)
+checker_sz = (9,6)
+square_sz_mm = 20
+
+objp = np.zeros((np.prod(checker_sz),3), np.float32)
+objp[:,:2] = np.mgrid[
+    0:checker_sz[0]*square_sz_mm:square_sz_mm,
+    0:checker_sz[1]*square_sz_mm:square_sz_mm
+].T.reshape(-1,2)
 
 cam = OpenCV_Webcam()
 
-res = get_camera_distortion(cam,(9,6),objp)
-res = get_camera_px_per_mm(cam,(9,6),objp)
+mtx, newcameramtx, dist = get_camera_distortion(cam,checker_sz,objp)
+res = get_camera_px_per_mm(cam,checker_sz,objp, newcameramtx, dist)

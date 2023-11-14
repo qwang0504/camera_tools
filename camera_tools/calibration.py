@@ -1,8 +1,9 @@
-from .camera import Camera, Frame
-from typing import Tuple
+from .camera import Camera
+from typing import Tuple, Optional
 from numpy.typing import NDArray
 import cv2
-from numpy.linalg import solve
+from numpy.linalg import lstsq
+import numpy as np
 
 def get_camera_distortion(
         cam: Camera, 
@@ -27,13 +28,13 @@ def get_camera_distortion(
     world_coords = []
     image_coords = []
     for i in range(num_images):
-        frame, corners_px = get_checkerboard_corners(cam, checkerboard_size)
+        image, corners_px = get_checkerboard_corners(cam, checkerboard_size)
         world_coords.append(checkerboard_corners_world_coordinates_mm)
         image_coords.append(corners_px)
 
     cam.stop_acquisition()
 
-    shp = frame.image.shape[:2] 
+    shp = image.shape[:2] 
 
     ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(
         world_coords, 
@@ -43,15 +44,16 @@ def get_camera_distortion(
         None
     )
 
-    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, shp, 1, shp)
+    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, shp, 0, shp)
 
     return mtx, newcameramtx, dist
 
 def get_checkerboard_corners(
         cam: Camera,
         checkerboard_size: Tuple[int,int],
-    ) -> Tuple[Frame, NDArray]: 
-    # TODO type hint return values
+        camera_matrix: Optional[NDArray] = None, 
+        distortion_coef: Optional[NDArray] = None
+    ) -> Tuple[NDArray, NDArray]: 
     '''
     take a picture every one second and tries to find checkerboard corners
     '''
@@ -62,44 +64,57 @@ def get_checkerboard_corners(
     while not checkerboard_found:
         # get image from camera
         frame = cam.get_frame()
-        
+        image = frame.image
+
+        if camera_matrix is not None:
+            image = cv2.undistort(image, camera_matrix, distortion_coef)
+
         # display image, detect corners if y is pressed
-        cv2.imshow('camera', frame.image)
+        cv2.imshow('camera', image)
         key = cv2.waitKey(33)
 
         if key == ord('y'):
 
-            checkerboard_found, corners = cv2.findChessboardCorners(frame.image, checkerboard_size)
+            checkerboard_found, corners = cv2.findChessboardCorners(image, checkerboard_size)
 
             if checkerboard_found:
 
-                corners_sub = cv2.cornerSubPix(frame.image[:,:,1], corners, (11,11), (-1,-1), criteria)
+                corners_sub = cv2.cornerSubPix(image[:,:,1], corners, (11,11), (-1,-1), criteria)
 
                 # show corners
-                cv2.drawChessboardCorners(frame.image, checkerboard_size, corners_sub, checkerboard_found)
-                cv2.imshow('chessboard', frame.image)
+                cv2.drawChessboardCorners(image, checkerboard_size, corners_sub, checkerboard_found)
+                cv2.imshow('chessboard', image)
                 key = cv2.waitKey(0)
 
                 # return images and detected corner if y is pressed
                 if key == ord('y'):
                     cv2.destroyAllWindows()
-                    return frame, corners
+                    return image, corners
             
             else:
                 print('checkerboard not found')
 
+
 def get_camera_px_per_mm(
         cam: Camera,
         checkerboard_size: Tuple[int,int],
-        checkerboard_corners_world_coordinates_mm: NDArray
+        checkerboard_corners_world_coordinates_mm: NDArray,
+        camera_matrix: NDArray, 
+        distortion_coef: NDArray
     ):
     '''
     Place checkerboard where the images will be recorded
     '''
 
     cam.start_acquisition()
-    frame, corners_px = get_checkerboard_corners(cam, checkerboard_size)
+    image, corners_px = get_checkerboard_corners(cam, checkerboard_size, camera_matrix, distortion_coef)
     cam.stop_acquisition()
 
-    cv2.und
-    solve(corners_px, checkerboard_corners_world_coordinates_mm)
+    world_coords = np.ones_like(checkerboard_corners_world_coordinates_mm)
+    world_coords[:,:2] = checkerboard_corners_world_coordinates_mm[:,:2] 
+
+    corners_px = corners_px.squeeze()
+    image_coords =  np.ones_like(checkerboard_corners_world_coordinates_mm)
+    image_coords[:,:2] = corners_px
+    
+    return lstsq(world_coords, image_coords)
