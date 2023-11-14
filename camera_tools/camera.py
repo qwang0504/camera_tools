@@ -14,6 +14,10 @@ class Camera(ABC):
         pass
 
     @abstractmethod
+    def get_frame(self) -> Frame:
+        pass
+
+    @abstractmethod
     def set_exposure(self, exp_time: float) -> None:
         pass
 
