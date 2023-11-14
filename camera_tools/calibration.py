@@ -105,16 +105,24 @@ def get_camera_px_per_mm(
     '''
     Place checkerboard where the images will be recorded
     '''
-
+ 
+    # get undistorted checkerboard corner locations
     cam.start_acquisition()
     image, corners_px = get_checkerboard_corners(cam, checkerboard_size, camera_matrix, distortion_coef)
     cam.stop_acquisition()
 
+    # use homogeneous coordinates
     world_coords = np.ones_like(checkerboard_corners_world_coordinates_mm)
     world_coords[:,:2] = checkerboard_corners_world_coordinates_mm[:,:2] 
 
     corners_px = corners_px.squeeze()
     image_coords =  np.ones_like(checkerboard_corners_world_coordinates_mm)
     image_coords[:,:2] = corners_px
-    
-    return lstsq(world_coords, image_coords)
+
+    # least square fit 
+    world_to_image = lstsq(world_coords, image_coords, rcond=None)[0]
+    px_per_mm_X = world_to_image[0,0]
+    px_per_mm_Y = world_to_image[1,1]
+    px_per_mm = (px_per_mm_X + px_per_mm_Y)/2
+
+    return px_per_mm

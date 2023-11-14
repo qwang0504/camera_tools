@@ -13,4 +13,7 @@ objp[:,:2] = np.mgrid[
 cam = OpenCV_Webcam()
 
 mtx, newcameramtx, dist = get_camera_distortion(cam,checker_sz,objp)
-res = get_camera_px_per_mm(cam,checker_sz,objp, newcameramtx, dist)
+px_per_mm = get_camera_px_per_mm(cam,checker_sz,objp, newcameramtx, dist)
+
+# if you do not wish to correct distortion
+px_per_mm = get_camera_px_per_mm(cam,checker_sz,objp, None, None)
