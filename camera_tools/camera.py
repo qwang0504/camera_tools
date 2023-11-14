@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from numpy.typing import NDArray
 from camera_tools.frame import Frame
 from typing import Optional, Tuple
 
