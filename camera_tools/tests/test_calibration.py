@@ -1,14 +1,15 @@
 import numpy as np
 from camera_tools import XimeaCamera, get_camera_distortion, get_camera_px_per_mm
 import pickle
-
-cam = XimeaCamera()
+import matplotlib.pyplot as plt
 
 WIDTH = 1800
 HEIGHT = 1800
 EXPOSURE = 3000
 FPS = 30
 GAIN = 0
+
+cam = XimeaCamera()
 
 # get ROI parameters 
 x_inc = cam.get_offsetX_increment()
@@ -36,8 +37,8 @@ objp[:,:2] = np.mgrid[
     0:checker_sz[1]*square_sz_mm:square_sz_mm
 ].T.reshape(-1,2)
 
-mtx, newcameramtx, dist = get_camera_distortion(cam,checker_sz,objp)
-px_per_mm = get_camera_px_per_mm(cam,checker_sz,objp, newcameramtx, dist)
+mtx, newcameramtx, dist = get_camera_distortion(cam,checker_sz,objp, rescale=0.5)
+px_per_mm = get_camera_px_per_mm(cam,checker_sz,objp, newcameramtx, dist, rescale=0.5)
 
 # if you do not wish to correct distortion
 # px_per_mm = get_camera_px_per_mm(cam,checker_sz,objp, None, None)
@@ -69,8 +70,6 @@ u_radial = x*(np.ones_like(x) + k1*r**2 + k2*r**4 + k3*r**6)
 v_radial = y*(np.ones_like(y) + k1*r**2 + k2*r**4 + k3*r**6)
 u_tangential = x + 2*p1*x*y + p2*(r**2 + 2*x**2)
 v_tangential = y + p1*(r**2 + 2*y**2) + 2*p2*x*y
-
-import matplotlib.pyplot as plt
 
 f, ax = plt.subplots(1,3)
 ax[0].quiver(x,y,u_radial,v_radial)
