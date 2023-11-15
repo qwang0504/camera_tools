@@ -54,7 +54,7 @@ def get_camera_distortion(
         mean_error += error
     print( "total error: {}".format(mean_error/len(world_coords)) )
 
-    return mtx, newcameramtx, dist
+    return mtx, newcameramtx, dist, mean_error
 
 def im2gray(image: NDArray):
     if len(image.shape) > 2:
@@ -121,8 +121,8 @@ def get_camera_px_per_mm(
         cam: Camera,
         checkerboard_size: Tuple[int,int],
         checkerboard_corners_world_coordinates_mm: NDArray,
-        camera_matrix: NDArray, 
-        distortion_coef: NDArray,
+        camera_matrix: Optional[NDArray], 
+        distortion_coef: Optional[NDArray],
         rescale = 1
     ):
     '''

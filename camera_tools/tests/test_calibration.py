@@ -37,8 +37,8 @@ objp[:,:2] = np.mgrid[
     0:checker_sz[1]*square_sz_mm:square_sz_mm
 ].T.reshape(-1,2)
 
-mtx, newcameramtx, dist = get_camera_distortion(cam,checker_sz,objp, rescale=0.5)
-px_per_mm = get_camera_px_per_mm(cam,checker_sz,objp, newcameramtx, dist, rescale=0.5)
+mtx, newcameramtx, dist, mean_error = get_camera_distortion(cam, checker_sz, objp, rescale=0.5)
+px_per_mm = get_camera_px_per_mm(cam, checker_sz, objp, newcameramtx, dist, rescale=0.5)
 
 # if you do not wish to correct distortion
 # px_per_mm = get_camera_px_per_mm(cam,checker_sz,objp, None, None)
@@ -48,6 +48,7 @@ with open('ximea.pkl', 'wb') as f:
         {'camera_matrix': mtx, 
         'new_camera_matrix': newcameramtx, 
         'distortion': dist, 
+        'error': mean_error,
         'px_per_mm': px_per_mm}, 
         f
     )
@@ -58,6 +59,7 @@ with open('ximea.pkl', 'rb') as f:
     newcameramtx = D['new_camera_matrix']
     dist = D['distortion']
     px_per_mm = D['px_per_mm']
+    mean_error = D['error']
 
 # visualize distortion fields
 coords = np.mgrid[0:WIDTH:40, 0:HEIGHT:40]
