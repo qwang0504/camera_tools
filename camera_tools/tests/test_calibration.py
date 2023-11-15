@@ -67,7 +67,6 @@ coords = np.mgrid[0:WIDTH:40.0, 0:HEIGHT:40.0]
 x = coords[0]
 y = coords[1]
 
-
 pts = cv2.undistortPoints(np.array([x.ravel(), y.ravel()]),newcameramtx,dist).squeeze()
 u = pts[:,0].reshape(x.shape)
 v = pts[:,1].reshape(y.shape)
