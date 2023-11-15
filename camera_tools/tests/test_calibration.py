@@ -2,6 +2,7 @@ import numpy as np
 from camera_tools import XimeaCamera, get_camera_distortion, get_camera_px_per_mm
 import pickle
 import matplotlib.pyplot as plt
+import cv2
 
 WIDTH = 1800
 HEIGHT = 1800
@@ -62,22 +63,13 @@ with open('ximea.pkl', 'rb') as f:
     mean_error = D['error']
 
 # visualize distortion fields
-coords = np.mgrid[0:WIDTH:40, 0:HEIGHT:40]
+coords = np.mgrid[0:WIDTH:40.0, 0:HEIGHT:40.0]
 x = coords[0]
 y = coords[1]
-r = np.sqrt((x - WIDTH//2)**2 + (coords[1] - HEIGHT//2)**2)
-k1, k2, p1, p2, k3 = dist[0]
 
-u_radial = x*(np.ones_like(x) + k1*r**2 + k2*r**4 + k3*r**6)
-v_radial = y*(np.ones_like(y) + k1*r**2 + k2*r**4 + k3*r**6)
-u_tangential = x + 2*p1*x*y + p2*(r**2 + 2*x**2)
-v_tangential = y + p1*(r**2 + 2*y**2) + 2*p2*x*y
 
-f, ax = plt.subplots(1,3)
-ax[0].quiver(x,y,u_radial,v_radial)
-ax[0].set_aspect('equal')
-ax[1].quiver(x,y,u_tangential,v_tangential)
-ax[1].set_aspect('equal')
-ax[2].quiver(x,y,u_tangential+u_radial,v_tangential+v_radial)
-ax[2].set_aspect('equal')
+pts = cv2.undistortPoints(np.array([x.ravel(), y.ravel()]),newcameramtx,dist).squeeze()
+u = pts[:,0].reshape(x.shape)
+v = pts[:,1].reshape(y.shape)
+plt.quiver(x,y,u,v, angles='xy', scale_units='xy', scale=1)
 plt.show()
