@@ -9,7 +9,8 @@ def get_camera_distortion(
         cam: Camera, 
         checkerboard_size: Tuple[int,int],
         checkerboard_corners_world_coordinates_mm: NDArray,
-        num_images: int = 10
+        num_images: int = 10,
+        rescale = 1
     ) -> Tuple[NDArray, NDArray, NDArray]:
     '''
     Take picture of a checkerboard pattern with known world coordinates, and 
@@ -28,7 +29,7 @@ def get_camera_distortion(
     world_coords = []
     image_coords = []
     for i in range(num_images):
-        image, corners_px = get_checkerboard_corners(cam, checkerboard_size)
+        image, corners_px = get_checkerboard_corners(cam, checkerboard_size, None, None, rescale)
         world_coords.append(checkerboard_corners_world_coordinates_mm)
         image_coords.append(corners_px)
 
@@ -46,6 +47,13 @@ def get_camera_distortion(
 
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, shp, 0, shp)
 
+    mean_error = 0
+    for i in range(len(world_coords)):
+        image_coords2, _ = cv2.projectPoints(world_coords[i], rvecs[i], tvecs[i], mtx, dist)
+        error = cv2.norm(image_coords[i], image_coords2, cv2.NORM_L2)/len(image_coords2)
+        mean_error += error
+    print( "total error: {}".format(mean_error/len(world_coords)) )
+
     return mtx, newcameramtx, dist
 
 def im2gray(image: NDArray):
@@ -61,7 +69,8 @@ def get_checkerboard_corners(
         cam: Camera,
         checkerboard_size: Tuple[int,int],
         camera_matrix: Optional[NDArray] = None, 
-        distortion_coef: Optional[NDArray] = None
+        distortion_coef: Optional[NDArray] = None,
+        rescale = 1 
     ) -> Tuple[NDArray, NDArray]: 
     '''
     take a picture every one second and tries to find checkerboard corners
@@ -79,7 +88,7 @@ def get_checkerboard_corners(
             image = cv2.undistort(image, camera_matrix, distortion_coef)
 
         # display image, detect corners if y is pressed
-        cv2.imshow('camera', image)
+        cv2.imshow('camera', cv2.resize(image,None,None,rescale,rescale))
         key = cv2.waitKey(33)
 
         if key == ord('y'):
@@ -93,7 +102,7 @@ def get_checkerboard_corners(
                 # show corners
                 image_RGB = np.dstack((image,image,image))
                 cv2.drawChessboardCorners(image_RGB, checkerboard_size, corners_sub, checkerboard_found)
-                cv2.imshow('chessboard', image_RGB)
+                cv2.imshow('chessboard', cv2.resize(image_RGB,None,None,rescale,rescale))
                 key = cv2.waitKey(0)
 
                 # return images and detected corner if y is pressed
@@ -113,7 +122,8 @@ def get_camera_px_per_mm(
         checkerboard_size: Tuple[int,int],
         checkerboard_corners_world_coordinates_mm: NDArray,
         camera_matrix: NDArray, 
-        distortion_coef: NDArray
+        distortion_coef: NDArray,
+        rescale = 1
     ):
     '''
     Place checkerboard where the images will be recorded
@@ -121,7 +131,7 @@ def get_camera_px_per_mm(
  
     # get undistorted checkerboard corner locations
     cam.start_acquisition()
-    image, corners_px = get_checkerboard_corners(cam, checkerboard_size, camera_matrix, distortion_coef)
+    image, corners_px = get_checkerboard_corners(cam, checkerboard_size, camera_matrix, distortion_coef, rescale)
     cam.stop_acquisition()
 
     # use homogeneous coordinates
