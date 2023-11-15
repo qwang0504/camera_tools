@@ -50,3 +50,33 @@ with open('ximea.pkl', 'wb') as f:
         'px_per_mm': px_per_mm}, 
         f
     )
+
+with open('ximea.pkl', 'rb') as f:
+    D = pickle.load(f)
+    mtx = D['camera_matrix']
+    newcameramtx = D['new_camera_matrix']
+    dist = D['distortion']
+    px_per_mm = D['px_per_mm']
+
+# visualize distortion fields
+coords = np.mgrid[0:WIDTH:40, 0:HEIGHT:40]
+x = coords[0]
+y = coords[1]
+r = np.sqrt((x - WIDTH//2)**2 + (coords[1] - HEIGHT//2)**2)
+k1, k2, p1, p2, k3 = dist[0]
+
+u_radial = x*(np.ones_like(x) + k1*r**2 + k2*r**4 + k3*r**6)
+v_radial = y*(np.ones_like(y) + k1*r**2 + k2*r**4 + k3*r**6)
+u_tangential = x + 2*p1*x*y + p2*(r**2 + 2*x**2)
+v_tangential = y + p1*(r**2 + 2*y**2) + 2*p2*x*y
+
+import matplotlib.pyplot as plt
+
+f, ax = plt.subplots(1,3)
+ax[0].quiver(x,y,u_radial,v_radial)
+ax[0].set_aspect('equal')
+ax[1].quiver(x,y,u_tangential,v_tangential)
+ax[1].set_aspect('equal')
+ax[2].quiver(x,y,u_tangential+u_radial,v_tangential+v_radial)
+ax[2].set_aspect('equal')
+plt.show()
