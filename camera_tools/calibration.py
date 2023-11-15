@@ -48,6 +48,15 @@ def get_camera_distortion(
 
     return mtx, newcameramtx, dist
 
+def im2gray(image: NDArray):
+    if len(image.shape) > 2:
+        return image[:,:,0]
+    elif len(image.shape) == 2:
+        return image
+    else:
+        raise RuntimeError('not a valid image')
+     
+
 def get_checkerboard_corners(
         cam: Camera,
         checkerboard_size: Tuple[int,int],
@@ -64,7 +73,7 @@ def get_checkerboard_corners(
     while not checkerboard_found:
         # get image from camera
         frame = cam.get_frame()
-        image = frame.image
+        image = im2gray(frame.image)
 
         if camera_matrix is not None:
             image = cv2.undistort(image, camera_matrix, distortion_coef)
@@ -79,11 +88,12 @@ def get_checkerboard_corners(
 
             if checkerboard_found:
 
-                corners_sub = cv2.cornerSubPix(image[:,:,1], corners, (11,11), (-1,-1), criteria)
+                corners_sub = cv2.cornerSubPix(image, corners, (11,11), (-1,-1), criteria)
 
                 # show corners
-                cv2.drawChessboardCorners(image, checkerboard_size, corners_sub, checkerboard_found)
-                cv2.imshow('chessboard', image)
+                image_RGB = np.dstack((image,image,image))
+                cv2.drawChessboardCorners(image_RGB, checkerboard_size, corners_sub, checkerboard_found)
+                cv2.imshow('chessboard', image_RGB)
                 key = cv2.waitKey(0)
 
                 # return images and detected corner if y is pressed
@@ -124,8 +134,11 @@ def get_camera_px_per_mm(
 
     # least square fit 
     world_to_image = lstsq(world_coords, image_coords, rcond=None)[0]
-    px_per_mm_X = world_to_image[0,0]
-    px_per_mm_Y = world_to_image[1,1]
+
+    # NOTE: the checkerboard has an orientation (topleft is black), 
+    # but we don't care about it so we use the absolute value
+    px_per_mm_X = abs(world_to_image[0,0])
+    px_per_mm_Y = abs(world_to_image[1,1])
     px_per_mm = (px_per_mm_X + px_per_mm_Y)/2
 
     return px_per_mm
