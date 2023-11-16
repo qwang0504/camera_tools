@@ -70,5 +70,12 @@ y = coords[1]
 pts = cv2.undistortImagePoints(np.array([x.ravel(), y.ravel()]),newcameramtx,dist).squeeze()
 u = pts[:,0].reshape(x.shape) - x
 v = pts[:,1].reshape(y.shape) - y
-plt.quiver(x,y,u,v, angles='xy', scale_units='xy', scale=1)
+
+f, ax = plt.subplots(1,2)
+ax[0].quiver(x,y,u,v, angles='xy', scale_units='xy', scale=1)
+ax[0].set_title('real distortion')
+ax[0].set_aspect('equal')
+ax[1].quiver(x,y,u,v, angles='xy', scale_units='xy', scale=1/10)
+ax[1].set_title('10X')
+ax[1].set_aspect('equal')
 plt.show()
