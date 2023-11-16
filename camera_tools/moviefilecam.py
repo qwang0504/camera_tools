@@ -25,7 +25,7 @@ class MovieFileCam(Camera):
         self.reader = cv2.VideoCapture(filename)
 
     def start_acquisition(self) -> None:
-        pass
+        self.reader = cv2.VideoCapture(self.filename)
 
     def stop_acquisition(self) -> None:
         pass
