@@ -68,7 +68,7 @@ x = coords[0]
 y = coords[1]
 
 pts = cv2.undistortImagePoints(np.array([x.ravel(), y.ravel()]),newcameramtx,dist).squeeze()
-u = pts[:,0].reshape(x.shape)
-v = pts[:,1].reshape(y.shape)
+u = pts[:,0].reshape(x.shape) - x
+v = pts[:,1].reshape(y.shape) - y
 plt.quiver(x,y,u,v, angles='xy', scale_units='xy', scale=1)
 plt.show()
