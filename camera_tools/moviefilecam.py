@@ -111,7 +111,7 @@ class MovieFileCam(Camera):
         self.start_acquisition()
         width = self.reader.get(cv2.CAP_PROP_FRAME_WIDTH)    
         self.stop_acquisition()
-        return width
+        return int(width)
 
     def get_width_range(self) -> Optional[int]:
         pass
@@ -126,7 +126,7 @@ class MovieFileCam(Camera):
         self.start_acquisition()
         height = self.reader.get(cv2.CAP_PROP_FRAME_HEIGHT)    
         self.stop_acquisition()
-        return height
+        return int(height)
     
     def get_height_range(self) -> Optional[int]:
         pass
