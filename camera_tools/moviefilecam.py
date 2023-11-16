@@ -22,21 +22,21 @@ class MovieFileCam(Camera):
         if not os.path.isfile(filename):
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), filename)
         self.filename = filename
-        self.reader = cv2.VideoCapture(filename)
+        self.reader = None
 
     def start_acquisition(self) -> None:
-        pass
+        self.reader = cv2.VideoCapture(self.filename)
 
     def stop_acquisition(self) -> None:
-        pass
+        self.reader.release()
 
-    def get_frame(self) -> Frame:
-
-        self.img_count += 1
-        timestamp = time.monotonic() - self.time_start
-        rval, img = self.reader.read()
-        frame = BaseFrame(self.img_count, timestamp, img)
-        return frame
+    def get_frame(self) -> Optional[Frame]:
+        if self.reader is not None:
+            self.img_count += 1
+            timestamp = time.monotonic() - self.time_start
+            rval, img = self.reader.read()
+            frame = BaseFrame(self.img_count, timestamp, img)
+            return frame
     
     def set_exposure(self, exp_time: float) -> None:
         pass
@@ -108,7 +108,10 @@ class MovieFileCam(Camera):
         pass
 
     def get_width(self) -> Optional[int]:
-        pass
+        self.start_acquisition()
+        width = self.reader.get(cv2.CAP_PROP_FRAME_WIDTH)    
+        self.stop_acquisition()
+        return int(width)
 
     def get_width_range(self) -> Optional[int]:
         pass
@@ -120,7 +123,10 @@ class MovieFileCam(Camera):
         pass
     
     def get_height(self) -> Optional[int]:
-        pass    
+        self.start_acquisition()
+        height = self.reader.get(cv2.CAP_PROP_FRAME_HEIGHT)    
+        self.stop_acquisition()
+        return int(height)
     
     def get_height_range(self) -> Optional[int]:
         pass
