@@ -35,10 +35,10 @@ VIDEO_NAME =  os.path.join(FOLDER, PREFIX, PREFIX + '.mp4')
 MONITOR_RATE_HZ = 10
 SLEEP_TIME_S = 0.01
 # experiment design
-DURATION_S = 60*10
+DURATION_S = 60*30
 NUMFRAMES = DURATION_S * FPS
 # pause
-PAUSE_BEFORE = 0
+PAUSE_BEFORE_S = 0
 CQ = 10
 ## ------------------------------------------    
 
@@ -170,8 +170,8 @@ input("""
 Make sure that the IR LED power supply is on.
 Press Enter to start the experiment ...
 """)
-print(f'Waiting {PAUSE_BEFORE}s...')
-time.sleep(PAUSE_BEFORE)      
+print(f'Waiting {PAUSE_BEFORE_S}s...')
+time.sleep(PAUSE_BEFORE_S)      
 print('Experiment starting')
 
 monitor.start()
