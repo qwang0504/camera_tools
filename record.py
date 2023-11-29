@@ -1,4 +1,4 @@
-from multiprocessing import Process
+from multiprocessing import Process, Event
 import os 
 import time
 from datetime import datetime
@@ -15,11 +15,11 @@ from queue import Empty
 DISPLAY_FPS = 30
 DISPLAY_SCALE = 0.5
 # camera parameters
-FPS = 100
-EXPOSURE = 1000
+FPS = 50
+EXPOSURE = 4000
 GAIN = 4.0
-WIDTH  = 1800
-HEIGHT = 1800
+WIDTH  = 2048
+HEIGHT = 2048
 # video recording
 EXP_NUM = 0
 FOLDER = 'data'
@@ -35,7 +35,7 @@ VIDEO_NAME =  os.path.join(FOLDER, PREFIX, PREFIX + '.mp4')
 MONITOR_RATE_HZ = 10
 SLEEP_TIME_S = 0.01
 # experiment design
-DURATION_S = 60*2
+DURATION_S = 60*10
 NUMFRAMES = DURATION_S * FPS
 # pause
 PAUSE_BEFORE = 0
@@ -63,16 +63,16 @@ cam.set_offsetX(OFFSET_X)
 cam.set_offsetY(OFFSET_Y)
 
 # processes
-def monitor_queue_sizes(queue_store, queue_display):
-    while True:
+def monitor_queue_sizes(queue_store, queue_display, stop_event: Event):
+    while not stop_event.is_set():
         start = time.time()
         while time.time() - start < 1/MONITOR_RATE_HZ:
             time.sleep(SLEEP_TIME_S)
         print(f'Storage: {queue_store.qsize()}, Display: {queue_display.qsize()}', flush = True)
 
-def display_image(queue_display):
+def display_image(queue_display, stop_event: Event):
     cv2.namedWindow('display')
-    while True:
+    while not stop_event.is_set():
         try:
             data = queue_display.get()
             frame_small = cv2.resize(data.image, None, None, DISPLAY_SCALE, DISPLAY_SCALE)
@@ -83,7 +83,7 @@ def display_image(queue_display):
             pass
     cv2.destroyAllWindows()
 
-def compress_image_ffmpeg_GPU(queue_store):
+def compress_image_ffmpeg_GPU(queue_store, stop_event: Event):
     ffmpeg_cmd = [
         "ffmpeg",
         "-y",  # Overwrite output file if it exists
@@ -101,7 +101,7 @@ def compress_image_ffmpeg_GPU(queue_store):
     ]
     ffmpeg_process = subprocess.Popen(ffmpeg_cmd, stdin=subprocess.PIPE)
     metadata = []
-    while True:
+    while not stop_event.is_set():
         try:
             data = queue_store.get()
             metadata.append([data.index, data.timestamp])
@@ -116,7 +116,7 @@ def compress_image_ffmpeg_GPU(queue_store):
     ffmpeg_process.stdin.close()
     ffmpeg_process.wait()
 
-def compress_image_ffmpeg_CPU(queue_store):
+def compress_image_ffmpeg_CPU(queue_store, stop_event: Event):
     ffmpeg_cmd = [
         "ffmpeg",
         "-y",  # Overwrite output file if it exists
@@ -134,7 +134,7 @@ def compress_image_ffmpeg_CPU(queue_store):
     ]
     ffmpeg_process = subprocess.Popen(ffmpeg_cmd, stdin=subprocess.PIPE)
     metadata = []
-    while True:
+    while not stop_event.is_set():
         data = queue_store.get()
         if data is None:
             break
@@ -159,10 +159,11 @@ queue_store = Frame_RingBuffer(
     frame_dtype=np.uint8,
     copy = False
 )
+stop = Event()
 
-store = Process(target=compress_image_ffmpeg_GPU, args=(queue_store,))
-display = Process(target=display_image, args=(queue_display,))
-monitor = Process(target=monitor_queue_sizes, args=(queue_store, queue_display))
+store = Process(target=compress_image_ffmpeg_GPU, args=(queue_store,stop))
+display = Process(target=display_image, args=(queue_display,stop))
+monitor = Process(target=monitor_queue_sizes, args=(queue_store, queue_display,stop))
 
 # experiment loop
 input("""
@@ -189,10 +190,9 @@ try:
             queue_display.put(frame)
 finally:
     # send stop signal
-    queue_store.put(None)
-    queue_display.put(None)
+    stop.set()
     cam.stop_acquisition()
     store.join()
     display.join()
-    monitor.terminate()
+    monitor.join()
 
