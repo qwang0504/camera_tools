@@ -7,14 +7,14 @@ from queue import Empty
 
 ## parameters -----------------------------
 # video preview
-DISPLAY_FPS = 60
+DISPLAY_FPS = 30
 DISPLAY_SCALE = 0.5
 # camera parameters
 FPS = 200
 EXPOSURE = 1000
 GAIN = 4.0
-WIDTH  = 1024
-HEIGHT = 1024
+WIDTH  = 2048
+HEIGHT = 2048
 # queue size monitor
 MONITOR_RATE_HZ = 10
 SLEEP_TIME_S = 0.01
@@ -62,21 +62,6 @@ def display_image(queue_display):
 
     cv2.destroyAllWindows()
 
-'''
-queue_display = Frame_RingBuffer(
-    num_items=100,
-    frame_shape=(cam.get_height(),cam.get_width()),
-    frame_dtype=np.uint8
-)
-'''
-
-'''
-queue_display = Frame_RingBuffer(
-    num_items=100,
-    frame_shape=(HEIGHT,WIDTH,3),
-    frame_dtype=np.uint8
-)
-'''
 
 queue_display = Frame_RingBuffer(
     num_items=100,
