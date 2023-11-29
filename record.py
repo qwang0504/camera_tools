@@ -38,7 +38,7 @@ SLEEP_TIME_S = 0.01
 DURATION_S = 60*30
 NUMFRAMES = DURATION_S * FPS
 # pause
-PAUSE_BEFORE_S = 0
+PAUSE_BEFORE_S = 60*10
 CQ = 10
 ## ------------------------------------------    
 
