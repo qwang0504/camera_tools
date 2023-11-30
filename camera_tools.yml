@@ -1,0 +1,12 @@
+name: camera_tools
+channels:
+- conda-forge
+dependencies:
+- python == 3.8.16
+- ipython
+- pip
+- numpy 
+- opencv
+- pip: 
+  - harvesters
+  - v4l2py
