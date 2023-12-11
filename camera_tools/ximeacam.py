@@ -10,6 +10,10 @@ class XimeaCamera(Camera):
 
         super().__init__()
         
+        self.first_frame = True
+        self.first_num = 0
+        self.first_timestamp = 0
+
         # open camera
         self.xi_cam = xiapi.Camera()
         self.xi_cam.open_device()
@@ -152,7 +156,11 @@ class XimeaCamera(Camera):
         ts_sec = self.xi_img.tsSec
         ts_usec = self.xi_img.tsUSec
         timestamp = (ts_sec*1_000_000 +  ts_usec)/1_000_000
-        return BaseFrame(im_num, timestamp, pixeldata)
+        if self.first_frame:
+            self.first_frame = False
+            self.first_num = im_num
+            self.first_timestamp = timestamp
+        return BaseFrame(im_num-self.first_num, timestamp-self.first_timestamp, pixeldata)
 
     def __del__(self):
         if self.xi_cam is not None:
