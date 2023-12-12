@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='camera_tools',
-     python_requires='3.10',
+    python_requires='==3.10',
     author='Martin Privat',
     version='0.1.4',
     packages=['camera_tools','camera_tools.tests'],
