@@ -11,7 +11,7 @@ setup(
     long_description=open('README.md').read(),
     install_requires=[
         "numpy", 
-        "opencv-contrib-python",
+        "opencv-python",
         "harvesters",
         "v4l2py"
     ]
