@@ -42,7 +42,10 @@ class CameraWidget(QWidget):
         WARNING This is compact but a bit terse and introduces dependencies
         in the code. 
         '''
-        setattr(self, attr + '_spinbox', LabeledDoubleSpinBox(self))
+        if attr in ['framerate', 'exposure', 'gain']:
+            setattr(self, attr + '_spinbox', LabeledSliderSpinBox(self))
+        else:
+            setattr(self, attr + '_spinbox', LabeledDoubleSpinBox(self))
         spinbox = getattr(self, attr + '_spinbox')
         spinbox.setText(attr)
         
@@ -71,7 +74,7 @@ class CameraWidget(QWidget):
             value = getattr(self.camera, 'get_' + attr)()
             range = getattr(self.camera, 'get_' + attr + '_range')()
             increment = getattr(self.camera, 'get_' + attr + '_increment')()
-            
+
             if (
                 value is not None 
                 and range is not None
