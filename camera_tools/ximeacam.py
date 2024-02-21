@@ -19,7 +19,14 @@ class XimeaCamera(Camera):
         self.xi_cam.open_device()
         
         # create buffer 
-        self.xi_img = xiapi.Image()        
+        self.xi_img = xiapi.Image()
+
+        self.cam_name = self.xi_cam.get_device_name()
+
+        if (b'MQ' in self.cam_name) or (b'MD' in self.cam_name):
+            self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FRAME_RATE')
+        else:
+            self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FRAME_RATE_LIMIT')        
         
     def start_acquisition(self) -> None:
         self.xi_cam.start_acquisition()
@@ -45,7 +52,10 @@ class XimeaCamera(Camera):
         if fps == 0:
             self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FREE_RUN')
         else:
-            self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FRAME_RATE_LIMIT')
+            if (b'MQ' in self.cam_name) or (b'MD' in self.cam_name):
+                self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FRAME_RATE')
+            else:
+                self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FRAME_RATE_LIMIT')
             self.xi_cam.set_framerate(fps)
 
     def get_framerate(self) -> Optional[float]:
