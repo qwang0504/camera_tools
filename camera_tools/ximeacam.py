@@ -6,16 +6,17 @@ from numpy.typing import NDArray
 
 class XimeaCamera(Camera):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, dev_id: int = 0, *args, **kwargs):
 
-        super().__init__()
+        super().__init__(*args, **kwargs)
         
+        self.dev_id = dev_id
         self.first_frame = True
         self.first_num = 0
         self.first_timestamp = 0
 
         # open camera
-        self.xi_cam = xiapi.Camera()
+        self.xi_cam = xiapi.Camera(dev_id)
         self.xi_cam.open_device()
         
         # create buffer 
@@ -84,26 +85,22 @@ class XimeaCamera(Camera):
         return self.xi_cam.get_gain_increment()
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
-        
-        # Ximea camera restricts the ROI to be some integer multiples 
-        x_inc = self.xi_cam.get_offsetX_increment()
-        y_inc = self.xi_cam.get_offsetY_increment()
-        max_width = self.xi_cam.get_offsetX_maximum()+self.xi_cam.get_width_maximum()
-        max_height = self.xi_cam.get_offsetY_maximum()+self.xi_cam.get_height_maximum()
-        
-        # TODO check that ROI is valid 
-
-        self.xi_cam.set_width(width)
-        self.xi_cam.set_height(height)
-        self.xi_cam.set_offsetX(left)
-        self.xi_cam.set_offsetY(bottom)
+        try:
+            self.xi_cam.set_width(width)
+            self.xi_cam.set_height(height)
+            self.xi_cam.set_offsetX(left)
+            self.xi_cam.set_offsetY(bottom)
+        except xiapi.Xi_error:
+            pass
 
     def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
         pass
 
     def set_offsetX(self, offsetX: int) -> None:
-        # TODO check that value is valid
-        self.xi_cam.set_offsetX(offsetX)
+        try:
+            self.xi_cam.set_offsetX(offsetX)
+        except xiapi.Xi_error:
+            pass
 
     def get_offsetX(self) -> Optional[int]:
         return self.xi_cam.get_offsetX()
@@ -117,8 +114,10 @@ class XimeaCamera(Camera):
         return self.xi_cam.get_offsetX_increment()
 
     def set_offsetY(self, offsetY: int) -> None:
-        # TODO check that value is valid
-        self.xi_cam.set_offsetY(offsetY)
+        try:
+            self.xi_cam.set_offsetY(offsetY)
+        except xiapi.Xi_error:
+            pass
 
     def get_offsetY(self) -> Optional[int]:
         return self.xi_cam.get_offsetY()
@@ -132,7 +131,10 @@ class XimeaCamera(Camera):
         return self.xi_cam.get_offsetY_increment()
 
     def set_width(self, width: int) -> None:
-        self.xi_cam.set_width(width)
+        try:
+            self.xi_cam.set_width(width)
+        except xiapi.Xi_error:
+            pass
 
     def get_width(self) -> Optional[int]:
         return self.xi_cam.get_width()
@@ -146,8 +148,11 @@ class XimeaCamera(Camera):
         return self.xi_cam.get_width_increment()
 
     def set_height(self, height) -> None:
-        self.xi_cam.set_height(height)
-    
+        try:
+            self.xi_cam.set_height(height)
+        except xiapi.Xi_error:
+                pass
+        
     def get_height(self) -> Optional[int]:
         return self.xi_cam.get_height()    
     
