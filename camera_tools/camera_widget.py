@@ -157,7 +157,7 @@ class CameraWidget(QWidget):
         # I should probably send frames from outside (with a queue or something)
         # and use the class only to control camera features.
 
-        # NOTE I should be able to flush the queue when I change parameters 
+        # NOTE I should be able to flush the queue when I change parameters.
 
         if self.acquisition_started:
             frame = self.camera.get_frame()
