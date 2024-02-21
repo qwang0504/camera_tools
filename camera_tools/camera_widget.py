@@ -2,7 +2,7 @@
 
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QGroupBox
-from qt_widgets import LabeledDoubleSpinBox, LabeledSliderSpinBox, NDarray_to_QPixmap
+from qt_widgets import LabeledDoubleSpinBox, LabeledSliderDoubleSpinBox, NDarray_to_QPixmap
 from camera_tools.camera import Camera
 #from ipc_tools import QueueLike
 
@@ -43,7 +43,7 @@ class CameraWidget(QWidget):
         in the code. 
         '''
         if attr in ['framerate', 'exposure', 'gain']:
-            setattr(self, attr + '_spinbox', LabeledSliderSpinBox(self))
+            setattr(self, attr + '_spinbox', LabeledSliderDoubleSpinBox(self))
         else:
             setattr(self, attr + '_spinbox', LabeledDoubleSpinBox(self))
         spinbox = getattr(self, attr + '_spinbox')
@@ -65,7 +65,7 @@ class CameraWidget(QWidget):
             spinbox.setDisabled(True)
 
         callback = getattr(self, 'set_' + attr)
-        spinbox.valueChanged.connect(callback)
+        spinbox.editingFinished.connect(callback)
 
     def update_values(self):
 
