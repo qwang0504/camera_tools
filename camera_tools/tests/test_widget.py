@@ -1,11 +1,8 @@
 import sys
 from PyQt5.QtWidgets import QApplication
 from camera_tools import (
-    CameraWidget, OpenCV_Webcam, ZeroCam, 
-    RandomCam, MovieFileCam, V4L2_Webcam,
-    XimeaCamera
+    CameraWidget, XimeaCamera
 )
-import numpy as np
 
 #cam = MovieFileCam('/home/martin/Downloads/19-40-44.avi')
 #cam = OpenCV_Webcam()
