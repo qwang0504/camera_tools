@@ -206,10 +206,12 @@ class CameraControl(QWidget):
         self.camera.set_height(int(self.height_spinbox.value()))
         self.update_values()
 
-class CameraPreview:
+class CameraPreview(QWidget):
 
-    def __init__(self, camera_control: CameraControl) -> None:
+    def __init__(self, camera_control: CameraControl, *args, **kwargs) -> None:
         
+        super().__init__(*args, **kwargs)
+
         self.camera_control = camera_control
         self.image_label = QLabel()
         self.camera_control.sender.emitter.image_ready.connect(self.update_image)
@@ -223,7 +225,7 @@ class CameraPreview:
         
 
 class CameraWidget(QWidget):
-    # Old class
+    # Old class with QTimer
 
     def __init__(self, camera: Camera, *args, **kwargs):
 
