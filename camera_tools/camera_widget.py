@@ -17,7 +17,8 @@ class FrameSender(QRunnable):
     def __init__(self, camera: Camera, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
-        self.camera = Camera
+
+        self.camera = camera
         self.signal = FrameSignal()
         self.acquisition_started = False
         self.keepgoing = True
@@ -101,7 +102,7 @@ class CameraControl(QWidget):
             spinbox.setDisabled(True)
 
         callback = getattr(self, 'set_' + attr)
-        spinbox.editingFinished.connect(callback)
+        spinbox.valueChanged.connect(callback)
 
     def update_values(self):
 
@@ -286,7 +287,7 @@ class CameraWidget(QWidget):
             spinbox.setDisabled(True)
 
         callback = getattr(self, 'set_' + attr)
-        spinbox.editingFinished.connect(callback)
+        spinbox.valueChanged.connect(callback)
 
     def update_values(self):
 

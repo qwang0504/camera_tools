@@ -1,8 +1,9 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from camera_tools import (
-    CameraWidget, XimeaCamera, Camera
+    CameraWidget, Camera, RandomCam
 )
+import numpy as np
 
 #cam = MovieFileCam('/home/martin/Downloads/19-40-44.avi')
 #cam = OpenCV_Webcam()
@@ -18,7 +19,8 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.camera_widget)
 
 if __name__ == '__main__':
-    cam = XimeaCamera()
+    #cam = XimeaCamera()
+    cam = RandomCam(shape=(512,512), dtype=np.uint8)
     app = QApplication(sys.argv)
     window = MainWindow(cam)
     window.show()

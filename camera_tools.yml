@@ -11,3 +11,4 @@ dependencies:
 - pip: 
   - harvesters
   - v4l2py
+  - git+https://github.com/ElTinmar/qt_widgets.git@main
