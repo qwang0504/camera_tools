@@ -9,7 +9,7 @@ import numpy as np
 # TODO show camera FPS, display FPS, and camera statistics in status bar
 # TODO subclass CameraWidget for camera with specifi controls
 
-class Emitter(QObject):
+class FrameSignal(QObject):
     image_ready = pyqtSignal(Frame)
 
 class FrameSender(QRunnable):
@@ -18,7 +18,7 @@ class FrameSender(QRunnable):
 
         super().__init__(*args, **kwargs)
         self.camera = Camera
-        self.emitter = Emitter()
+        self.signal = FrameSignal()
         self.acquisition_started = False
         self.keepgoing = True
 
@@ -35,7 +35,7 @@ class FrameSender(QRunnable):
         while self.keepgoing:
             if self.acquisition_started:
                 frame = self.camera.get_frame()
-                self.emitter.image_ready.emit(frame)
+                self.signal.image_ready.emit(frame)
 
 class CameraControl(QWidget):
 
@@ -48,8 +48,8 @@ class CameraControl(QWidget):
         self.camera = camera
 
         self.sender = FrameSender(camera)
-        # this is breaking encapsuation a bit 
-        self.sender.emitter.image_ready.connect(self.image_ready)
+        # this is breaking encapsulation a bit 
+        self.sender.signal.image_ready.connect(self.image_ready)
 
         self.thread_pool = QThreadPool()
         self.thread_pool.start(self.sender)
