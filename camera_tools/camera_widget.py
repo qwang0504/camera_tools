@@ -39,6 +39,8 @@ class FrameSender(QRunnable):
 
 class CameraControl(QWidget):
 
+    image_ready = pyqtSignal(Frame)
+
     def __init__(self, camera: Camera, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
@@ -46,6 +48,9 @@ class CameraControl(QWidget):
         self.camera = camera
 
         self.sender = FrameSender(camera)
+        # this is breaking encapsuation a bit 
+        self.sender.emitter.image_ready.connect(self.image_ready)
+
         self.thread_pool = QThreadPool()
         self.thread_pool.start(self.sender)
 
@@ -212,9 +217,10 @@ class CameraPreview(QWidget):
         
         super().__init__(*args, **kwargs)
 
-        self.camera_control = camera_control
         self.image_label = QLabel()
-        self.camera_control.sender.emitter.image_ready.connect(self.update_image)
+
+        self.camera_control = camera_control
+        self.camera_control.image_ready.connect(self.update_image)
 
         layout = QHBoxLayout(self)
         layout.addWidget(self.image_label)
