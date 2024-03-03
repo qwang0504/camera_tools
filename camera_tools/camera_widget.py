@@ -1,10 +1,9 @@
 # TODO record to file ?
 
-from PyQt5.QtCore import QTimer, pyqtSignal, pyqtSlot, QRunnable, QThreadPool, QObject
+from PyQt5.QtCore import QTimer, pyqtSignal, QRunnable, QThreadPool, QObject
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QGroupBox
 from qt_widgets import LabeledDoubleSpinBox, LabeledSliderDoubleSpinBox, NDarray_to_QPixmap
 from camera_tools import Camera, Frame
-import numpy as np
 
 # TODO show camera FPS, display FPS, and camera statistics in status bar
 # TODO subclass CameraWidget for camera with specifi controls
@@ -180,8 +179,8 @@ class CameraControl(QWidget):
             
     def stop_acquisition(self):
         if self.acquisition_started:
-            self.camera.stop_acquisition()
             self.sender.stop_acquisition()
+            self.camera.stop_acquisition()
             self.acquisition_started = False
 
     def set_exposure(self):
