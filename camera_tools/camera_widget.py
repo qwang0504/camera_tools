@@ -4,12 +4,13 @@ from PyQt5.QtCore import QTimer, pyqtSignal, QRunnable, QThreadPool, QObject
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QGroupBox
 from qt_widgets import LabeledDoubleSpinBox, LabeledSliderDoubleSpinBox, NDarray_to_QPixmap
 from camera_tools import Camera, Frame
+import numpy as np
 
 # TODO show camera FPS, display FPS, and camera statistics in status bar
 # TODO subclass CameraWidget for camera with specifi controls
 
 class FrameSignal(QObject):
-    image_ready = pyqtSignal(Frame)
+    image_ready = pyqtSignal(np.ndarray)
 
 class FrameSender(QRunnable):
 
@@ -35,11 +36,11 @@ class FrameSender(QRunnable):
         while self.keepgoing:
             if self.acquisition_started:
                 frame = self.camera.get_frame()
-                self.signal.image_ready.emit(frame)
+                self.signal.image_ready.emit(frame.image)
 
 class CameraControl(QWidget):
 
-    image_ready = pyqtSignal(Frame)
+    image_ready = pyqtSignal(np.ndarray)
 
     def __init__(self, camera: Camera, *args, **kwargs):
 
