@@ -36,7 +36,8 @@ class FrameSender(QRunnable):
         while self.keepgoing:
             if self.acquisition_started:
                 frame = self.camera.get_frame()
-                self.signal.image_ready.emit(frame.image)
+                if frame is not None:
+                    self.signal.image_ready.emit(frame.image)
 
 class CameraControl(QWidget):
 
