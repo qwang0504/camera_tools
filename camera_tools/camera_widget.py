@@ -228,8 +228,8 @@ class CameraPreview(QWidget):
         layout.addWidget(self.image_label)
         layout.addWidget(self.camera_control)
 
-    def update_image(self, frame: Frame):
-        self.image_label.setPixmap(NDarray_to_QPixmap(frame.image))
+    def update_image(self, image: np.ndarray):
+        self.image_label.setPixmap(NDarray_to_QPixmap(image))
         
 
 class CameraWidget(QWidget):
