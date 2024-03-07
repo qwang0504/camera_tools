@@ -170,7 +170,7 @@ class CameraControl(QWidget):
     # Callbacks --------------------------------------------------------- 
 
     def closeEvent(self, event):
-        self.sender.stop_acquisition()
+        self.sender.terminate()
         self.stop_acquisition()
 
     def start_acquisition(self):
