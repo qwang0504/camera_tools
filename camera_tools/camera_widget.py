@@ -11,7 +11,8 @@ import numpy as np
 
 class FrameSignal(QObject):
     image_ready = pyqtSignal(np.ndarray)
-
+    
+# TODO do the same using a MP_Queue/RingBuffer/ZMQ instead
 class FrameSender(QRunnable):
 
     def __init__(self, camera: Camera, *args, **kwargs):
