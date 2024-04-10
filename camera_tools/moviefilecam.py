@@ -148,8 +148,8 @@ class BufferedMovieFileCam(Camera):
             filename: str, 
             memsize_bytes: int = 4e9, 
             safe: bool = False,
-            single_precision: bool = True, 
-            grayscale: bool = True,
+            single_precision: bool = False, 
+            grayscale: bool = False,
             *args, **kwargs):
 
         super().__init__(*args, **kwargs)
