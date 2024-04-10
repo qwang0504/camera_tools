@@ -180,7 +180,7 @@ class BufferedMovieFileCam(Camera):
     def get_frame(self) -> Optional[Frame]:
         if self.reader is not None:
             self.img_count += 1
-            rval, img = self.reader.read()
+            rval, img = self.reader.next_frame()
             frame = BaseFrame(self.img_count, time.perf_counter(), img)
             return frame
     
@@ -200,7 +200,7 @@ class BufferedMovieFileCam(Camera):
         pass
     
     def get_framerate(self) -> Optional[float]:
-        pass
+        return self.reader.get_fps()
 
     def get_framerate_range(self) -> Optional[Tuple[float,float]]:
         pass
@@ -254,10 +254,7 @@ class BufferedMovieFileCam(Camera):
         pass
 
     def get_width(self) -> Optional[int]:
-        self.start_acquisition()
-        width = self.reader.get(cv2.CAP_PROP_FRAME_WIDTH)    
-        self.stop_acquisition()
-        return int(width)
+        return self.reader.get_width()
 
     def get_width_range(self) -> Optional[int]:
         pass
@@ -269,10 +266,7 @@ class BufferedMovieFileCam(Camera):
         pass
     
     def get_height(self) -> Optional[int]:
-        self.start_acquisition()
-        height = self.reader.get(cv2.CAP_PROP_FRAME_HEIGHT)    
-        self.stop_acquisition()
-        return int(height)
+        return self.reader.get_height()
     
     def get_height_range(self) -> Optional[int]:
         pass
@@ -287,7 +281,7 @@ class BufferedMovieFileCam(Camera):
         pass
 
     def get_num_channels(self) -> Optional[int]:
-        pass
+        return self.reader.get_num_channels()
 
     def set_num_channels(self, num_channels: int) -> None:
         pass
