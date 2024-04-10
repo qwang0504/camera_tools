@@ -232,6 +232,8 @@ class CameraPreview(QWidget):
     def update_image(self, image: np.ndarray):
         self.image_label.setPixmap(NDarray_to_QPixmap(image))
         
+    def closeEvent(self, event):
+        self.camera_control.close() 
 
 class CameraWidget(QWidget):
     # Old class with QTimer
