@@ -1,6 +1,6 @@
 from camera_tools.camera import Camera
 from camera_tools.frame import BaseFrame, Frame
-from video_tools import InMemory_OpenCV_VideoReader
+from video_tools import InMemory_OpenCV_VideoReader, get_video_info
 import time
 import numpy as np
 from numpy.typing import NDArray
@@ -158,6 +158,12 @@ class BufferedMovieFileCam(Camera):
         if not os.path.isfile(filename):
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), filename)
         
+        info = get_video_info(filename, safe)
+        self.height = info["height"]
+        self.width = info["width"]
+        self.num_channels = info["num_channels"]
+        self.fps = info["fps"]
+
         self.filename = filename
         self.memsize_bytes = memsize_bytes
         self.safe = safe
@@ -200,8 +206,8 @@ class BufferedMovieFileCam(Camera):
         pass
     
     def get_framerate(self) -> Optional[float]:
-        return self.reader.get_fps()
-
+        return self.fps
+    
     def get_framerate_range(self) -> Optional[Tuple[float,float]]:
         pass
 
@@ -254,7 +260,7 @@ class BufferedMovieFileCam(Camera):
         pass
 
     def get_width(self) -> Optional[int]:
-        return self.reader.get_width()
+        return self.width
 
     def get_width_range(self) -> Optional[int]:
         pass
@@ -266,7 +272,7 @@ class BufferedMovieFileCam(Camera):
         pass
     
     def get_height(self) -> Optional[int]:
-        return self.reader.get_height()
+        return self.height
     
     def get_height_range(self) -> Optional[int]:
         pass
@@ -281,7 +287,7 @@ class BufferedMovieFileCam(Camera):
         pass
 
     def get_num_channels(self) -> Optional[int]:
-        return self.reader.get_num_channels()
+        return self.num_channels
 
     def set_num_channels(self, num_channels: int) -> None:
         pass
