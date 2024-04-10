@@ -1,5 +1,6 @@
 from camera_tools.camera import Camera
 from camera_tools.frame import BaseFrame, Frame
+from video_tools import InMemory_OpenCV_VideoReader
 import time
 import numpy as np
 from numpy.typing import NDArray
