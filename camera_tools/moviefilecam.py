@@ -29,7 +29,7 @@ class MovieFileCam(Camera):
         self.reader = cv2.VideoCapture(self.filename)
 
     def stop_acquisition(self) -> None:
-        self.reader.release()
+        self.reader.close()
 
     def get_frame(self) -> Optional[Frame]:
         if self.reader is not None:
