@@ -185,10 +185,11 @@ class BufferedMovieFileCam(Camera):
 
     def get_frame(self) -> Optional[Frame]:
         if self.reader is not None:
-            self.img_count += 1
             rval, img = self.reader.next_frame()
-            frame = BaseFrame(self.img_count, time.perf_counter(), img)
-            return frame
+            if rval:
+                self.img_count += 1
+                frame = BaseFrame(self.img_count, time.perf_counter(), img)
+                return frame
     
     def set_exposure(self, exp_time: float) -> None:
         pass
