@@ -144,12 +144,10 @@ def get_camera_px_per_mm(
 
     # least square fit 
     print(world_coords, image_coords)
-    world_to_image = lstsq(world_coords, image_coords, rcond=None)[0]
+    world_to_image = np.transpose(lstsq(world_coords, image_coords, rcond=None)[0])
 
     # NOTE: the checkerboard has an orientation (topleft is black), 
     # but we don't care about it so we use the absolute value
-    px_per_mm_X = abs(world_to_image[0,0])
-    px_per_mm_Y = abs(world_to_image[1,1])
-    px_per_mm = (px_per_mm_X + px_per_mm_Y)/2
+    px_per_mm = np.sqrt(world_to_image[0,0]**2 + world_to_image[1,0]**2)
             
     return px_per_mm
