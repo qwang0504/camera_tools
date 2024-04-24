@@ -150,5 +150,6 @@ def get_camera_px_per_mm(
     px_per_mm_X = abs(world_to_image[0,0])
     px_per_mm_Y = abs(world_to_image[1,1])
     px_per_mm = (px_per_mm_X + px_per_mm_Y)/2
-
+    print(px_per_mm_X, px_per_mm_Y, px_per_mm)
+            
     return px_per_mm
