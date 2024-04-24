@@ -143,6 +143,7 @@ def get_camera_px_per_mm(
     image_coords[:,:2] = corners_px
 
     # least square fit 
+    print(world_coords, image_coords)
     world_to_image = lstsq(world_coords, image_coords, rcond=None)[0]
 
     # NOTE: the checkerboard has an orientation (topleft is black), 
@@ -150,6 +151,5 @@ def get_camera_px_per_mm(
     px_per_mm_X = abs(world_to_image[0,0])
     px_per_mm_Y = abs(world_to_image[1,1])
     px_per_mm = (px_per_mm_X + px_per_mm_Y)/2
-    print(px_per_mm_X, px_per_mm_Y, px_per_mm)
             
     return px_per_mm
