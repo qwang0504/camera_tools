@@ -108,7 +108,7 @@ def get_checkerboard_corners(
                 # return images and detected corner if y is pressed
                 if key == ord('y'):
                     cv2.destroyAllWindows()
-                    return image, corners
+                    return image, corners_sub
                 else:
                     cv2.destroyWindow('chessboard')
                     checkerboard_found = False
