@@ -143,7 +143,6 @@ def get_camera_px_per_mm(
     image_coords[:,:2] = corners_px
 
     # least square fit 
-    print(world_coords, image_coords)
     world_to_image = np.transpose(lstsq(world_coords, image_coords, rcond=None)[0])
 
     # NOTE: the checkerboard has an orientation (topleft is black), 
