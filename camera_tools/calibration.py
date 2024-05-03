@@ -93,7 +93,7 @@ def get_checkerboard_corners(
 
         if key == ord('y'):
 
-            checkerboard_found, corners = cv2.findChessboardCorners(image, checkerboard_size)
+            checkerboard_found, corners = cv2.findChessboardCorners(image, checkerboard_size, None)
 
             if checkerboard_found:
 
@@ -108,7 +108,7 @@ def get_checkerboard_corners(
                 # return images and detected corner if y is pressed
                 if key == ord('y'):
                     cv2.destroyAllWindows()
-                    return image, corners
+                    return image, corners_sub
                 else:
                     cv2.destroyWindow('chessboard')
                     checkerboard_found = False
@@ -143,12 +143,10 @@ def get_camera_px_per_mm(
     image_coords[:,:2] = corners_px
 
     # least square fit 
-    world_to_image = lstsq(world_coords, image_coords, rcond=None)[0]
+    world_to_image = np.transpose(lstsq(world_coords, image_coords, rcond=None)[0])
 
     # NOTE: the checkerboard has an orientation (topleft is black), 
     # but we don't care about it so we use the absolute value
-    px_per_mm_X = abs(world_to_image[0,0])
-    px_per_mm_Y = abs(world_to_image[1,1])
-    px_per_mm = (px_per_mm_X + px_per_mm_Y)/2
-
+    px_per_mm = np.sqrt(world_to_image[0,0]**2 + world_to_image[1,0]**2)
+            
     return px_per_mm
