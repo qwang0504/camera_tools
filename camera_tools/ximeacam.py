@@ -32,8 +32,10 @@ class XimeaCamera(Camera):
         # disable image processing on image reception
         self.xi_cam.set_imgdataformat('XI_FRM_TRANSPORT_DATA') 
 
+        self.xi_cam.set_buffer_policy('XI_BP_SAFE') 
+
         # change buffer policy to avoid data copy
-        self.xi_cam.set_buffer_policy('XI_BP_UNSAFE') 
+        #self.xi_cam.set_buffer_policy('XI_BP_UNSAFE') 
         
     def start_acquisition(self) -> None:
         self.xi_cam.start_acquisition()
