@@ -34,6 +34,8 @@ class XimeaCamera(Camera):
 
         # change buffer policy to avoid data copy
         #self.xi_cam.set_buffer_policy('XI_BP_UNSAFE') 
+        # this will probably require manual buffer management and a function
+        # like get_frame(self, buffer) 
         
     def start_acquisition(self) -> None:
         self.xi_cam.start_acquisition()
