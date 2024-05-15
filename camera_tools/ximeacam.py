@@ -33,7 +33,7 @@ class XimeaCamera(Camera):
         self.xi_cam.set_imgdataformat('XI_FRM_TRANSPORT_DATA') 
 
         # change buffer policy to avoid data copy
-        self.xi_cam.set_buffer_policy(xiapi.XI_BP['XI_BP_UNSAFE']) 
+        self.xi_cam.set_buffer_policy('XI_BP_UNSAFE') 
         
     def start_acquisition(self) -> None:
         self.xi_cam.start_acquisition()
