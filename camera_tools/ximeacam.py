@@ -30,7 +30,7 @@ class XimeaCamera(Camera):
             self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FRAME_RATE_LIMIT')        
 
         # disable image processing on image reception
-        self.xi_cam.set_imgdataformat(xiapi.XI_IMG_FORMAT['XI_FRM_TRANSPORT_DATA']) 
+        self.xi_cam.set_imgdataformat('XI_FRM_TRANSPORT_DATA') 
 
         # change buffer policy to avoid data copy
         self.xi_cam.set_buffer_policy(xiapi.XI_BP['XI_BP_UNSAFE']) 
