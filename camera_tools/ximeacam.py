@@ -95,10 +95,10 @@ class XimeaCamera(Camera):
 
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         try:
-            self.xi_cam.set_width(width)
-            self.xi_cam.set_height(height)
-            self.xi_cam.set_offsetX(left)
-            self.xi_cam.set_offsetY(bottom)
+            self.xi_cam.set_width(int(width))
+            self.xi_cam.set_height(int(height))
+            self.xi_cam.set_offsetX(int(left))
+            self.xi_cam.set_offsetY(int(bottom))
         except xiapi.Xi_error:
             pass
 
@@ -107,7 +107,7 @@ class XimeaCamera(Camera):
 
     def set_offsetX(self, offsetX: int) -> None:
         try:
-            self.xi_cam.set_offsetX(offsetX)
+            self.xi_cam.set_offsetX(int(offsetX))
         except xiapi.Xi_error:
             pass
 
@@ -124,7 +124,7 @@ class XimeaCamera(Camera):
 
     def set_offsetY(self, offsetY: int) -> None:
         try:
-            self.xi_cam.set_offsetY(offsetY)
+            self.xi_cam.set_offsetY(int(offsetY))
         except xiapi.Xi_error:
             pass
 
@@ -141,7 +141,7 @@ class XimeaCamera(Camera):
 
     def set_width(self, width: int) -> None:
         try:
-            self.xi_cam.set_width(width)
+            self.xi_cam.set_width(int(width))
         except xiapi.Xi_error:
             pass
 
@@ -158,7 +158,7 @@ class XimeaCamera(Camera):
 
     def set_height(self, height: int) -> None:
         try:
-            self.xi_cam.set_height(height)
+            self.xi_cam.set_height(int(height))
         except xiapi.Xi_error:
                 pass
         
