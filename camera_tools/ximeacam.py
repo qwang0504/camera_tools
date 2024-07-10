@@ -156,7 +156,7 @@ class XimeaCamera(Camera):
     def get_width_increment(self) -> Optional[int]:
         return self.xi_cam.get_width_increment()
 
-    def set_height(self, height) -> None:
+    def set_height(self, height: int) -> None:
         try:
             self.xi_cam.set_height(height)
         except xiapi.Xi_error:
