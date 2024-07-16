@@ -40,6 +40,7 @@ class MovieFileCam(Camera):
             timestamp = time.monotonic() - self.time_start
             while timestamp - self.prev_time < 1/self.fps:
                 time.sleep(0.005)
+                timestamp = time.monotonic() - self.time_start
             self.prev_time = timestamp
             frame = BaseFrame(self.img_count, timestamp, img)
             return frame
