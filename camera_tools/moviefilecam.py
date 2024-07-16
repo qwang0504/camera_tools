@@ -14,7 +14,7 @@ class MovieFileCam(Camera):
     Reads video from file
     """
 
-    def __init__(self, filename: str, *args, **kwargs):
+    def __init__(self, filename: str, fps:int = 60, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
 
@@ -24,6 +24,8 @@ class MovieFileCam(Camera):
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), filename)
         self.filename = filename
         self.reader = None
+        self.fps = fps
+        self.prev_time = 0
 
     def start_acquisition(self) -> None:
         self.reader = cv2.VideoCapture(self.filename)
@@ -34,8 +36,11 @@ class MovieFileCam(Camera):
     def get_frame(self) -> Optional[Frame]:
         if self.reader is not None:
             self.img_count += 1
-            timestamp = time.monotonic() - self.time_start
             rval, img = self.reader.read()
+            timestamp = time.monotonic() - self.time_start
+            while timestamp - self.prev_time < 1/self.fps:
+                time.sleep(0.005)
+            self.prev_time = timestamp
             frame = BaseFrame(self.img_count, timestamp, img)
             return frame
     
@@ -52,10 +57,10 @@ class MovieFileCam(Camera):
         pass
 
     def set_framerate(self, fps: float) -> None:
-        pass
+        self.fps = fps
     
     def get_framerate(self) -> Optional[float]:
-        pass
+        return self.fps
 
     def get_framerate_range(self) -> Optional[Tuple[float,float]]:
         pass
