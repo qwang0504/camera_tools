@@ -93,7 +93,7 @@ def get_checkerboard_corners(
 
         if key == ord('y'):
 
-            checkerboard_found, corners = cv2.findChessboardCorners(image, checkerboard_size, None)
+            checkerboard_found, corners = cv2.findChessboardCorners(image, checkerboard_size, flags=cv2.CALIB_CB_PLAIN)
 
             if checkerboard_found:
 
