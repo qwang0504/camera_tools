@@ -94,12 +94,11 @@ def get_checkerboard_corners(
         key = cv2.waitKey(1)
 
         if key == ord('y'):
-
-            checkerboard_found, corners = cv2.findChessboardCorners(image_bw, checkerboard_size, flags=cv2.CALIB_CB_PLAIN)
+            
+            flags = cv2.CALIB_CB_FAST_CHECK 
+            checkerboard_found, corners_sub = cv2.findChessboardCornersSB(image_bw, checkerboard_size, flags=flags)
 
             if checkerboard_found:
-
-                corners_sub = cv2.cornerSubPix(image, corners, (11,11), (-1,-1), criteria)
 
                 # show corners
                 image_RGB = np.dstack((image,image,image))
