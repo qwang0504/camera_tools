@@ -87,6 +87,11 @@ def get_checkerboard_corners(
         if camera_matrix is not None:
             image = cv2.undistort(image, camera_matrix, distortion_coef)
 
+        #try downsizing
+        height = 512
+        width = int(image.shape[1] * height/image.shape[0])
+        image_small = cv2.resize(image, (width,height), interpolation=cv2.INTER_AREA)
+
         # display image, detect corners if y is pressed
         cv2.imshow('camera', cv2.resize(image,None,None,rescale,rescale))
         key = cv2.waitKey(1)
@@ -94,12 +99,12 @@ def get_checkerboard_corners(
         if key == ord('y'):
             
             flags = cv2.CALIB_CB_ACCURACY  
-            checkerboard_found, corners_sub = cv2.findChessboardCornersSB(image, checkerboard_size, flags=flags)
+            checkerboard_found, corners_sub = cv2.findChessboardCornersSB(image_small, checkerboard_size, flags=flags)
 
             if checkerboard_found:
 
                 # show corners
-                image_RGB = np.dstack((image,image,image))
+                image_RGB = np.dstack((image_small,image_small,image_small))
                 cv2.drawChessboardCorners(image_RGB, checkerboard_size, corners_sub, checkerboard_found)
                 cv2.imshow('chessboard', cv2.resize(image_RGB,None,None,rescale,rescale))
                 key = cv2.waitKey(0)
@@ -107,7 +112,7 @@ def get_checkerboard_corners(
                 # return images and detected corner if y is pressed
                 if key == ord('y'):
                     cv2.destroyAllWindows()
-                    return image, corners_sub
+                    return image, np.array(corners_sub)*image.shape[0]/height
                 else:
                     cv2.destroyWindow('chessboard')
                     checkerboard_found = False
