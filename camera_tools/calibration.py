@@ -87,7 +87,7 @@ def get_checkerboard_corners(
         if camera_matrix is not None:
             image = cv2.undistort(image, camera_matrix, distortion_coef)
 
-        image_bw, thresh = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        ret, image_bw = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
         # display image, detect corners if y is pressed
         cv2.imshow('camera', cv2.resize(image_bw,None,None,rescale,rescale))
