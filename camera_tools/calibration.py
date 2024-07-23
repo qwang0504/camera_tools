@@ -20,8 +20,6 @@ def get_camera_distortion(
     Otherwise, if there is no border and the background is dark, 
     the outer black squares cannot be segmented properly and so 
     the square grouping and ordering algorithm fails.
-    Camera settings must be preadjusted for best detection.
-    You need to take at least 10 images and move the checkerboard pattern around
     '''
     
     cam.start_acquisition()
