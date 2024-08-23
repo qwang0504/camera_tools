@@ -71,7 +71,7 @@ def get_checkerboard_corners(
         camera_matrix: Optional[NDArray] = None, 
         distortion_coef: Optional[NDArray] = None,
         max_retry: int = 5
-    ) -> Tuple[NDArray, NDArray]: 
+    ) -> Optional[Tuple[NDArray, NDArray]]: 
     '''
     take a picture every one second and tries to find checkerboard corners
     '''
