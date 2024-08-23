@@ -120,8 +120,8 @@ def get_checkerboard_corners(
                     checkerboard_found = False
             
             else:
-                print(f'checkerboard not found, remaining attempts: {max_retry - retry}')
                 retry += 1
+                print(f'checkerboard not found, remaining attempts: {max_retry - retry}')
                 if retry >= max_retry:
                     break
 
