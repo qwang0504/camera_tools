@@ -70,14 +70,18 @@ def get_checkerboard_corners(
         checkerboard_size: Tuple[int,int],
         camera_matrix: Optional[NDArray] = None, 
         distortion_coef: Optional[NDArray] = None,
+        max_retry: int = 5
     ) -> Tuple[NDArray, NDArray]: 
     '''
     take a picture every one second and tries to find checkerboard corners
     '''
 
+    retry = 0
     checkerboard_found = False
     cv2.namedWindow('camera')
+
     while not checkerboard_found:
+       
         # get image from camera
         frame = cam.get_frame()
         image = im2gray(frame.image)
@@ -116,7 +120,10 @@ def get_checkerboard_corners(
                     checkerboard_found = False
             
             else:
-                print('checkerboard not found')
+                print(f'checkerboard not found, remaining attempts: {max_retry - retry}')
+                retry += 1
+                if retry >= max_retry:
+                    break
 
 
 def get_camera_px_per_mm(
