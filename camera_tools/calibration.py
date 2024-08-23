@@ -139,7 +139,13 @@ def get_camera_px_per_mm(
  
     # get undistorted checkerboard corner locations
     cam.start_acquisition()
-    image, corners_px = get_checkerboard_corners(cam, checkerboard_size, camera_matrix, distortion_coef)
+    res = get_checkerboard_corners(cam, checkerboard_size, camera_matrix, distortion_coef)
+    
+    if res is None:
+        print('Unable to calibrate. Change lighting conditions and retry') 
+        return 
+    
+    image, corners_px = res
     cam.stop_acquisition()
 
     # use homogeneous coordinates
