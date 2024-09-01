@@ -130,3 +130,15 @@ class OpenCV_Webcam(Camera):
 
     def get_height_increment(self) -> Optional[int]:
         pass 
+
+class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
+
+    def get_frame(self) -> BaseFrame:
+        
+        self.start_acquisition()
+        ret, frame = self.camera.read()
+        self.stop_acquisition()
+
+        self.index += 1
+        timestamp = time.monotonic() - self.time_start
+        return BaseFrame(self.index, timestamp, frame)
