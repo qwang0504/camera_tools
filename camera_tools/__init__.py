@@ -39,4 +39,5 @@ try:
     from .ximeacam import *
 except ModuleNotFoundError:
     print('module ximea not found, ximea cameras not available')
-
+except OSError:
+    print('issue with ximea, try reinstalling XIMEA')
