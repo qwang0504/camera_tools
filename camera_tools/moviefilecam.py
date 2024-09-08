@@ -1,5 +1,4 @@
 from camera_tools.camera import Camera
-from camera_tools.frame import BaseFrame, Frame
 from video_tools import InMemory_OpenCV_VideoReader, get_video_info
 import time
 import numpy as np
@@ -33,7 +32,7 @@ class MovieFileCam(Camera):
     def stop_acquisition(self) -> None:
         self.reader.release()
 
-    def get_frame(self) -> Optional[Frame]:
+    def get_frame(self) -> Optional[NDArray]:
         if self.reader is not None:
             self.img_count += 1
             rval, img = self.reader.read()
@@ -42,7 +41,15 @@ class MovieFileCam(Camera):
                 time.sleep(0.005)
                 timestamp = time.monotonic() - self.time_start
             self.prev_time = timestamp
-            frame = BaseFrame(self.img_count, timestamp, img)
+            
+            frame = np.array(
+                (self.img_count, timestamp, img),
+                dtype = np.dtype([
+                    ('index', int),
+                    ('timestamp', np.float32),
+                    ('image', img.dtype, img.shape)
+                ])
+            )
             return frame
     
     def set_exposure(self, exp_time: float) -> None:

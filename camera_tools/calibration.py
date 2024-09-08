@@ -84,7 +84,7 @@ def get_checkerboard_corners(
        
         # get image from camera
         frame = cam.get_frame()
-        image = im2gray(frame.image)
+        image = im2gray(frame['image'])
 
         if camera_matrix is not None:
             image = cv2.undistort(image, camera_matrix, distortion_coef)

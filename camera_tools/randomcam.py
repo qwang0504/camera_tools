@@ -1,5 +1,4 @@
 from camera_tools.camera import Camera
-from camera_tools.frame import BaseFrame, Frame
 import time
 import numpy as np
 from numpy.typing import NDArray, ArrayLike
@@ -19,7 +18,7 @@ class RandomCam(Camera):
         self.shape = shape 
         self.dtype = dtype
 
-    def get_frame(self) -> Frame:
+    def get_frame(self) -> NDArray:
 
         self.img_count += 1
         timestamp = time.monotonic() - self.time_start
@@ -36,9 +35,16 @@ class RandomCam(Camera):
         else:
             raise TypeError
         
-        frame = BaseFrame(self.img_count, timestamp, img)
+        frame = np.array(
+            (self.img_count, timestamp, img),
+            dtype = np.dtype([
+                ('index', int),
+                ('timestamp', np.float32),
+                ('image', img.dtype, img.shape)
+            ])
+        )
         return frame
-
+    
     def start_acquisition(self) -> None:
         self.index = 0
         self.time_start = time.monotonic()

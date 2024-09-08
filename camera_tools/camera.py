@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from camera_tools.frame import Frame
 from typing import Optional, Tuple
+from numpy.typing import NDArray
 
 class Camera(ABC):
 
@@ -13,7 +13,7 @@ class Camera(ABC):
         pass
 
     @abstractmethod
-    def get_frame(self) -> Frame:
+    def get_frame(self) -> NDArray:
         pass
 
     @abstractmethod
