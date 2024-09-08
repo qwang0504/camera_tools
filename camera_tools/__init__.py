@@ -1,9 +1,7 @@
 from .camera import *
-from .frame import *
 from .camera_widget import *
 from .randomcam import *
 from .zerocam import *
-from .frame import *
 
 try:
     from .webcam import *
@@ -21,19 +19,9 @@ except ModuleNotFoundError:
     print('moviefilecam not available')
 
 try:
-    from .ring_buffer import *
-except ModuleNotFoundError:
-    print('ring buffer not available')
-
-try:
     from .calibration import get_camera_distortion, get_camera_px_per_mm
 except ModuleNotFoundError:
     print('calibration not available')
-
-try:
-    from .genicam import *
-except ModuleNotFoundError:
-    print('module harvesters not found, genicam cameras not available')
 
 try:
     from .ximeacam import *
