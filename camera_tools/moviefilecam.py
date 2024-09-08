@@ -196,12 +196,20 @@ class BufferedMovieFileCam(Camera):
     def stop_acquisition(self) -> None:
         self.reader.close()
 
-    def get_frame(self) -> Optional[Frame]:
+    def get_frame(self) -> Optional[NDArray]:
         if self.reader is not None:
             rval, img = self.reader.next_frame()
             if rval:
                 self.img_count += 1
-                frame = BaseFrame(self.img_count, time.perf_counter(), img)
+
+                frame = np.array(
+                    (self.img_count, time.perf_counter(), img),
+                    dtype = np.dtype([
+                        ('index', int),
+                        ('timestamp', np.float32),
+                        ('image', img.dtype, img.shape)
+                    ])
+                )
                 return frame
     
     def set_exposure(self, exp_time: float) -> None:
