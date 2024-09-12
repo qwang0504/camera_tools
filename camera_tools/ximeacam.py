@@ -1,8 +1,8 @@
 from camera_tools.camera import Camera
-from camera_tools.frame import Frame, BaseFrame
 from typing import Optional, Tuple
 from ximea import xiapi
 from numpy.typing import NDArray
+import numpy as np
 
 class XimeaCamera(Camera):
 
@@ -200,7 +200,7 @@ class XimeaCamera(Camera):
     def get_height_increment(self) -> Optional[int]:
         return self.xi_cam.get_height_increment()
 
-    def get_frame(self) -> Frame:
+    def get_frame(self) -> NDArray:
         self.xi_cam.get_image(self.xi_img)
         pixeldata = self.xi_img.get_image_data_numpy()
         im_num = self.xi_img.acq_nframe
@@ -211,7 +211,16 @@ class XimeaCamera(Camera):
             self.first_frame = False
             self.first_num = im_num
             self.first_timestamp = timestamp
-        return BaseFrame(im_num-self.first_num, timestamp-self.first_timestamp, pixeldata)
+
+        frame = np.array(
+            (im_num-self.first_num, timestamp-self.first_timestamp, pixeldata),
+            dtype = np.dtype([
+                ('index', int),
+                ('timestamp', np.float32),
+                ('image', pixeldata.dtype, pixeldata.shape)
+            ])
+        )
+        return frame
 
     def __del__(self):
         if self.xi_cam is not None:

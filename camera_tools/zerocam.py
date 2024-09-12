@@ -1,5 +1,4 @@
 from camera_tools.camera import Camera
-from camera_tools.frame import BaseFrame, Frame
 import time
 import numpy as np
 from numpy.typing import NDArray, ArrayLike
@@ -26,12 +25,19 @@ class ZeroCam(Camera):
     def stop_acquisition(self) -> None:
         pass
 
-    def get_frame(self) -> Frame:
+    def get_frame(self) -> NDArray:
 
         self.img_count += 1
         timestamp = time.monotonic() - self.time_start
         img = np.zeros(self.shape, dtype=self.dtype)
-        frame = BaseFrame(self.img_count, timestamp, img)
+        frame = np.array(
+            (self.img_count, timestamp, img),
+            dtype = np.dtype([
+                ('index', int),
+                ('timestamp', np.float32),
+                ('image', self.dtype, self.shape)
+            ])
+        )
         return frame
     
     def exposure_available(self) -> bool:

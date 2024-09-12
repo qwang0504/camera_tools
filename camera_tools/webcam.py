@@ -2,8 +2,8 @@ import cv2
 import time
 from numpy.typing import NDArray
 from camera_tools.camera import Camera
-from camera_tools.frame import BaseFrame
 from typing import Optional, Tuple
+import numpy as np
 
 # NOTE this is just a hack, OpenCV webacm control is very superficial 
 # The right solution is probably to use v4l2
@@ -31,11 +31,19 @@ class OpenCV_Webcam(Camera):
     def stop_acquisition(self) -> None:
         self.camera.release() 
     
-    def get_frame(self) -> BaseFrame:
+    def get_frame(self) -> NDArray:
         ret, frame = self.camera.read()
         self.index += 1
         timestamp = time.monotonic() - self.time_start
-        return BaseFrame(self.index, timestamp, frame)
+        frame = np.array(
+            (self.index, timestamp, frame),
+            dtype = np.dtype([
+                ('index', int),
+                ('timestamp', np.float32),
+                ('image', frame.dtype, frame.shape)
+            ])
+        )
+        return frame
     
     def exposure_available(self) -> bool:
         return False
@@ -161,7 +169,7 @@ class OpenCV_Webcam(Camera):
 
 class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
 
-    def get_frame(self) -> BaseFrame:
+    def get_frame(self) -> NDArray:
         
         self.start_acquisition()
         ret, frame = self.camera.read()
@@ -169,4 +177,12 @@ class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
 
         self.index += 1
         timestamp = time.monotonic() - self.time_start
-        return BaseFrame(self.index, timestamp, frame)
+        frame = np.array(
+            (self.index, timestamp, frame),
+            dtype = np.dtype([
+                ('index', int),
+                ('timestamp', np.float32),
+                ('image', frame.dtype, frame.shape)
+            ])
+        )
+        return frame

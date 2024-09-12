@@ -1,10 +1,8 @@
 import v4l2py 
 import time
-import cv2
 import numpy as np
 from numpy.typing import NDArray
 from camera_tools.camera import Camera
-from camera_tools.frame import BaseFrame
 from typing import Optional, Tuple
 
 '''
@@ -49,10 +47,18 @@ class V4L2_Webcam(Camera):
     def stop_acquisition(self) -> None:
         self.camera.close() 
     
-    def get_frame(self) -> BaseFrame:
-        frame = next(self.camera.__iter__())
-        img = cv2.imdecode(np.frombuffer(frame.data,dtype=np.uint8), cv2.IMREAD_UNCHANGED)
-        return BaseFrame(frame.index, frame.timestamp, img)
+    def get_frame(self) -> NDArray:
+        img = next(self.camera.__iter__())
+        pixeldata = np.frombuffer(img.data, dtype=np.uint8)
+        frame = np.array(
+            (img.index, img.timestamp, pixeldata),
+            dtype = np.dtype([
+                ('index', int),
+                ('timestamp', np.float32),
+                ('image', pixeldata.dtype, pixeldata.shape)
+            ])
+        )
+        return frame
     
     def set_exposure(self, exp_value: float) -> None:
         self.camera.controls.auto_exposure.value = 1
