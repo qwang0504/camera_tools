@@ -17,6 +17,10 @@ class Camera(ABC):
         pass
 
     @abstractmethod
+    def exposure_available(self) -> bool:
+        pass
+
+    @abstractmethod
     def set_exposure(self, exp_time: float) -> None:
         pass
 
@@ -30,6 +34,10 @@ class Camera(ABC):
 
     @abstractmethod
     def get_exposure_increment(self) -> Optional[float]:
+        pass
+
+    @abstractmethod
+    def framerate_available(self) -> bool:
         pass
 
     @abstractmethod
@@ -49,6 +57,10 @@ class Camera(ABC):
         pass
 
     @abstractmethod
+    def gain_available(self) -> bool:
+        pass
+
+    @abstractmethod
     def set_gain(self, gain: float) -> None:
         pass
 
@@ -65,11 +77,19 @@ class Camera(ABC):
         pass
 
     @abstractmethod
+    def ROI_available(self) -> bool:
+        pass
+
+    @abstractmethod
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         pass
 
     @abstractmethod
     def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
+        pass
+
+    @abstractmethod
+    def offsetX_available(self) -> bool:
         pass
 
     @abstractmethod
@@ -89,6 +109,10 @@ class Camera(ABC):
         pass
 
     @abstractmethod
+    def offsetY_available(self) -> bool:
+        pass
+
+    @abstractmethod
     def set_offsetY(self, offsetY: int) -> None:
         pass
 
@@ -105,6 +129,10 @@ class Camera(ABC):
         pass
 
     @abstractmethod
+    def width_available(self) -> bool:
+        pass
+
+    @abstractmethod
     def set_width(self, width: int) -> None:
         pass
 
@@ -118,6 +146,10 @@ class Camera(ABC):
 
     @abstractmethod
     def get_width_increment(self) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    def height_available(self) -> bool:
         pass
 
     @abstractmethod
