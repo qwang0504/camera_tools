@@ -7,6 +7,23 @@ from camera_tools.camera import Camera
 from camera_tools.frame import BaseFrame
 from typing import Optional, Tuple
 
+'''
+INFO Useful properties to probe
+d = v4l2py.Device.from_id(0)
+d.open()
+d.controls
+d.info
+d.info.formats
+d.info.frame_sizes 
+(
+   d.controls.brightness.minimum, 
+   d.controls.brightness.maximum, 
+   d.controls.brightness.step, 
+   d.controls.brightness.value, 
+   d.controls.brightness.is_writeable
+) 
+'''
+
 class V4L2_Webcam(Camera):
     '''
     Available on linux only, uses a v4l2 python wrapper 
