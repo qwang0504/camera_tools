@@ -111,7 +111,7 @@ class V4L2_Webcam(Camera):
         return (self.camera.controls.gain.minimum, self.camera.controls.gain.maximum)
 
     def get_gain_increment(self) -> Optional[float]:
-        self.camera.controls.gain.step
+        return self.camera.controls.gain.step
 
     def ROI_available(self) -> bool:
         return False
@@ -153,7 +153,7 @@ class V4L2_Webcam(Camera):
         pass
 
     def width_available(self) -> bool:
-        return super().width_available()
+        return False
 
     def set_width(self, width: int) -> None:
         pass
@@ -166,6 +166,9 @@ class V4L2_Webcam(Camera):
 
     def get_width_increment(self) -> Optional[int]:
         pass 
+
+    def height_available(self) -> bool:
+        return False
 
     def set_height(self, height) -> None:
         pass
