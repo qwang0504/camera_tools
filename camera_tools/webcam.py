@@ -5,8 +5,12 @@ from camera_tools.camera import Camera
 from camera_tools.frame import BaseFrame
 from typing import Optional, Tuple
 
-# NOTE another option on linux is to use v4l2-ctl to change camera settings 
-  
+# NOTE this is just a hack, OpenCV webacm control is very superficial 
+# The right solution is probably to use v4l2
+#   sudo apt install v4l-utils
+#   v4l2-ctl -d /dev/video0 --list-formats-ext
+#   v4l2-ctl -d /dev/video0 --list-ctrls-menus
+
 class OpenCV_Webcam(Camera):
 
     def __init__(self, cam_id: int = 0, *args, **kwargs) -> None:
@@ -33,6 +37,9 @@ class OpenCV_Webcam(Camera):
         timestamp = time.monotonic() - self.time_start
         return BaseFrame(self.index, timestamp, frame)
     
+    def exposure_available(self) -> bool:
+        return False
+    
     def set_exposure(self, exp_time: float) -> None:
         if self.camera is not None:
             self.camera.set(cv2.CAP_PROP_EXPOSURE, exp_time)
@@ -47,6 +54,9 @@ class OpenCV_Webcam(Camera):
     def get_exposure_increment(self) -> Optional[float]:
         pass
 
+    def framerate_available(self) -> bool:
+        return False
+    
     def set_framerate(self, fps: float) -> None:
         if self.camera is not None:
             self.camera.set(cv2.CAP_PROP_FPS, fps)
@@ -61,6 +71,9 @@ class OpenCV_Webcam(Camera):
     def get_framerate_increment(self) -> Optional[float]:
         pass
 
+    def gain_available(self) -> bool:
+        return False
+    
     def set_gain(self, gain: float) -> None:
         if self.camera is not None:
             self.camera.set(cv2.CAP_PROP_GAIN, gain)
@@ -75,6 +88,9 @@ class OpenCV_Webcam(Camera):
     def get_gain_increment(self) -> Optional[float]:
         pass
 
+    def ROI_available(self) -> bool:
+        return False
+    
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         if self.camera is not None:
             self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, width)
@@ -83,53 +99,65 @@ class OpenCV_Webcam(Camera):
     def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
         pass
 
+    def offsetX_available(self) -> bool:
+        return False
+    
     def set_offsetX(self, offsetX: int) -> None:
         pass
 
     def get_offsetX(self) -> Optional[int]:
         pass
 
-    def get_offsetX_range(self) -> Optional[int]:
+    def get_offsetX_range(self) -> Optional[Tuple[int,int]]:
         pass
 
     def get_offsetX_increment(self) -> Optional[int]:
         pass
 
+    def offsetY_available(self) -> bool:
+        return False
+    
     def set_offsetY(self, offsetY: int) -> None:
         pass
 
     def get_offsetY(self) -> Optional[int]:
         pass
 
-    def get_offsetY_range(self) -> Optional[int]:
+    def get_offsetY_range(self) -> Optional[Tuple[int,int]]:
         pass
 
     def get_offsetY_increment(self) -> Optional[int]:
         pass
 
+    def width_available(self) -> bool:
+        return True
+    
     def set_width(self, width: int) -> None:
-        pass
+        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, width)
 
     def get_width(self) -> Optional[int]:
-        pass
+        self.camera.get(cv2.CAP_PROP_FRAME_WIDTH)
 
-    def get_width_range(self) -> Optional[int]:
-        pass
+    def get_width_range(self) -> Optional[Tuple[int,int]]:
+        return (640, 3840)
 
     def get_width_increment(self) -> Optional[int]:
-        pass 
+        return 2  
 
+    def height_available(self) -> bool:
+        return True
+    
     def set_height(self, height) -> None:
-        pass
+        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
     
     def get_height(self) -> Optional[int]:
-        pass    
+        self.camera.get(cv2.CAP_PROP_FRAME_HEIGHT)    
     
-    def get_height_range(self) -> Optional[int]:
-        pass
+    def get_height_range(self) -> Optional[Tuple[int,int]]:
+        return (480, 2160)
 
     def get_height_increment(self) -> Optional[int]:
-        pass 
+        return 2 
 
 class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
 

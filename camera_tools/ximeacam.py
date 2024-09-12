@@ -47,6 +47,9 @@ class XimeaCamera(Camera):
     def stop_acquisition(self) -> None:
         self.xi_cam.stop_acquisition()
 
+    def exposure_available(self) -> bool:
+        return True
+
     def set_exposure(self, exp_time: float) -> None:
         self.xi_cam.set_exposure(exp_time)
 
@@ -61,6 +64,9 @@ class XimeaCamera(Camera):
     def get_exposure_increment(self) -> Optional[float]:
         return self.xi_cam.get_exposure_increment()
 
+    def framerate_available(self) -> bool:
+        return True
+    
     def set_framerate(self, fps: float) -> None:
         if fps == 0:
             self.xi_cam.set_acq_timing_mode('XI_ACQ_TIMING_MODE_FREE_RUN')
@@ -82,6 +88,9 @@ class XimeaCamera(Camera):
     def get_framerate_increment(self) -> Optional[float]:
         return self.xi_cam.get_framerate_increment()
 
+    def gain_available(self) -> bool:
+        return True
+    
     def set_gain(self, gain: float) -> None:
         self.xi_cam.set_gain(gain)
 
@@ -96,6 +105,9 @@ class XimeaCamera(Camera):
     def get_gain_increment(self) -> Optional[float]:
         return self.xi_cam.get_gain_increment()
 
+    def ROI_available(self) -> bool:
+        return False
+    
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         try:
             self.xi_cam.set_width(int(width))
@@ -114,6 +126,9 @@ class XimeaCamera(Camera):
         except xiapi.Xi_error:
             pass
 
+    def offsetX_available(self) -> bool:
+        return True
+    
     def get_offsetX(self) -> Optional[int]:
         return self.xi_cam.get_offsetX()
 
@@ -131,6 +146,9 @@ class XimeaCamera(Camera):
         except xiapi.Xi_error:
             pass
 
+    def offsetY_available(self) -> bool:
+        return True
+    
     def get_offsetY(self) -> Optional[int]:
         return self.xi_cam.get_offsetY()
 
@@ -142,6 +160,9 @@ class XimeaCamera(Camera):
     def get_offsetY_increment(self) -> Optional[int]:
         return self.xi_cam.get_offsetY_increment()
 
+    def width_available(self) -> bool:
+        return True
+    
     def set_width(self, width: int) -> None:
         try:
             self.xi_cam.set_width(int(width))
@@ -159,6 +180,9 @@ class XimeaCamera(Camera):
     def get_width_increment(self) -> Optional[int]:
         return self.xi_cam.get_width_increment()
 
+    def height_available(self) -> bool:
+        return True
+    
     def set_height(self, height: int) -> None:
         try:
             self.xi_cam.set_height(int(height))

@@ -101,7 +101,7 @@ class Camera(ABC):
         pass
 
     @abstractmethod
-    def get_offsetX_range(self) -> Optional[int]:
+    def get_offsetX_range(self) -> Optional[Tuple[int,int]]:
         pass
 
     @abstractmethod
@@ -121,7 +121,7 @@ class Camera(ABC):
         pass
 
     @abstractmethod
-    def get_offsetY_range(self) -> Optional[int]:
+    def get_offsetY_range(self) -> Optional[Tuple[int,int]]:
         pass
 
     @abstractmethod
@@ -141,7 +141,7 @@ class Camera(ABC):
         pass
 
     @abstractmethod
-    def get_width_range(self) -> Optional[int]:
+    def get_width_range(self) -> Optional[Tuple[int,int]]:
         pass
 
     @abstractmethod
@@ -161,7 +161,7 @@ class Camera(ABC):
         pass    
 
     @abstractmethod
-    def get_height_range(self) -> Optional[int]:
+    def get_height_range(self) -> Optional[Tuple[int,int]]:
         pass
 
     @abstractmethod

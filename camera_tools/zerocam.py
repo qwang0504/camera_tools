@@ -34,6 +34,9 @@ class ZeroCam(Camera):
         frame = BaseFrame(self.img_count, timestamp, img)
         return frame
     
+    def exposure_available(self) -> bool:
+        return False
+    
     def set_exposure(self, exp_time: float) -> None:
         pass
 
@@ -46,6 +49,9 @@ class ZeroCam(Camera):
     def get_exposure_increment(self) -> Optional[float]:
         pass
 
+    def framerate_available(self) -> bool:
+        return False
+    
     def set_framerate(self, fps: float) -> None:
         pass
     
@@ -57,6 +63,9 @@ class ZeroCam(Camera):
 
     def get_framerate_increment(self) -> Optional[float]:
         pass
+
+    def gain_available(self) -> bool:
+        return False
 
     def set_gain(self, gain: float) -> None:
         pass
@@ -70,12 +79,18 @@ class ZeroCam(Camera):
     def get_gain_increment(self) -> Optional[float]:
         pass
 
+    def ROI_available(self) -> bool:
+        return False
+    
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         pass
 
     def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
         pass
 
+    def offsetX_available(self) -> bool:
+        return False
+        
     def set_offsetX(self, offsetX: int) -> None:
         pass
 
@@ -88,6 +103,9 @@ class ZeroCam(Camera):
     def get_offsetX_increment(self) -> Optional[int]:
         pass
 
+    def offsetY_available(self) -> bool:
+        return False
+    
     def set_offsetY(self, offsetY: int) -> None:
         pass
 
@@ -100,6 +118,9 @@ class ZeroCam(Camera):
     def get_offsetY_increment(self) -> Optional[int]:
         pass
 
+    def width_available(self) -> bool:
+        return False
+    
     def set_width(self, width: int) -> None:
         pass
 
@@ -112,6 +133,9 @@ class ZeroCam(Camera):
     def get_width_increment(self) -> Optional[int]:
         pass 
 
+    def height_available(self) -> bool:
+        return False
+    
     def set_height(self, height) -> None:
         pass
     
