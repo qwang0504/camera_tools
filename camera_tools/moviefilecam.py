@@ -52,6 +52,9 @@ class MovieFileCam(Camera):
             )
             return frame
     
+    def exposure_available(self) -> bool:
+        return False
+    
     def set_exposure(self, exp_time: float) -> None:
         pass
 
@@ -64,6 +67,9 @@ class MovieFileCam(Camera):
     def get_exposure_increment(self) -> Optional[float]:
         pass
 
+    def framerate_available(self) -> bool:
+        return True
+    
     def set_framerate(self, fps: float) -> None:
         self.fps = fps
     
@@ -71,11 +77,14 @@ class MovieFileCam(Camera):
         return self.fps
 
     def get_framerate_range(self) -> Optional[Tuple[float,float]]:
-        pass
+        return (1,60)
 
     def get_framerate_increment(self) -> Optional[float]:
-        pass
+        return 1
 
+    def gain_available(self) -> bool:
+        return False
+    
     def set_gain(self, gain: float) -> None:
         pass
 
@@ -88,12 +97,18 @@ class MovieFileCam(Camera):
     def get_gain_increment(self) -> Optional[float]:
         pass
 
+    def ROI_available(self) -> bool:
+        return False
+    
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         pass
 
     def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
         pass
 
+    def offsetX_available(self) -> bool:
+        return False
+    
     def set_offsetX(self, offsetX: int) -> None:
         pass
 
@@ -105,6 +120,9 @@ class MovieFileCam(Camera):
 
     def get_offsetX_increment(self) -> Optional[int]:
         pass
+
+    def offsetY_available(self) -> bool:
+        return False
 
     def set_offsetY(self, offsetY: int) -> None:
         pass
@@ -118,6 +136,9 @@ class MovieFileCam(Camera):
     def get_offsetY_increment(self) -> Optional[int]:
         pass
 
+    def width_available(self) -> bool:
+        return True
+    
     def set_width(self, width: int) -> None:
         pass
 
@@ -128,11 +149,15 @@ class MovieFileCam(Camera):
         return int(width)
 
     def get_width_range(self) -> Optional[int]:
-        pass
+        width = self.get_width()
+        return (width, width)
 
     def get_width_increment(self) -> Optional[int]:
-        pass 
+        return 0 
 
+    def height_available(self) -> bool:
+        return True
+    
     def set_height(self, height) -> None:
         pass
     
@@ -143,10 +168,11 @@ class MovieFileCam(Camera):
         return int(height)
     
     def get_height_range(self) -> Optional[int]:
-        pass
+        height = self.get_height()
+        return (height, height)
 
     def get_height_increment(self) -> Optional[int]:
-        pass 
+        return 0 
 
 
 class BufferedMovieFileCam(Camera):
@@ -211,7 +237,10 @@ class BufferedMovieFileCam(Camera):
                     ])
                 )
                 return frame
-    
+
+    def exposure_available(self) -> bool:
+        return False
+        
     def set_exposure(self, exp_time: float) -> None:
         pass
 
@@ -224,18 +253,24 @@ class BufferedMovieFileCam(Camera):
     def get_exposure_increment(self) -> Optional[float]:
         pass
 
+    def framerate_available(self) -> bool:
+        return True
+    
     def set_framerate(self, fps: float) -> None:
-        pass
+        self.fps = fps
     
     def get_framerate(self) -> Optional[float]:
         return self.fps
     
     def get_framerate_range(self) -> Optional[Tuple[float,float]]:
-        pass
+        return (1,60)
 
     def get_framerate_increment(self) -> Optional[float]:
-        pass
+        return 1
 
+    def gain_available(self) -> bool:
+        return False
+    
     def set_gain(self, gain: float) -> None:
         pass
 
@@ -248,12 +283,18 @@ class BufferedMovieFileCam(Camera):
     def get_gain_increment(self) -> Optional[float]:
         pass
 
+    def ROI_available(self) -> bool:
+        return False
+    
     def set_ROI(self, left: int, bottom: int, height: int, width: int) -> None:
         pass
 
     def get_ROI(self) -> Optional[Tuple[int,int,int,int]]:
         pass
 
+    def offsetX_available(self) -> bool:
+        return False
+    
     def set_offsetX(self, offsetX: int) -> None:
         pass
 
@@ -265,6 +306,9 @@ class BufferedMovieFileCam(Camera):
 
     def get_offsetX_increment(self) -> Optional[int]:
         pass
+
+    def offsetY_available(self) -> bool:
+        return False
 
     def set_offsetY(self, offsetY: int) -> None:
         pass
@@ -278,6 +322,9 @@ class BufferedMovieFileCam(Camera):
     def get_offsetY_increment(self) -> Optional[int]:
         pass
 
+    def width_available(self) -> bool:
+        return True
+    
     def set_width(self, width: int) -> None:
         pass
 
@@ -285,11 +332,14 @@ class BufferedMovieFileCam(Camera):
         return self.width
 
     def get_width_range(self) -> Optional[int]:
-        pass
+        return (self.width, self.width)
 
     def get_width_increment(self) -> Optional[int]:
-        pass 
+        return 0 
 
+    def height_available(self) -> bool:
+        return True
+    
     def set_height(self, height) -> None:
         pass
     
@@ -297,10 +347,10 @@ class BufferedMovieFileCam(Camera):
         return self.height
     
     def get_height_range(self) -> Optional[int]:
-        pass
+        return (self.height, self.height)
 
     def get_height_increment(self) -> Optional[int]:
-        pass 
+        return 0 
 
     def get_bit_depth(self) -> Optional[int]:
         pass
