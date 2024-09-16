@@ -77,7 +77,7 @@ class MovieFileCam(Camera):
         return self.fps
 
     def get_framerate_range(self) -> Optional[Tuple[float,float]]:
-        return (1,240)
+        return (1,1000)
 
     def get_framerate_increment(self) -> Optional[float]:
         return 1
