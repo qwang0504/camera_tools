@@ -169,6 +169,9 @@ class OpenCV_Webcam(Camera):
 
 class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
 
+    # workaround to clear buffer and always get last frame. 
+    # this is a bit slow 
+
     def get_frame(self) -> NDArray:
         
         self.start_acquisition()
@@ -188,6 +191,9 @@ class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
         return frame
 
 class OpenCV_Webcam_LastFrame(OpenCV_Webcam):
-    # constantly get images in a separate thread and store images in a single variable
+
+    # workaround to clear buffer and always get last frame. 
+    # constantly get images in a separate thread in a loop, 
+    # and overwrite a single variable.
 
 
