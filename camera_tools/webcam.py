@@ -188,6 +188,6 @@ class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
         return frame
 
 class OpenCV_Webcam_LastFrame(OpenCV_Webcam):
-    # constantly get images in a separate and store images over and over in one variable
+    # constantly get images in a separate thread and store images in a single variable
 
 
