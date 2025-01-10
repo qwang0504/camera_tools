@@ -188,8 +188,6 @@ class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
         return frame
 
 class OpenCV_Webcam_LastFrame(OpenCV_Webcam):
+    # constantly get images in a separate and store images over and over in one variable
 
-    def __init__(self, cam_id: int = 0, *args, **kwargs) -> None:
-        super().__init__(cam_id, *args, **kwargs)
-        self.camera.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
