@@ -186,3 +186,22 @@ class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
             ])
         )
         return frame
+
+class OpenCV_Webcam_LastFrame(OpenCV_Webcam):
+
+    def get_frame(self) -> NDArray:
+        
+        while self.camera.grab():
+            self.index += 1
+        ret, frame = self.camera.retrieve()
+        self.index += 1
+        timestamp = time.monotonic() - self.time_start
+        frame = np.array(
+            (self.index, timestamp, frame),
+            dtype = np.dtype([
+                ('index', int),
+                ('timestamp', np.float32),
+                ('image', frame.dtype, frame.shape)
+            ])
+        )
+        return frame
