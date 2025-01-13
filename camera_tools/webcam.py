@@ -195,5 +195,4 @@ class OpenCV_Webcam_LastFrame(OpenCV_Webcam):
     # workaround to clear buffer and always get last frame. 
     # constantly get images in a separate thread in a loop, 
     # and overwrite a single variable.
-
-
+    pass
