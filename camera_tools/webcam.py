@@ -4,7 +4,7 @@ from numpy.typing import NDArray
 from camera_tools.camera import Camera
 from typing import Optional, Tuple
 import numpy as np
-from image_tools import rgb2gray
+from image_tools import im2gray
 
 # NOTE this is just a hack, OpenCV webacm control is very superficial 
 # The right solution is probably to use v4l2
@@ -194,10 +194,10 @@ class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
         return frame
 
 class OpenCV_Webcam_Gray(OpenCV_Webcam):
-    
+
     def get_frame(self):
         ret, img = self.camera.read()
-        img_gray = rgb2gray(img)
+        img_gray = im2gray(img)
         self.index += 1
         timestamp = time.monotonic() - self.time_start
         frame = np.array(
