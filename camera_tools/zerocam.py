@@ -155,3 +155,10 @@ class ZeroCam(Camera):
 
     def get_height_increment(self) -> Optional[int]:
         return 1  
+    
+    def get_num_channels(self):
+        if len(self.shape) == 3:
+            num_channels = self.shape[2]
+        else:
+            num_channels = 1
+        return num_channels

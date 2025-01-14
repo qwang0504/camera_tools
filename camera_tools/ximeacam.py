@@ -222,6 +222,10 @@ class XimeaCamera(Camera):
         )
         return frame
 
+    def get_num_channels(self):
+        # TODO  imgdataformat = cam.get_imgdataformat()
+        return 1
+    
     def __del__(self):
         if self.xi_cam is not None:
             self.xi_cam.close_device()

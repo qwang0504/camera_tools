@@ -168,6 +168,9 @@ class OpenCV_Webcam(Camera):
 
     def get_height_increment(self) -> Optional[int]:
         return 2 
+    
+    def get_num_channels(self):
+        return 3
 
 class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
 
@@ -210,6 +213,9 @@ class OpenCV_Webcam_Gray(OpenCV_Webcam):
         )
         return frame
 
+    def get_num_channels(self):
+        return 1
+    
 class OpenCV_Webcam_LastFrame(OpenCV_Webcam):
 
     # workaround to clear buffer and always get last frame. 

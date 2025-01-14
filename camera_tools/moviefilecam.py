@@ -173,6 +173,10 @@ class MovieFileCam(Camera):
 
     def get_height_increment(self) -> Optional[int]:
         return 0 
+    
+    def get_num_channels(self) -> Optional[int]:
+        return 3
+
 
 
 class BufferedMovieFileCam(Camera):

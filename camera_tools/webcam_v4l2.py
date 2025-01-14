@@ -181,3 +181,6 @@ class V4L2_Webcam(Camera):
 
     def get_height_increment(self) -> Optional[int]:
         pass 
+
+    def get_num_channels(self):
+        return 3

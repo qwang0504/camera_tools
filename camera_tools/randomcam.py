@@ -122,7 +122,7 @@ class RandomCam(Camera):
         pass
 
     def get_width(self) -> Optional[int]:
-        pass
+        return self.shape[1]
     
     def get_width_range(self) -> Optional[int]:
         pass
@@ -134,10 +134,17 @@ class RandomCam(Camera):
         pass
     
     def get_height(self) -> Optional[int]:
-        pass    
+        return self.shape[0]    
     
     def get_height_range(self) -> Optional[int]:
         pass
 
     def get_height_increment(self) -> Optional[int]:
         pass 
+
+    def get_num_channels(self):
+        if len(self.shape) == 3:
+            num_channels = self.shape[2]
+        else:
+            num_channels = 1
+        return num_channels
