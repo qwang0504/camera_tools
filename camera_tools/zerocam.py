@@ -9,7 +9,7 @@ class ZeroCam(Camera):
     Provides an empty image. This is just for testing
     """
 
-    def __init__(self, shape: ArrayLike, dtype: np.dtype, *args, **kwargs):
+    def __init__(self, shape: ArrayLike, dtype: np.dtype, framerate: float = 30, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
 
@@ -17,6 +17,7 @@ class ZeroCam(Camera):
         self.time_start: float = time.monotonic()
         self.shape = shape 
         self.dtype = dtype
+        self.framerate = framerate
 
     def start_acquisition(self) -> None:
         self.index = 0
@@ -38,6 +39,7 @@ class ZeroCam(Camera):
                 ('image', self.dtype, self.shape)
             ])
         )
+        time.sleep(1/self.framerate)
         return frame
     
     def exposure_available(self) -> bool:
@@ -56,13 +58,13 @@ class ZeroCam(Camera):
         pass
 
     def framerate_available(self) -> bool:
-        return False
+        return True
     
     def set_framerate(self, fps: float) -> None:
-        pass
+        self.framerate = fps
     
     def get_framerate(self) -> Optional[float]:
-        pass
+        return self.framerate
 
     def get_framerate_range(self) -> Optional[Tuple[float,float]]:
         pass
@@ -103,7 +105,7 @@ class ZeroCam(Camera):
     def get_offsetX(self) -> Optional[int]:
         pass
 
-    def get_offsetX_range(self) -> Optional[int]:
+    def get_offsetX_range(self) -> Optional[Tuple[int,int]]:
         pass
 
     def get_offsetX_increment(self) -> Optional[int]:
@@ -118,38 +120,38 @@ class ZeroCam(Camera):
     def get_offsetY(self) -> Optional[int]:
         pass
 
-    def get_offsetY_range(self) -> Optional[int]:
+    def get_offsetY_range(self) ->  Optional[Tuple[int,int]]:
         pass
 
     def get_offsetY_increment(self) -> Optional[int]:
         pass
 
     def width_available(self) -> bool:
-        return False
+        return True
     
     def set_width(self, width: int) -> None:
-        pass
+        self.shape[1] = width
 
     def get_width(self) -> Optional[int]:
-        pass
+        return self.shape[1]
 
-    def get_width_range(self) -> Optional[int]:
-        pass
+    def get_width_range(self) -> Optional[Tuple[int,int]]:
+        return (1,4096)
 
     def get_width_increment(self) -> Optional[int]:
-        pass 
+        return 1 
 
     def height_available(self) -> bool:
-        return False
+        return True
     
     def set_height(self, height) -> None:
-        pass
+        self.shape[0] = height
     
     def get_height(self) -> Optional[int]:
-        pass    
+        return self.shape[0]    
     
-    def get_height_range(self) -> Optional[int]:
-        pass
+    def get_height_range(self) -> Optional[Tuple[int,int]]:
+        return (1,4096)
 
     def get_height_increment(self) -> Optional[int]:
-        pass 
+        return 1  

@@ -132,7 +132,7 @@ class XimeaCamera(Camera):
     def get_offsetX(self) -> Optional[int]:
         return self.xi_cam.get_offsetX()
 
-    def get_offsetX_range(self) -> Optional[int]:
+    def get_offsetX_range(self) -> Optional[Tuple[int,int]]:
         offsetX_min = self.xi_cam.get_offsetX_minimum()
         offsetX_max = self.xi_cam.get_offsetX_maximum()
         return (offsetX_min, offsetX_max)
@@ -152,7 +152,7 @@ class XimeaCamera(Camera):
     def get_offsetY(self) -> Optional[int]:
         return self.xi_cam.get_offsetY()
 
-    def get_offsetY_range(self) -> Optional[int]:
+    def get_offsetY_range(self) -> Optional[Tuple[int,int]]:
         offsetY_min = self.xi_cam.get_offsetY_minimum()
         offsetY_max = self.xi_cam.get_offsetY_maximum()
         return (offsetY_min, offsetY_max)
@@ -172,7 +172,7 @@ class XimeaCamera(Camera):
     def get_width(self) -> Optional[int]:
         return self.xi_cam.get_width()
 
-    def get_width_range(self) -> Optional[int]:
+    def get_width_range(self) -> Optional[Tuple[int,int]]:
         width_min = self.xi_cam.get_width_minimum()
         width_max = self.xi_cam.get_width_maximum()
         return (width_min, width_max)
@@ -192,7 +192,7 @@ class XimeaCamera(Camera):
     def get_height(self) -> Optional[int]:
         return self.xi_cam.get_height()    
     
-    def get_height_range(self) -> Optional[int]:
+    def get_height_range(self) -> Optional[Tuple[int,int]]:
         height_min = self.xi_cam.get_height_minimum()
         height_max = self.xi_cam.get_height_maximum()
         return (height_min, height_max)
