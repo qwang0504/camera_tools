@@ -32,15 +32,16 @@ class OpenCV_Webcam(Camera):
         self.camera.release() 
     
     def get_frame(self) -> NDArray:
-        ret, frame = self.camera.read()
+        ret, img = self.camera.read()
+        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.index += 1
         timestamp = time.monotonic() - self.time_start
         frame = np.array(
-            (self.index, timestamp, frame),
+            (self.index, timestamp, img_rgb),
             dtype = np.dtype([
                 ('index', int),
                 ('timestamp', np.float32),
-                ('image', frame.dtype, frame.shape)
+                ('image', img_rgb.dtype, img_rgb.shape)
             ])
         )
         return frame
@@ -175,17 +176,18 @@ class OpenCV_Webcam_InitEveryFrame(OpenCV_Webcam):
     def get_frame(self) -> NDArray:
         
         self.start_acquisition()
-        ret, frame = self.camera.read()
+        ret, img = self.camera.read()
         self.stop_acquisition()
 
+        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.index += 1
         timestamp = time.monotonic() - self.time_start
         frame = np.array(
-            (self.index, timestamp, frame),
+            (self.index, timestamp, img_rgb),
             dtype = np.dtype([
                 ('index', int),
                 ('timestamp', np.float32),
-                ('image', frame.dtype, frame.shape)
+                ('image', img_rgb.dtype, img_rgb.shape)
             ])
         )
         return frame
