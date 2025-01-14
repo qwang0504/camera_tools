@@ -67,10 +67,10 @@ class ZeroCam(Camera):
         return self.framerate
 
     def get_framerate_range(self) -> Optional[Tuple[float,float]]:
-        pass
+        return (1,1000)
 
     def get_framerate_increment(self) -> Optional[float]:
-        pass
+        return 1
 
     def gain_available(self) -> bool:
         return False
