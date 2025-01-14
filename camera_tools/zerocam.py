@@ -15,8 +15,8 @@ class ZeroCam(Camera):
 
         self.img_count: int = 0
         self.time_start: float = time.monotonic()
-        self.shape = shape 
-        self.dtype = dtype
+        self.shape = np.asarray(shape) 
+        self.dtype = np.dtype(dtype)
         self.framerate = framerate
 
     def start_acquisition(self) -> None:
