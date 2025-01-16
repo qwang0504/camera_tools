@@ -65,7 +65,7 @@ class OpenCV_Webcam(Camera):
         pass
 
     def framerate_available(self) -> bool:
-        return False
+        return True
     
     def set_framerate(self, fps: float) -> None:
         if self.camera is not None:
