@@ -33,8 +33,8 @@ class OpenCV_Webcam(Camera):
         self.camera.release() 
     
     def get_frame(self) -> NDArray:
-        ret, img = self.camera.read()
-        img_rgb = img[:,:,::-1]
+        ret, img_rgb = self.camera.read()
+        #img_rgb = img[:,:,::-1]
         self.index += 1
         timestamp = time.monotonic() - self.time_start
         frame = np.array(
