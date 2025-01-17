@@ -20,14 +20,12 @@ class OpenCV_Webcam(Camera):
 
         self.camera_id = cam_id
         self.camera = cv2.VideoCapture(self.camera_id) 
-        self.camera.set(cv2.CAP_PROP_MODE, cv2.CAP_PROP_CONVERT_RGB)
         self.index = 0
         self.time_start = time.monotonic()
 
     def start_acquisition(self) -> None:
         self.camera.release()
         self.camera = cv2.VideoCapture(self.camera_id)
-        self.camera.set(cv2.CAP_PROP_MODE, cv2.CAP_PROP_CONVERT_RGB)
         self.index = 0
         self.time_start = time.monotonic()
 
@@ -35,8 +33,8 @@ class OpenCV_Webcam(Camera):
         self.camera.release() 
     
     def get_frame(self) -> NDArray:
-        ret, img_rgb = self.camera.read()
-        #img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        ret, img = self.camera.read()
+        img_rgb = img[:,:,::-1]
         self.index += 1
         timestamp = time.monotonic() - self.time_start
         frame = np.array(
