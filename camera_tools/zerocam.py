@@ -39,7 +39,7 @@ class ZeroCam(Camera):
                 ('image', self.dtype, self.shape)
             ])
         )
-        time.sleep(1/self.framerate - (time.monotonic() - timestamp))
+        time.sleep(max(0, 1/self.framerate - (time.monotonic() - timestamp)))
         return frame
     
     def exposure_available(self) -> bool:
