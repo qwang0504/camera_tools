@@ -20,13 +20,14 @@ class OpenCV_Webcam(Camera):
 
         self.camera_id = cam_id
         self.camera = cv2.VideoCapture(self.camera_id) 
+        self.camera.set(cv2.CAP_PROP_MODE, cv2.CAP_PROP_CONVERT_RGB)
         self.index = 0
         self.time_start = time.monotonic()
 
     def start_acquisition(self) -> None:
         self.camera.release()
         self.camera = cv2.VideoCapture(self.camera_id)
-        self.camera.set(cv2.CAP_PROP_MODE, cv2.CAP_MODE_RGB)
+        self.camera.set(cv2.CAP_PROP_MODE, cv2.CAP_PROP_CONVERT_RGB)
         self.index = 0
         self.time_start = time.monotonic()
 
