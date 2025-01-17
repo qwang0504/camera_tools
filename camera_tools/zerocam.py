@@ -28,8 +28,8 @@ class ZeroCam(Camera):
 
     def get_frame(self) -> NDArray:
 
-        self.img_count += 1
         timestamp = time.monotonic() - self.time_start
+        self.img_count += 1
         img = np.zeros(self.shape, dtype=self.dtype)
         frame = np.array(
             (self.img_count, timestamp, img),
@@ -39,7 +39,7 @@ class ZeroCam(Camera):
                 ('image', self.dtype, self.shape)
             ])
         )
-        time.sleep(1/self.framerate)
+        time.sleep(1/self.framerate - (time.monotonic() - timestamp))
         return frame
     
     def exposure_available(self) -> bool:
