@@ -222,3 +222,74 @@ class OpenCV_Webcam_LastFrame(OpenCV_Webcam):
     # constantly get images in a separate thread in a loop, 
     # and overwrite a single variable.
     pass
+
+def get_cam_properties():
+    VIDEO_CAPTURE_PROPERTIES = {
+        0: "CAP_PROP_POS_MSEC",             # Current position of the video file in milliseconds
+        1: "CAP_PROP_POS_FRAMES",           # Index of the next frame to be captured
+        2: "CAP_PROP_POS_AVI_RATIO",        # Relative position of the video file: 0=start, 1=end
+        3: "CAP_PROP_FRAME_WIDTH",          # Width of the frames in the video stream
+        4: "CAP_PROP_FRAME_HEIGHT",         # Height of the frames in the video stream
+        5: "CAP_PROP_FPS",                  # Frame rate
+        6: "CAP_PROP_FOURCC",               # Codec four-character code
+        7: "CAP_PROP_FRAME_COUNT",          # Number of frames in the video file
+        8: "CAP_PROP_FORMAT",               # Format of the Mat object returned by VideoCapture::retrieve()
+        9: "CAP_PROP_MODE",                 # Backend-specific value indicating the current capture mode
+        10: "CAP_PROP_BRIGHTNESS",          # Brightness of the image (only for cameras)
+        11: "CAP_PROP_CONTRAST",            # Contrast of the image (only for cameras)
+        12: "CAP_PROP_SATURATION",          # Saturation of the image (only for cameras)
+        13: "CAP_PROP_HUE",                 # Hue of the image (only for cameras)
+        14: "CAP_PROP_GAIN",                # Gain of the image (only for cameras)
+        15: "CAP_PROP_EXPOSURE",            # Exposure (only for cameras)
+        16: "CAP_PROP_CONVERT_RGB",         # Boolean: images will be converted to RGB or not
+        17: "CAP_PROP_WHITE_BALANCE_BLUE_U",# White balance - Blue/U
+        18: "CAP_PROP_RECTIFICATION",       # Rectification flag for stereo cameras (note: only for stereo cameras)
+        19: "CAP_PROP_MONOCHROME",          # Monochrome mode
+        20: "CAP_PROP_SHARPNESS",           # Sharpness of the image
+        21: "CAP_PROP_AUTO_EXPOSURE",       # Auto exposure mode
+        22: "CAP_PROP_GAMMA",               # Gamma correction
+        23: "CAP_PROP_TEMPERATURE",         # Temperature of the image
+        24: "CAP_PROP_TRIGGER",             # Trigger
+        25: "CAP_PROP_TRIGGER_DELAY",       # Delay for the trigger
+        26: "CAP_PROP_WHITE_BALANCE_RED_V", # White balance - Red/V
+        27: "CAP_PROP_ZOOM",                # Zoom level
+        28: "CAP_PROP_FOCUS",               # Focus setting
+        29: "CAP_PROP_GUID",                # GUID for the device (only for FireWire cameras)
+        30: "CAP_PROP_ISO_SPEED",           # ISO speed
+        32: "CAP_PROP_BACKLIGHT",           # Backlight compensation
+        33: "CAP_PROP_PAN",                 # Pan setting
+        34: "CAP_PROP_TILT",                # Tilt setting
+        35: "CAP_PROP_ROLL",                # Roll setting
+        36: "CAP_PROP_IRIS",                # Iris setting
+        37: "CAP_PROP_SETTINGS",            # Pop up the camera settings window
+        38: "CAP_PROP_BUFFERSIZE",          # Number of frames to buffer
+        39: "CAP_PROP_AUTOFOCUS",           # Autofocus
+        40: "CAP_PROP_SAR_NUM",             # Sample aspect ratio numerator
+        41: "CAP_PROP_SAR_DEN",             # Sample aspect ratio denominator
+        42: "CAP_PROP_BACKEND",             # Video backend (enum)
+        43: "CAP_PROP_CHANNEL",             # Current capture channel
+        44: "CAP_PROP_AUTO_WB",             # Auto white balance
+        45: "CAP_PROP_WB_TEMPERATURE",      # White balance temperature
+        46: "CAP_PROP_CODEC_PIXEL_FORMAT",  # Pixel format of the codec
+        47: "CAP_PROP_BITRATE",             # Video bitrate
+        48: "CAP_PROP_ORIENTATION_META",    # Orientation metadata
+        49: "CAP_PROP_ORIENTATION_AUTO",    # Automatic orientation handling
+        53: "CAP_PROP_OPEN_TIMEOUT_MSEC",   # Timeout for opening the capture device (in milliseconds)
+        54: "CAP_PROP_READ_TIMEOUT_MSEC",   # Timeout for reading a frame (in milliseconds)
+    }
+
+    cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        print("Failed to open video capture device.")
+    else:
+        properties = {}
+        for prop_id, prop_name in VIDEO_CAPTURE_PROPERTIES.items():
+            value = cap.get(prop_id)
+            if value != -1:  # Property is supported
+                properties[prop_name] = value
+        cap.release()
+
+        # Print supported properties and their current values
+        print("Supported properties and their values:")
+        for name, value in properties.items():
+            print(f"{name}: {value}")
