@@ -42,13 +42,16 @@ class OpenCV_Webcam(Camera):
         self.supported_configs = {}
         self.supported_configs_list = []
         self.get_supported_configs()
-        config = self.supported_configs_list[-1]
-        self.set_config(
-            config['fourcc'],
-            config['width'],
-            config['height'],
-            config['fps']
-        )
+        if self.supported_configs_list:
+            self.current_config = self.supported_configs_list[-1]
+            self.set_config(
+                self.current_config['fourcc'],
+                self.current_config['width'],
+                self.current_config['height'],
+                self.current_config['fps']
+            )
+        else:
+            RuntimeError('No supported camera config found')
 
     def set_config(self, fourcc: int, width: int, height: int, fps: float) -> None:
         self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, width)
@@ -90,6 +93,12 @@ class OpenCV_Webcam(Camera):
         self.camera = cv2.VideoCapture(self.camera_id)
         self.index = 0
         self.time_start = time.monotonic()
+        self.set_config(
+            self.current_config['fourcc'],
+            self.current_config['width'],
+            self.current_config['height'],
+            self.current_config['fps']
+        )
 
     def stop_acquisition(self) -> None:
         self.camera.release() 
@@ -130,6 +139,7 @@ class OpenCV_Webcam(Camera):
     def set_framerate(self, fps: float) -> None:
         if self.camera is not None:
             self.camera.set(cv2.CAP_PROP_FPS, fps)
+        self.current_config = self.get_config()
        
     def get_framerate(self) -> Optional[float]:
         if self.camera is not None:
@@ -206,6 +216,7 @@ class OpenCV_Webcam(Camera):
             valid_height = list(self.supported_configs[config['format']][width].keys())
             self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, width)
             self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, valid_height[-1])
+        self.current_config = self.get_config()
 
     def get_width(self) -> Optional[int]:
         return self.camera.get(cv2.CAP_PROP_FRAME_WIDTH)
@@ -223,6 +234,7 @@ class OpenCV_Webcam(Camera):
     
     def set_height(self, height) -> None:
         self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+        self.current_config = self.get_config()
     
     def get_height(self) -> Optional[int]:
         return self.camera.get(cv2.CAP_PROP_FRAME_HEIGHT)    
