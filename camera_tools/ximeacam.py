@@ -37,7 +37,7 @@ class XimeaCamera(Camera):
         # setting this yields ximea.xiapi.Xi_error: ERROR 108: Data format is not supported
 
         # change buffer policy to avoid data copy
-        #self.xi_cam.set_buffer_policy('XI_BP_UNSAFE') 
+        self.xi_cam.set_buffer_policy('XI_BP_UNSAFE') 
         # this will probably require manual buffer management and a function
         # like get_frame(self, buffer) 
         
