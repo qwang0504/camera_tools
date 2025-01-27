@@ -231,3 +231,49 @@ class XimeaCamera(Camera):
     def __del__(self):
         if self.xi_cam is not None:
             self.xi_cam.close_device()
+
+
+class numpy_holder(object):
+    pass
+
+class XimeaCamera_Transport(Camera):
+
+    def __init__(self, dev_id: int = 0, *args, **kwargs):
+
+        super().__init__(dev_id, *args, **kwargs)
+        self.xi_cam.set_imgdataformat('XI_FRM_TRANSPORT_DATA')
+        self.image_holder = numpy_holder()
+
+    def get_frame(self) -> NDArray:
+
+        self.xi_cam.get_image(self.xi_img)
+
+        buffer = {
+            'data': (self.xi_img.bp, False),
+            'strides': None,
+            'descr': [('', '|u1')],
+            'typestr': '|u1',
+            'shape': (self.xi_img.height, self.xi_img.width),
+            'version': 3
+        }
+        self.image_holder.__array_interface__ = buffer
+        pixeldata = np.array(self.image_holder, copy=False)
+        
+        im_num = self.xi_img.acq_nframe
+        ts_sec = self.xi_img.tsSec
+        ts_usec = self.xi_img.tsUSec
+        timestamp = (ts_sec*1_000_000 +  ts_usec)/1_000_000
+        if self.first_frame:
+            self.first_frame = False
+            self.first_num = im_num
+            self.first_timestamp = timestamp
+
+        frame = np.array(
+            (im_num-self.first_num, timestamp-self.first_timestamp, pixeldata),
+            dtype = np.dtype([
+                ('index', int),
+                ('timestamp', np.float32),
+                ('image', pixeldata.dtype, pixeldata.shape)
+            ])
+        )
+        return frame
