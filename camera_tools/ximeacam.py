@@ -236,7 +236,7 @@ class XimeaCamera(Camera):
 class numpy_holder(object):
     pass
 
-class XimeaCamera_Transport(Camera):
+class XimeaCamera_Transport(XimeaCamera):
 
     def __init__(self, dev_id: int = 0, *args, **kwargs):
 
