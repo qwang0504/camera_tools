@@ -35,9 +35,8 @@ class XimeaCamera(Camera):
         # skip images if you dont process fast enough by reducing num images in buffer
         #self.xi_cam.set_buffers_queue_size(2)
 
-        # disable image processing on image reception
-        #self.xi_cam.set_imgdataformat('XI_FRM_TRANSPORT_DATA') 
-        # setting this yields ximea.xiapi.Xi_error: ERROR 108: Data format is not supported
+        # disable image processing 
+        self.xi_cam.set_imgdataformat('XI_RAW8') 
 
         # change buffer policy to avoid data copy
         self.xi_cam.set_buffer_policy('XI_BP_UNSAFE') 
