@@ -237,6 +237,11 @@ class numpy_holder(object):
     pass
 
 class XimeaCamera_Transport(XimeaCamera):
+    '''
+    Use XI_FRM_TRANSPORT_DATA to bypass any image processing
+    done on image reception. Directly handle the memory buffer
+    provided by the ximea api 
+    '''
 
     def __init__(self, dev_id: int = 0, *args, **kwargs):
 
