@@ -40,16 +40,16 @@ class MovieFileCam(Camera):
         self.img_count += 1
         rval, img = self.reader.read()
         timestamp = time.monotonic() - self.time_start
+        frame = np.array(
+            (self.img_count, timestamp, img),
+            dtype = np.dtype([
+                ('index', int),
+                ('timestamp', np.float32),
+                ('image', img.dtype, img.shape)
+            ])
+        )
 
         if self.fps == 0:
-            frame = np.array(
-                (self.img_count, timestamp, img),
-                dtype = np.dtype([
-                    ('index', int),
-                    ('timestamp', np.float32),
-                    ('image', img.dtype, img.shape)
-                ])
-            )
             self.prev_time = timestamp
             return frame
 
