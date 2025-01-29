@@ -33,28 +33,15 @@ class MovieFileCam(Camera):
         self.reader.release()
 
     def get_frame(self) -> Optional[NDArray]:
-        if self.reader is not None:
-            self.img_count += 1
-            rval, img = self.reader.read()
-            timestamp = time.monotonic() - self.time_start
 
-            if self.fps == 0:
-                frame = np.array(
-                    (self.img_count, timestamp, img),
-                    dtype = np.dtype([
-                        ('index', int),
-                        ('timestamp', np.float32),
-                        ('image', img.dtype, img.shape)
-                    ])
-                )
-                self.prev_time = timestamp
-                return frame
+        if self.reader is None:
+            return
+        
+        self.img_count += 1
+        rval, img = self.reader.read()
+        timestamp = time.monotonic() - self.time_start
 
-            while timestamp - self.prev_time < 1/self.fps:
-                time.sleep(0.005)
-                timestamp = time.monotonic() - self.time_start
-            self.prev_time = timestamp
-            
+        if self.fps == 0:
             frame = np.array(
                 (self.img_count, timestamp, img),
                 dtype = np.dtype([
@@ -63,7 +50,22 @@ class MovieFileCam(Camera):
                     ('image', img.dtype, img.shape)
                 ])
             )
+            self.prev_time = timestamp
             return frame
+
+        while timestamp - self.prev_time < 1/self.fps:
+            timestamp = time.monotonic() - self.time_start
+            frame = np.array(
+                (self.img_count, timestamp, img),
+                dtype = np.dtype([
+                    ('index', int),
+                    ('timestamp', np.float32),
+                    ('image', img.dtype, img.shape)
+                ])
+            )
+            
+        self.prev_time = timestamp
+        return frame
     
     def exposure_available(self) -> bool:
         return False
