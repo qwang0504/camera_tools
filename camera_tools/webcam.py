@@ -28,6 +28,7 @@ class OpenCV_Webcam(Camera):
 
     COMMON_FORMATS = {
         cv2.VideoWriter_fourcc(*"YUYV"): "YUYV",  # YUV 4:2:2
+        cv2.VideoWriter_fourcc(*"YUY2"): "YUY2",  # 4:2:2
         cv2.VideoWriter_fourcc(*"MJPG"): "MJPG",  # Motion JPEG
     }
 
