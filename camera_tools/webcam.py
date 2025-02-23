@@ -5,6 +5,7 @@ from camera_tools.camera import Camera
 from typing import Optional, Tuple, Dict
 import numpy as np
 from image_tools import im2gray
+import sys
 
 # NOTE this is just a hack, OpenCV webacm control is very superficial 
 # The right solution is probably to use v4l2
@@ -29,6 +30,12 @@ class OpenCV_Webcam(Camera):
     COMMON_FORMATS = {
         cv2.VideoWriter_fourcc(*"YUYV"): "YUYV",  # YUV 4:2:2
         cv2.VideoWriter_fourcc(*"YUY2"): "YUY2",  # 4:2:2
+        #cv2.VideoWriter_fourcc(*"YV12"): "YV12",
+        #cv2.VideoWriter_fourcc(*"NV12"): "NV12",
+        #cv2.VideoWriter_fourcc(*"BGR3"): "BGR3",   
+        #cv2.VideoWriter_fourcc(*"RGB3"): "RGB3",
+        #cv2.VideoWriter_fourcc(*"GREY"): "GREY",
+        #cv2.VideoWriter_fourcc(*"I420"): "I420",  
         cv2.VideoWriter_fourcc(*"MJPG"): "MJPG",  # Motion JPEG
     }
 
@@ -36,10 +43,12 @@ class OpenCV_Webcam(Camera):
         
         super().__init__(*args, **kwargs)
 
+        self.backend = cv2.CAP_DSHOW if sys.platform.startswith("win") else cv2.CAP_ANY 
         self.camera_id = cam_id
-        self.camera = cv2.VideoCapture(self.camera_id) 
+        self.camera = cv2.VideoCapture(self.camera_id, self.backend) 
         self.index = 0
         self.time_start = time.monotonic()
+        self.supported_formats = {}
         self.supported_configs = {}
         self.supported_configs_list = []
         self.get_supported_configs()
@@ -55,23 +64,34 @@ class OpenCV_Webcam(Camera):
             RuntimeError('No supported camera config found')
 
     def set_config(self, fourcc: int, width: int, height: int, fps: float) -> None:
+        self.camera.set(cv2.CAP_PROP_FOURCC, fourcc)
         self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, width)
         self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
-        self.camera.set(cv2.CAP_PROP_FOURCC, fourcc)
         self.camera.set(cv2.CAP_PROP_FPS, fps)
+        self.camera.set(cv2.CAP_PROP_FOURCC, fourcc) # windows DSHOW 
 
     def get_config(self) -> Dict:
         fourcc = int(self.camera.get(cv2.CAP_PROP_FOURCC))
         width = int(self.camera.get(cv2.CAP_PROP_FRAME_WIDTH))
         height = int(self.camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
         fps = self.camera.get(cv2.CAP_PROP_FPS)
-        return {'format': self.COMMON_FORMATS[fourcc], 'fourcc': fourcc, 'width': width, 'height': height, 'fps': fps}
+        format = self.COMMON_FORMATS.get(fourcc, 'unknown fourcc')
+        return {'format': format, 'fourcc': fourcc, 'width': width, 'height': height, 'fps': fps}
 
-    def get_supported_configs(self):
+    def get_supported_formats(self):
         for fourcc, format_name in self.COMMON_FORMATS.items():
+            if self.camera.set(cv2.CAP_PROP_FOURCC, fourcc):
+                self.supported_formats[fourcc] = format_name
+    
+    def get_supported_configs(self):
+        self.get_supported_formats()
+        for fourcc, format_name in self.supported_formats.items():
+            print(format_name)
             for width, height in self.COMMON_RESOLUTIONS:
+                print(width, height)
                 valid_fps = []
                 for fps in self.COMMON_FRAMERATES:
+                    print(fps)
                     self.set_config(fourcc, width, height, fps)
                     config = self.get_config()
 
@@ -91,7 +111,7 @@ class OpenCV_Webcam(Camera):
                 
     def start_acquisition(self) -> None:
         self.camera.release()
-        self.camera = cv2.VideoCapture(self.camera_id)
+        self.camera = cv2.VideoCapture(self.camera_id, self.backend)
         self.index = 0
         self.time_start = time.monotonic()
         self.set_config(
