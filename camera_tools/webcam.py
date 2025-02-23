@@ -13,6 +13,10 @@ import sys
 #   v4l2-ctl -d /dev/video0 --list-formats-ext
 #   v4l2-ctl -d /dev/video0 --list-ctrls-menus
 
+# NOTE the constructor is very slow on windows (get_supported_configs)
+# this also not very efficient on linux. Find a way to get supported
+# format faster 
+
 class OpenCV_Webcam(Camera):
 
     COMMON_RESOLUTIONS = [
