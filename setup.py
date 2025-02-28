@@ -15,6 +15,6 @@ setup(
         "opencv-python",
         "harvesters",
         "v4l2py",
-        "video_tools @ git+https://github.com/ElTinmar/video_tools.git@main"
+        "video_tools @ git+https://github.com/qwang0504/video_tools.git@main"
     ]
 )
