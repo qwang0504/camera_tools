@@ -21,7 +21,11 @@ class SpinnakerCamera(Camera):
         # open camera
         self.cam = self.cam_list[dev_id]
         self.cam.Init()
+
         self.cam.AcquisitionMode.SetValue(PySpin.AcquisitionMode_Continuous)
+        self.cam.ExposureAuto.SetValue(PySpin.ExposureAuto_Off)
+        self.cam.ExposureMode.SetValue(PySpin.ExposureMode_Timed)
+        self.cam.GainAuto.SetValue(PySpin.GainAuto_Off)
 
     def start_acquisition(self) -> None:
         self.cam.BeginAcquisition()
