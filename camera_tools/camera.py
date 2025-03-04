@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 from typing import Optional, Tuple
 from numpy.typing import NDArray
 
+# TODO add methods for binning / decimation
+
 class Camera(ABC):
 
     @abstractmethod
