@@ -22,10 +22,13 @@ class SpinnakerCamera(Camera):
         self.cam = self.cam_list[dev_id]
         self.cam.Init()
 
+        # basic config
         self.cam.AcquisitionMode.SetValue(PySpin.AcquisitionMode_Continuous)
         self.cam.ExposureAuto.SetValue(PySpin.ExposureAuto_Off)
         self.cam.ExposureMode.SetValue(PySpin.ExposureMode_Timed)
         self.cam.GainAuto.SetValue(PySpin.GainAuto_Off)
+        self.cam.PixelFormat.SetValue(PySpin.PixelFormat_Mono8)
+        self.cam.TLStream.StreamBufferHandlingMode.SetValue(PySpin.StreamBufferHandlingMode_NewestOnly)
 
     def start_acquisition(self) -> None:
         self.cam.BeginAcquisition()
@@ -228,6 +231,7 @@ class SpinnakerCamera(Camera):
     def __del__(self) -> None:
 
         self.cam.DeInit()
+        del self.cam
         self.cam = None
         self.cam_list.Clear()
         self.system.ReleaseInstance()
