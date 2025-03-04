@@ -24,6 +24,7 @@ class SpinnakerCamera(Camera):
 
         # basic config
         self.cam.AcquisitionMode.SetValue(PySpin.AcquisitionMode_Continuous)
+        # self.cam.AcquisitionFrameRateEnable.SetValue(True) # not working ?
         self.cam.ExposureAuto.SetValue(PySpin.ExposureAuto_Off)
         self.cam.ExposureMode.SetValue(PySpin.ExposureMode_Timed)
         self.cam.GainAuto.SetValue(PySpin.GainAuto_Off)
