@@ -8,7 +8,7 @@ from image_tools import im2gray
 import sys
 
 # NOTE this is just a hack, OpenCV webacm control is very superficial 
-# The right solution is probably to use v4l2
+# The right solution is probably to use v4l2 on linux
 #   sudo apt install v4l-utils
 #   v4l2-ctl -d /dev/video0 --list-formats-ext
 #   v4l2-ctl -d /dev/video0 --list-ctrls-menus
