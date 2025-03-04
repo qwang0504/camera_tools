@@ -222,7 +222,9 @@ class SpinnakerCamera(Camera):
         return 1
     
     def __del__(self) -> None:
+
         self.cam.DeInit()
+        self.cam = None
         self.cam_list.Clear()
         self.system.ReleaseInstance()
         
