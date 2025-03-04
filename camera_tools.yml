@@ -3,6 +3,7 @@ channels:
 - conda-forge
 dependencies:
 - python == 3.8.16
+- ffmpeg == 4.2.2
 - ipython
 - pip
 - pyqt
