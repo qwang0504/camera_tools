@@ -47,7 +47,7 @@ class SpinnakerCamera(Camera):
         try:
             return self.cam.ExposureTime.GetInc()
         except PySpin.SpinnakerException:
-            return None
+            return 1.0
 
     def framerate_available(self) -> bool:
         return True
@@ -70,7 +70,7 @@ class SpinnakerCamera(Camera):
         try:
             return self.cam.AcquisitionFrameRate.GetInc()
         except PySpin.SpinnakerException:
-            return None
+            return 1.0
 
     def gain_available(self) -> bool:
         return True
@@ -90,7 +90,7 @@ class SpinnakerCamera(Camera):
         try:
             return self.cam.Gain.GetInc()
         except PySpin.SpinnakerException:
-            return None
+            return 1.0
 
     def ROI_available(self) -> bool:
         return False
@@ -122,7 +122,7 @@ class SpinnakerCamera(Camera):
         try:
             return self.cam.OffsetX.GetInc()
         except PySpin.SpinnakerException:
-            return None
+            return 1
 
     def set_offsetY(self, offsetY: int) -> None:
         try:
@@ -145,7 +145,7 @@ class SpinnakerCamera(Camera):
         try:
             return self.cam.OffsetY.GetInc()
         except PySpin.SpinnakerException:
-            return None
+            return 1
 
     def width_available(self) -> bool:
         return True
@@ -168,7 +168,7 @@ class SpinnakerCamera(Camera):
         try:
             return self.cam.Width.GetInc()
         except PySpin.SpinnakerException:
-            return None
+            return 1
 
     def height_available(self) -> bool:
         return True
@@ -191,7 +191,7 @@ class SpinnakerCamera(Camera):
         try:
             return self.cam.Height.GetInc()
         except PySpin.SpinnakerException:
-            return None
+            return 1
 
     def get_frame(self) -> NDArray:
         image_result = self.cam.GetNextImage()
