@@ -10,7 +10,7 @@ except ModuleNotFoundError:
 
 try:
     from .webcam_v4l2 import *
-except ModuleNotFoundError:
+except:
     print('v4l2 not available')
 
 try:
