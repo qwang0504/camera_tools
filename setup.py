@@ -13,7 +13,6 @@ setup(
         "numpy", 
         "PyQt5",
         "opencv-python",
-        "harvesters",
         "v4l2py",
         "video_tools @ git+https://github.com/qwang0504/video_tools.git@main"
     ]
